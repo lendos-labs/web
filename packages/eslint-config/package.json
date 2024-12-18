@@ -1,25 +1,26 @@
 {
-  "name": "@repo/eslint-config",
+  "name": "@lendos/eslint-config",
   "version": "0.0.0",
-  "type": "module",
-  "private": true,
-  "exports": {
-    "./base": "./base.js",
-    "./next-js": "./next.js",
-    "./react-internal": "./react-internal.js"
+  "main": "index.js",
+  "scripts": {
+    "update-dependencies": "npx npm-check-updates -u"
   },
-  "devDependencies": {
-    "@next/eslint-plugin-next": "^15.1.0",
-    "@typescript-eslint/eslint-plugin": "^8.15.0",
-    "@typescript-eslint/parser": "^8.15.0",
-    "eslint": "^9.15.0",
+  "dependencies": {
+    "@tanstack/eslint-plugin-query": "^5.62.1",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
+    "eslint": "8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-only-warn": "^1.1.0",
+    "eslint-import-resolver-typescript": "^3.7.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jest": "^28.9.0",
+    "eslint-plugin-jest-dom": "^5.5.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-no-array-reduce": "^1.0.62",
+    "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-turbo": "^2.3.0",
-    "globals": "^15.12.0",
-    "typescript": "^5.3.3",
-    "typescript-eslint": "^8.15.0"
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "eslint-plugin-testing-library": "^7.1.1"
   }
 }

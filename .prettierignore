@@ -1,0 +1,10 @@
+
+
+.next
+.turbo
+coverage
+dist
+compiled
+build
+build-storybook
+routeTree.gen.ts
