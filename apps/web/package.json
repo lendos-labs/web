@@ -11,10 +11,15 @@
     "lint:fix": "eslint src --fix"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@lendos/ui": "workspace:*",
+    "@mui/material": "^6.2.1",
+    "@mui/material-nextjs": "^6.2.1",
     "next": "^15.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "@lendos/ui": "workspace:*"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@lendos/eslint-config": "workspace:*",

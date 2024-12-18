@@ -4,10 +4,9 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist",
-    "README.md"
-  ],
+  "exports": {
+    "./*": "./src/*/index.tsx"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -17,8 +16,10 @@
     "update-dependencies": "npx npm-check-updates -u"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
     "@lendos/utils-mui": "workspace:*",
     "@mui/material": "^6.2.1",
+    "@mui/material-nextjs": "^6.2.1",
     "react": "^19.0.0"
   },
   "devDependencies": {

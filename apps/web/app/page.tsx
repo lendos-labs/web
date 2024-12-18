@@ -1,4 +1,4 @@
-import { Button } from '@lendos/ui';
+import { Button } from '@lendos/ui/button';
 
 const Home = () => {
   return (
