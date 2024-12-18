@@ -1,5 +1,11 @@
+import { Button } from '@lendos/ui';
+
 const Home = () => {
-  return <></>;
+  return (
+    <>
+      <Button />
+    </>
+  );
 };
 
 export default Home;

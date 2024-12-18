@@ -1,5 +1,0 @@
-{
-	// This tsconfig.json is needed for VS Code to recognize mui-theme.d.ts types in theme.ts
-	"extends": "@lendos/typescript-config/tsconfig.base.json",
-	"include": ["."]
-}

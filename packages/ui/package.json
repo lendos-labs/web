@@ -17,7 +17,6 @@
     "update-dependencies": "npx npm-check-updates -u"
   },
   "dependencies": {
-    "@lendos/config-mui": "workspace:*",
     "@lendos/utils-mui": "workspace:*",
     "@mui/material": "^6.2.1",
     "react": "^19.0.0"

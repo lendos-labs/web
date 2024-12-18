@@ -1,27 +1,16 @@
-import { ButtonTypeMap } from '@mui/material';
-import { CSSProperties, ReactNode } from 'react';
+import MuiButton, { ButtonProps as MuiButtonProps } from '@mui/material/Button';
 
-import { ButtonStyled } from './styled';
+type ButtonProps = {
+  isPrimary?: boolean;
+} & MuiButtonProps;
 
-export type ButtonProps = {
-  children: ReactNode;
-  isDisabled?: boolean;
-  size?: ButtonTypeMap['props']['size'];
-  bgColor?: CSSProperties['backgroundColor'];
-  onClick: () => void;
-};
-
-export const Button = ({ children, isDisabled, size, bgColor, onClick }: ButtonProps) => {
+export const Button: React.FC<ButtonProps> = ({ isPrimary, ...props }) => {
   return (
-    <ButtonStyled
-      variant="contained"
-      disabled={isDisabled}
-      isDisabled={isDisabled}
-      size={size}
-      bgColor={bgColor}
-      onClick={onClick}
-    >
-      {children}
-    </ButtonStyled>
+    <MuiButton
+      {...props}
+      sx={(theme) => ({
+        backgroundColor: isPrimary ? theme.brand.blue : 'secondary.main',
+      })}
+    />
   );
 };
