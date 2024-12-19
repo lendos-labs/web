@@ -2,6 +2,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { cookieToInitialState } from 'wagmi';
+import { montserrat, aldrich } from '@lendos/ui/src/fonts';
 import { wagmiConfig } from './config/connectors';
 import './globals.css';
 import { Providers } from './providers';
@@ -18,7 +19,7 @@ async function RootLayout({ children }: ChildrenProps) {
 
   return (
     <html lang='en'>
-      <body>
+      <body className={`${aldrich.variable} ${montserrat.variable} font-sans`}>
         <AppRouterCacheProvider>
           <Providers initialState={wagmiInitialState}>{children}</Providers>
         </AppRouterCacheProvider>
