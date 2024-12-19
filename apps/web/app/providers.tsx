@@ -7,7 +7,7 @@ import { wagmiConfig } from './config/connectors';
 import { FuelProviders } from './fuel-providers';
 import { ChildrenProps } from './types/common';
 import React from 'react';
-import { MuiLayout } from '@lendos/ui/components/layout/MuiLayout';
+import { MuiLayout } from '@lendos/ui/layout/MuiLayout';
 
 const queryClient = new QueryClient();
 

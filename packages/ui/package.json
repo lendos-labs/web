@@ -6,28 +6,21 @@
     "node": ">=18.18.0"
   },
   "scripts": {
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "exports": {
-    "./components/ui/icons/*": "./components/ui/icons/*.tsx",
-    "./components/layout/*": "./components/layout/*/index.tsx",
-    "./lib/toast/*": "./lib/toast/*.ts",
-    "./lib/toast/transaction-toast": "./lib/toast/transaction-toast.tsx",
-    "./lib/utils": "./lib/utils.ts",
-    "./tailwind": "./src/tailwindConfig.ts",
-    "./postcss.config.js": "./postcss.config.js",
-    "./styles/*": "./styles/*",
-    "./theme": "./src/PenumbraUIProvider/theme.ts",
-    "./utils/*": "./src/utils/*.ts",
-    "./hooks/*": "./src/hooks/*/index.ts",
-    "./*": "./src/*/index.tsx"
+    "./fonts": "./fonts/index.ts",
+    "./layout/*": "./layout/*/index.tsx",
+    "./theme/*": "./theme/theme.ts",
+    "./components": "./components/*/index.tsx"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.2.1",
     "@mui/material-nextjs": "^6.2.1",
+    "@mui/utils": "^6.2.1",
     "next": "^15.1.0",
     "react": "^19.0.0"
   },

@@ -7,5 +7,5 @@
     "composite": true
   },
   "extends": ["@tsconfig/strictest/tsconfig.json", "@tsconfig/vite-react/tsconfig.json"],
-  "include": ["components", "lib", "src", "mui-theme.d.ts"]
+  "include": ["components", "mui-theme.d.ts", "layout", "fonts", "theme", "helpers"]
 }

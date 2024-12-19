@@ -2,7 +2,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { cookieToInitialState } from 'wagmi';
-import { montserrat, aldrich } from '@lendos/ui/src/fonts';
+import { montserrat, aldrich } from '@lendos/ui/fonts';
 import { wagmiConfig } from './config/connectors';
 import './globals.css';
 import { Providers } from './providers';
