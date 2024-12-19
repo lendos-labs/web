@@ -1,12 +1,14 @@
 {
   "extends": "@tsconfig/strictest/tsconfig.json",
-
   "compilerOptions": {
     "composite": true,
     "exactOptionalPropertyTypes": false,
     "lib": ["ESNext", "DOM", "DOM.Iterable", "DOM.AsyncIterable"],
     "noEmit": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "jsx": "react"
   },
   "include": ["src", "./mui-theme.d.ts"],
   "exclude": ["node_modules", ".next", ".turbo", "coverage", "dist", "compiled", "build"]

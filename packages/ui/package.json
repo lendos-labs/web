@@ -15,9 +15,12 @@
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.2.1",
     "@mui/material-nextjs": "^6.2.1",
+    "@mui/utils": "^6.2.1",
+    "js-cookie": "^3.0.5",
     "react": "^19.0.0"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "18.3.1"
   }
 }
