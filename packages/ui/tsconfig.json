@@ -1,21 +1,11 @@
 {
-  "extends": "@tsconfig/strictest/tsconfig.json",
-
   "compilerOptions": {
-    "jsx": "react",
-    "composite": true,
-    "exactOptionalPropertyTypes": false,
-    "lib": ["ESNext", "DOM", "DOM.Iterable", "DOM.AsyncIterable"],
-    "noEmit": true,
     "target": "ESNext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "exactOptionalPropertyTypes": false,
+    "noEmit": true,
+    "composite": true
   },
-  "include": ["src", "./mui-theme.d.ts"],
-  "exclude": ["node_modules", ".next", ".turbo", "coverage", "dist", "compiled", "build"]
+  "extends": ["@tsconfig/strictest/tsconfig.json", "@tsconfig/vite-react/tsconfig.json"],
+  "include": ["components", "lib", "src", "mui-theme.d.ts"]
 }

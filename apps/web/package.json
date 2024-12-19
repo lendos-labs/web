@@ -1,7 +1,7 @@
 {
   "name": "@lendos/web-fuel",
   "version": "0.0.0",
-  "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -32,6 +32,6 @@
     "@types/node": "^20",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.0",
-    "typescript": "5.5.4"
+    "typescript": "5.5.3"
   }
 }

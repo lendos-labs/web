@@ -2,13 +2,26 @@
   "name": "@lendos/ui",
   "version": "0.0.0",
   "type": "module",
-  "exports": {
-    "./*": "./src/*/index.tsx"
+  "engine": {
+    "node": ">=18.18.0"
   },
   "scripts": {
-    "lint": "eslint --report-unused-disable-directives --max-warnings 0 .",
-    "lint-fix": "eslint --fix .",
-    "update-dependencies": "npx npm-check-updates -u"
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
+  },
+  "exports": {
+    "./components/ui/icons/*": "./components/ui/icons/*.tsx",
+    "./components/layout/*": "./components/layout/*/index.tsx",
+    "./lib/toast/*": "./lib/toast/*.ts",
+    "./lib/toast/transaction-toast": "./lib/toast/transaction-toast.tsx",
+    "./lib/utils": "./lib/utils.ts",
+    "./tailwind": "./src/tailwindConfig.ts",
+    "./postcss.config.js": "./postcss.config.js",
+    "./styles/*": "./styles/*",
+    "./theme": "./src/PenumbraUIProvider/theme.ts",
+    "./utils/*": "./src/utils/*.ts",
+    "./hooks/*": "./src/hooks/*/index.ts",
+    "./*": "./src/*/index.tsx"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",

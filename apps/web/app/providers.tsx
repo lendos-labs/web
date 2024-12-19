@@ -2,11 +2,12 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConnectKitProvider } from 'connectkit';
-import { MuiLayout } from '@lendos/ui/src/layouts/MuiLayout';
 import { State, WagmiProvider } from 'wagmi';
 import { wagmiConfig } from './config/connectors';
 import { FuelProviders } from './fuel-providers';
 import { ChildrenProps } from './types/common';
+import React from 'react';
+import { MuiLayout } from '@lendos/ui/components/layout/MuiLayout';
 
 const queryClient = new QueryClient();
 
