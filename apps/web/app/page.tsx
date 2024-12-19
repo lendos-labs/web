@@ -1,11 +1,7 @@
-import { Button } from '@lendos/ui/button';
+import React from 'react';
 
 const Home = () => {
-  return (
-    <>
-      <Button />
-    </>
-  );
+  return <div />;
 };
 
 export default Home;

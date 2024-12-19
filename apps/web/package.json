@@ -7,8 +7,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
-    "lint:fix": "eslint src --fix"
+    "lint": "eslint app",
+    "lint:fix": "eslint app --fix"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -22,8 +22,6 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@lendos/eslint-config": "workspace:*",
-    "@lendos/typescript-config": "workspace:*",
     "@types/node": "^20",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.0",

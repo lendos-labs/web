@@ -1,12 +1,14 @@
-import { colors, createTheme } from '@mui/material';
+/* eslint-disable @typescript-eslint/no-unsafe-call -- TODO fix it */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment -- TODO fix it */
+import { createTheme, Theme } from '@mui/material';
 
 const customFontFamily = "'Roboto', 'Helvetica', 'Arial', sans-serif";
 
 export const theme = createTheme({
   // Theme
   brand: {
-    blue: colors.blue[800],
-    green: colors.green[400],
+    blue: 'blue',
+    green: 'green',
   },
 
   // Palette
@@ -59,4 +61,4 @@ export const theme = createTheme({
       },
     },
   },
-});
+}) as unknown as Theme;

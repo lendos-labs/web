@@ -1,11 +1,13 @@
 {
-  "extends": "@lendos/typescript-config/tsconfig.base.json",
+  "extends": "@tsconfig/strictest/tsconfig.json",
+
   "compilerOptions": {
-    "baseUrl": "src",
-    "paths": {
-      ".": ["."]
-    }
+    "composite": true,
+    "exactOptionalPropertyTypes": false,
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "DOM.AsyncIterable"],
+    "noEmit": true,
+    "target": "ESNext"
   },
-  "include": [".", ".eslintrc.cjs", ".storybook/**/*", "./mui-theme.d.ts"],
-  "exclude": ["node_modules", ".next", ".turbo", "coverage", "dist", "compiled", "build", "build-storybook"]
+  "include": ["src", "./mui-theme.d.ts"],
+  "exclude": ["node_modules", ".next", ".turbo", "coverage", "dist", "compiled", "build"]
 }

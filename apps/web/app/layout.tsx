@@ -1,6 +1,7 @@
-import { Layout } from '@lendos/ui/layout';
+import { MuiLayout } from '@lendos/ui/src/layouts/MuiLayout';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import type { Metadata } from 'next';
+import React from 'react';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -14,10 +15,10 @@ function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body>
         <AppRouterCacheProvider>
-          <Layout>{children}</Layout>
+          <MuiLayout>{children}</MuiLayout>
         </AppRouterCacheProvider>
       </body>
     </html>

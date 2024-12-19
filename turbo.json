@@ -2,24 +2,31 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
+    "//#format:prettier": {
+      "cache": false
+    },
+    "//#format:syncpack": {
+      "cache": false
+    },
+    "//#lint:prettier": {
+      "cache": false
+    },
+    "//#lint:syncpack": {
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "build/**"]
     },
     "lint": {
-      "dependsOn": ["build"]
-    },
-    "tsc": {
-      "dependsOn": ["build"]
-    },
-    "test": {
-      "dependsOn": ["build"]
+      "dependsOn": ["//#lint:prettier"],
+      "inputs": ["components", "lib", "src", "package.json"]
     },
     "lint:fix": {
       "cache": false
     },
-    "storybook": {
-      "dependsOn": ["build"]
+    "format": {
+      "dependsOn": ["//#format:prettier"]
     },
     "dev": {
       "cache": false
