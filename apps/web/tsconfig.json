@@ -1,13 +1,23 @@
 {
   "extends": "@tsconfig/strictest/tsconfig.json",
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "preserve",
     "composite": true,
     "exactOptionalPropertyTypes": false,
     "lib": ["ESNext", "DOM", "DOM.Iterable", "DOM.AsyncIterable"],
     "noEmit": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "allowJs": true,
+    "incremental": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".next/types/**/*.ts"],
   "exclude": ["node_modules", ".next", ".turbo", "coverage", "dist", "compiled", "build"]
 }

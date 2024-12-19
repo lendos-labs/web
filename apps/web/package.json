@@ -1,7 +1,6 @@
 {
-  "name": "@lendos/web",
-  "version": "0.1.0",
-  "type": "module",
+  "name": "@lendos/web-fuel",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -14,12 +13,20 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@fuels/connectors": "^0.36.1",
+    "@fuels/react": "^0.36.1",
     "@lendos/ui": "workspace:*",
     "@mui/material": "^6.2.1",
     "@mui/material-nextjs": "^6.2.1",
+    "@tanstack/react-query": "^5.62.8",
+    "@wagmi/core": "2.13.4",
+    "connectkit": "^1.8.2",
+    "fuels": "^0.97.2",
     "next": "^15.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "viem": "2.20.1",
+    "wagmi": "2.13.4"
   },
   "devDependencies": {
     "@types/node": "^20",
