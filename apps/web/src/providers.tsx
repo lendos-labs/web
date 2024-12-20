@@ -10,6 +10,7 @@ import React from 'react';
 import { MuiLayout } from '@lendos/ui/layout/MuiLayout';
 import { MainLayout } from '@lendos/ui/layout/MainLayout';
 import { ModalContextProvider } from '@lendos/ui/providers/ModalProvider';
+import { StateProvider } from './state-provider';
 
 const queryClient = new QueryClient();
 
@@ -17,15 +18,17 @@ export const Providers = ({ children, initialState }: ChildrenProps & { initialS
   return (
     <QueryClientProvider client={queryClient}>
       <MuiLayout>
-        <WagmiProvider config={wagmiConfig} initialState={initialState}>
-          <ConnectKitProvider>
-            <FuelProviders>
-              <ModalContextProvider>
-                <MainLayout>{children}</MainLayout>
-              </ModalContextProvider>
-            </FuelProviders>
-          </ConnectKitProvider>
-        </WagmiProvider>
+        <StateProvider>
+          <WagmiProvider config={wagmiConfig} initialState={initialState}>
+            <ConnectKitProvider>
+              <FuelProviders>
+                <ModalContextProvider>
+                  <MainLayout>{children}</MainLayout>
+                </ModalContextProvider>
+              </FuelProviders>
+            </ConnectKitProvider>
+          </WagmiProvider>
+        </StateProvider>
       </MuiLayout>
     </QueryClientProvider>
   );
