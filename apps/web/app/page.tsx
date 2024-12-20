@@ -3,7 +3,7 @@ import { Connect } from './components/Connect';
 import { Link } from '@lendos/ui/components/Link';
 import { CustomTable, TableHeadProperties } from '@lendos/ui/components/Table';
 
-export const collateralHeader: TableHeadProperties[] = [
+const collateralHeader: TableHeadProperties[] = [
   {
     key: 'id',
     title: 'ID',
@@ -16,6 +16,7 @@ export const collateralHeader: TableHeadProperties[] = [
   {
     key: 'dex',
     title: 'DEX',
+    sortKey: 'dex',
   },
   {
     key: 'collateral',
@@ -37,16 +38,23 @@ const Home = () => {
         header={collateralHeader}
         data={[
           {
-            id: '1',
+            id: 1,
             pool: 'pool',
-            dex: 'dex',
+            dex: 'dex1',
             collateral: 'collateral',
             actions: 'actions',
           },
           {
             id: 2,
             pool: 'pool',
-            dex: 'dex',
+            dex: 'dex2',
+            collateral: 'collateral',
+            actions: 'actions',
+          },
+          {
+            id: 3,
+            pool: 'pool',
+            dex: 'dex3',
             collateral: 'collateral',
             actions: 'actions',
           },

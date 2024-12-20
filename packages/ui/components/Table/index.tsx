@@ -20,6 +20,17 @@ export interface TableHeadProperties {
   style?: Record<string, string>;
 }
 
+interface HeaderRowProps extends SortProps {
+  header: TableHeadProperties[];
+}
+
+interface SortProps {
+  sortName?: string;
+  sortDesc?: boolean;
+  setSortName?: (value: string) => void;
+  setSortDesc?: (value: boolean) => void;
+}
+
 export type TableData = Record<string, React.ReactNode | string> & {
   collapsibleData?: Record<string, React.ReactNode | string>[];
 };
@@ -50,8 +61,17 @@ const getContentPosition = (index: number, arr: TableHeadProperties[]) => {
   }
 };
 
-const HeaderRow = ({ header }: { header: CollapsibleTableProps['header'] }) => {
+const HeaderRow = ({ header, sortName, sortDesc, setSortDesc, setSortName }: HeaderRowProps) => {
   const theme = useTheme();
+
+  const handleSorting = (name: string) => {
+    setSortDesc?.(false);
+    setSortName?.(name);
+    if (sortName === name) {
+      setSortDesc?.(!sortDesc);
+    }
+  };
+
   return (
     <TableRow>
       {header.map((i, index, arr) => {
@@ -70,43 +90,50 @@ const HeaderRow = ({ header }: { header: CollapsibleTableProps['header'] }) => {
             <Typography
               variant='h3'
               color={theme.palette.mode === 'light' ? 'text.primary' : 'text.secondary'}
+              sx={{
+                cursor: i.sortKey ? 'pointer' : 'default',
+                display: 'inline-flex',
+                alignItems: 'center',
+                userSelect: 'none',
+              }}
+              onClick={() => !!i.sortKey && handleSorting(i.sortKey)}
             >
               {i.title}
-            </Typography>
 
-            {/* {!!sortKey && styleSort === 'default' && (*/}
-            {/*  <Box sx={{ display: 'inline-flex', flexDirection: 'column', ml: 1 }}>*/}
-            {/*    <Box*/}
-            {/*      component='span'*/}
-            {/*      sx={theme => ({*/}
-            {/*        width: 0,*/}
-            {/*        height: 0,*/}
-            {/*        borderStyle: 'solid',*/}
-            {/*        borderWidth: '0 4px 4px 4px',*/}
-            {/*        borderColor: `transparent transparent ${*/}
-            {/*          sortName === sortKey && sortDesc*/}
-            {/*            ? theme.palette.divider*/}
-            {/*            : theme.palette.text.dark*/}
-            {/*        } transparent`,*/}
-            {/*        mb: 0.5,*/}
-            {/*      })}*/}
-            {/*    />*/}
-            {/*    <Box*/}
-            {/*      component='span'*/}
-            {/*      sx={theme => ({*/}
-            {/*        width: 0,*/}
-            {/*        height: 0,*/}
-            {/*        borderStyle: 'solid',*/}
-            {/*        borderWidth: '4px 4px 0 4px',*/}
-            {/*        borderColor: `${*/}
-            {/*          sortName === sortKey && !sortDesc*/}
-            {/*            ? theme.palette.divider*/}
-            {/*            : theme.palette.text.dark*/}
-            {/*        } transparent transparent transparent`,*/}
-            {/*      })}*/}
-            {/*    />*/}
-            {/*  </Box>*/}
-            {/* )}*/}
+              {!!i.sortKey && (
+                <Box sx={{ display: 'inline-flex', flexDirection: 'column', ml: 1 }}>
+                  <Box
+                    component='span'
+                    sx={theme => ({
+                      width: 0,
+                      height: 0,
+                      borderStyle: 'solid',
+                      borderWidth: '0 4px 4px 4px',
+                      borderColor: `transparent transparent ${
+                        sortName === i.sortKey && sortDesc
+                          ? theme.palette.divider
+                          : theme.palette.text.dark
+                      } transparent`,
+                      mb: 0.5,
+                    })}
+                  />
+                  <Box
+                    component='span'
+                    sx={theme => ({
+                      width: 0,
+                      height: 0,
+                      borderStyle: 'solid',
+                      borderWidth: '4px 4px 0 4px',
+                      borderColor: `${
+                        sortName === i.sortKey && !sortDesc
+                          ? theme.palette.divider
+                          : theme.palette.text.dark
+                      } transparent transparent transparent`,
+                    })}
+                  />
+                </Box>
+              )}
+            </Typography>
           </TableCell>
         );
       })}
@@ -414,10 +441,25 @@ export const CustomTable = ({ header, collapsibleHeader, data }: CollapsibleTabl
   const { breakpoints } = useTheme();
   const md = useMediaQuery(breakpoints.down('md'));
 
-  // const [sortName, setSortName] = useState<TableHeadProperties['sortKey']>('');
-  // const [sortDesc, setSortDesc] = useState(false);
-  //
-  // const sortData = sortName ? data.toSorted((a, b) => a[sortName] - b[sortName]) : data;
+  const [sortName, setSortName] = useState<TableHeadProperties['sortKey']>('');
+  const [sortDesc, setSortDesc] = useState(false);
+
+  const sortData = sortName
+    ? data.toSorted((a, b) => {
+        const aValue = a[sortName];
+        const bValue = b[sortName];
+
+        if (typeof aValue === 'string' && typeof bValue === 'string') {
+          return sortDesc ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue); // Для рядків
+        }
+
+        if (typeof aValue === 'number' && typeof bValue === 'number') {
+          return sortDesc ? bValue - aValue : aValue - bValue; // Для чисел
+        }
+
+        return 0; // Якщо типи не співпадають, не змінюємо порядок
+      })
+    : data;
 
   if (!data.length) {
     return <NoData text='Empty list' />;
@@ -425,7 +467,7 @@ export const CustomTable = ({ header, collapsibleHeader, data }: CollapsibleTabl
 
   return md ? (
     <Box>
-      {data.map((row, index) => (
+      {sortData.map((row, index) => (
         <MobileItem
           key={index}
           row={row}
@@ -439,10 +481,16 @@ export const CustomTable = ({ header, collapsibleHeader, data }: CollapsibleTabl
     <TableContainer>
       <Table aria-label='collapsible table'>
         <TableHead>
-          <HeaderRow header={header} />
+          <HeaderRow
+            header={header}
+            sortName={sortName}
+            sortDesc={sortDesc}
+            setSortName={setSortName}
+            setSortDesc={setSortDesc}
+          />
         </TableHead>
         <TableBody>
-          {data.map((row, index) => (
+          {sortData.map((row, index) => (
             <Row key={index} row={row} header={header} collapsibleHeader={collapsibleHeader} />
           ))}
         </TableBody>
