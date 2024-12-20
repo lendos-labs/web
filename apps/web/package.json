@@ -2,6 +2,9 @@
   "name": "@lendos/web-fuel",
   "version": "0.0.0",
   "type": "module",
+  "engine": {
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
