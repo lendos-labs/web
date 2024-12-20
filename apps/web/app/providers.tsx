@@ -8,6 +8,7 @@ import { FuelProviders } from './fuel-providers';
 import { ChildrenProps } from './types/common';
 import React from 'react';
 import { MuiLayout } from '@lendos/ui/layout/MuiLayout';
+import { MainLayout } from '@lendos/ui/layout/MainLayout';
 
 const queryClient = new QueryClient();
 
@@ -17,7 +18,9 @@ export const Providers = ({ children, initialState }: ChildrenProps & { initialS
       <MuiLayout>
         <WagmiProvider config={wagmiConfig} initialState={initialState}>
           <ConnectKitProvider>
-            <FuelProviders>{children}</FuelProviders>
+            <FuelProviders>
+              <MainLayout>{children}</MainLayout>
+            </FuelProviders>
           </ConnectKitProvider>
         </WagmiProvider>
       </MuiLayout>

@@ -22,7 +22,8 @@
     "@mui/material-nextjs": "^6.2.1",
     "@mui/utils": "^6.2.1",
     "next": "^15.1.0",
-    "react": "^19.0.0"
+    "react": "^19.0.0",
+    "@lendos/configs": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "18.3.1"

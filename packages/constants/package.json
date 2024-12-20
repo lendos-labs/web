@@ -1,0 +1,8 @@
+{
+  "name": "@lendos/configs",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.ts"
+  }
+}

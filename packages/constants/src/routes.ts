@@ -1,0 +1,16 @@
+export enum Routes {
+  dashboard = '/',
+  markets = '/markets',
+  dexLp = '/dex-lp',
+  total = '/total',
+  staking = '/staking',
+  points = '/points',
+  governance = '/governance',
+  faucet = '/faucet',
+  strategies = '/strategies',
+  declaration = '/declaration-and-disclaimers',
+  reserveOverview = '/reserve-overview',
+  proposal = '/governance/v3/proposal',
+  history = '/history',
+  borrowBoost = '/borrow-boost',
+}
