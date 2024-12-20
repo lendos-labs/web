@@ -28,11 +28,10 @@ const collateralHeader: TableHeadProperties[] = [
     key: 'usageAsCollateralEnabledOnUser',
     title: 'Can be collateral',
   },
-  // {
-  //   key: 'actions',
-  //   title: '',
-  //   style: { width: '55%' },
-  // },
+  {
+    key: 'actions',
+    title: '',
+  },
 ];
 
 export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
@@ -78,6 +77,7 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
     >
       <Box px={4}>
         <CustomTable
+          heightRow={50}
           header={collateralHeader}
           data={[
             {
