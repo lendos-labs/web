@@ -39,6 +39,7 @@ export interface CollapsibleTableProps {
   header: TableHeadProperties[];
   data: TableData[];
   collapsibleHeader?: TableHeadProperties[];
+  heightRow?: number;
 }
 
 const getAlign = (index: number, arr: TableHeadProperties[]) => {
@@ -223,10 +224,12 @@ const Row = ({
   row,
   header,
   collapsibleHeader,
+  heightRow,
 }: {
   row: CollapsibleTableProps['data'][0];
   header: CollapsibleTableProps['header'];
   collapsibleHeader: CollapsibleTableProps['collapsibleHeader'];
+  heightRow: number;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -234,7 +237,7 @@ const Row = ({
     <Fragment>
       <TableRow
         sx={{
-          height: '84px',
+          height: heightRow,
           pl: '12px',
           pr: '16px',
           py: 0,
@@ -437,7 +440,12 @@ const MobileItem = ({
   );
 };
 
-export const CustomTable = ({ header, collapsibleHeader, data }: CollapsibleTableProps) => {
+export const CustomTable = ({
+  header,
+  collapsibleHeader,
+  data,
+  heightRow = 84,
+}: CollapsibleTableProps) => {
   const { breakpoints } = useTheme();
   const md = useMediaQuery(breakpoints.down('md'));
 
@@ -489,9 +497,19 @@ export const CustomTable = ({ header, collapsibleHeader, data }: CollapsibleTabl
             setSortDesc={setSortDesc}
           />
         </TableHead>
-        <TableBody>
+        <TableBody
+          sx={{
+            height: '64px',
+          }}
+        >
           {sortData.map((row, index) => (
-            <Row key={index} row={row} header={header} collapsibleHeader={collapsibleHeader} />
+            <Row
+              key={index}
+              row={row}
+              header={header}
+              collapsibleHeader={collapsibleHeader}
+              heightRow={heightRow}
+            />
           ))}
         </TableBody>
       </Table>
