@@ -30,6 +30,26 @@ interface WalletWidgetProps {
   headerHeight: number;
 }
 
+const linkBuilder =
+  ({
+    baseUrl,
+    addressPrefix = 'address',
+    txPrefix = 'tx',
+  }: {
+    baseUrl: string;
+    addressPrefix?: string;
+    txPrefix?: string;
+  }) =>
+  ({ tx, address }: { tx?: string; address?: string }): string => {
+    if (tx) {
+      return `${baseUrl}/${txPrefix}/${tx}`;
+    }
+    if (address) {
+      return `${baseUrl}/${addressPrefix}/${address}`;
+    }
+    return baseUrl;
+  };
+
 export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps) => {
   const { breakpoints, palette } = useTheme();
   const xsm = useMediaQuery(breakpoints.down('xsm'));
@@ -37,7 +57,14 @@ export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps)
 
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
-  const networkConfig = getNetworkConfig(chainId);
+  // TODO add data
+  const networkConfig = {
+    isTestnet: true,
+    name: '',
+    explorerLink: '',
+  };
+  networkConfig['explorerLinkBuilder'] = linkBuilder({ baseUrl: networkConfig.explorerLink });
+  // getNetworkConfig(chainId);
 
   const networkColor = networkConfig.isTestnet ? '#7157ff' : '#65c970';
 
@@ -57,21 +84,10 @@ export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps)
     }
   };
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(currentAccount);
-    setOpen(false);
-  };
-
   const handleSwitchWallet = () => {
     setWalletModalOpen(true);
     setOpen(false);
   };
-
-  const handleViewOnExplorer = (): void => {
-    setOpen(false);
-  };
-
-  const hideWalletAccountText = xsm && (ENABLE_TESTNET || STAGING_ENV);
 
   const Content = ({ component = ListItem }: { component?: typeof MenuItem | typeof ListItem }) => (
     <>
@@ -188,9 +204,9 @@ export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps)
         </ListItemText>
       </Box>
 
-      {networkConfig?.explorerLinkBuilder && (
-        <Link href={networkConfig.explorerLinkBuilder({ address: currentAccount })}>
-          <Box component={component} sx={{ color: 'text.dark' }} onClick={handleViewOnExplorer}>
+      {networkConfig.explorer && (
+        <Link href={networkConfig.explorer}>
+          <Box component={component} sx={{ color: 'text.dark' }} onClick={() => setOpen(false)}>
             <ListItemIcon
               sx={{
                 color: {
@@ -246,7 +262,9 @@ export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps)
     </>
   );
 
-  if (md && connected && open) return <MobileCloseButton setOpen={setOpen} />;
+  if (md && connected && open) {
+    return <MobileCloseButton setOpen={setOpen} />;
+  }
 
   return (
     <>
@@ -263,7 +281,7 @@ export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps)
           onClick={handleClick}
           sx={{
             p: connected ? '5px 8px' : undefined,
-            minWidth: hideWalletAccountText ? 'unset' : undefined,
+            minWidth: xsm ? 'unset' : undefined,
             width: { sx: '110px', md: '173px' },
             fontWeight: 600,
           }}
