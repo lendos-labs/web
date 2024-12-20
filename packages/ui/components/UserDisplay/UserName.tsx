@@ -5,8 +5,6 @@ import { DarkTooltip } from '../DarkTooltip';
 
 export interface UserNameTextProps extends TypographyProps {
   addressCompactMode?: CompactMode;
-  domainCompactMode?: CompactMode;
-  domainName?: string;
   loading?: boolean;
   address: string;
   link?: string;
@@ -16,27 +14,17 @@ export interface UserNameTextProps extends TypographyProps {
 
 export const UserNameText: React.FC<UserNameTextProps> = ({
   addressCompactMode = CompactMode.SM,
-  domainCompactMode = CompactMode.LG,
+
   loading,
-  domainName,
   address,
   link,
   iconSize = 16,
   ...rest
 }) => {
-  const isDomainNameLong = Boolean(domainName && domainName.length > 18);
-
-  const shouldCompact = !domainName || isDomainNameLong;
-
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-      <CompactableTypography
-        compactMode={domainName ? domainCompactMode : addressCompactMode}
-        compact={shouldCompact}
-        loading={loading}
-        {...rest}
-      >
-        {domainName ? domainName : address}
+      <CompactableTypography compactMode={addressCompactMode} loading={loading} {...rest}>
+        {address}
       </CompactableTypography>
       {link && (
         <DarkTooltip title='View on Etherscan'>

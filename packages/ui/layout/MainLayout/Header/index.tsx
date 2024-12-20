@@ -31,8 +31,6 @@ export const Header = ({ connectBtn }: { connectBtn: ReactNode }) => {
 
   const { currentMarketData } = useStateContext();
 
-  console.log(currentMarketData);
-
   useEffect(() => {
     if (mobileDrawerOpen && !md) {
       setMobileDrawerOpen(false);

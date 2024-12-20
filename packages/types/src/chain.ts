@@ -10,3 +10,24 @@ export enum ChainId {
 export enum CustomPoints {
   neon = 'neon',
 }
+
+export interface ExplorerLinkBuilderProps {
+  tx?: string;
+  address?: string;
+}
+
+export interface NetworkConfig {
+  name: string;
+  displayName?: string;
+  publicJsonRPCUrl: readonly string[];
+  publicJsonRPCWSUrl?: string;
+  ratesHistoryApiUrl?: string;
+  wrappedBaseAssetSymbol: string;
+  baseAssetSymbol: string;
+  baseAssetDecimals: number;
+  explorerLink: string;
+  explorerLinkBuilder: (props: ExplorerLinkBuilderProps) => string;
+  isTestnet?: boolean;
+  networkLogoPath: string;
+  underlyingChainId?: number;
+}

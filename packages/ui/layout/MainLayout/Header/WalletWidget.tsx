@@ -9,7 +9,6 @@ import {
   Menu,
   MenuItem,
   MenuList,
-  Skeleton,
   SvgIcon,
   Typography,
   useMediaQuery,
@@ -17,12 +16,14 @@ import {
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import OpenInNewOffIcon from '@mui/icons-material/OpenInNewOff';
-import { MouseEvent, ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { CompactMode } from '../../../components/CompactableTypography';
 import { UserDisplay } from '../../../components/UserDisplay';
 import { Link } from '../../../components/Link';
 import { DrawerWrapper } from './DrawerWrapper';
 import { MobileCloseButton } from './MobileCloseButton';
+import { useAccountContext } from '../../../providers/AccountProvider';
+import { useStateContext } from '../../../providers/StateProvider';
 
 interface WalletWidgetProps {
   open: boolean;
@@ -31,62 +32,24 @@ interface WalletWidgetProps {
   connectBtn: ReactNode;
 }
 
-const linkBuilder =
-  ({
-    baseUrl,
-    addressPrefix = 'address',
-    txPrefix = 'tx',
-  }: {
-    baseUrl: string;
-    addressPrefix?: string;
-    txPrefix?: string;
-  }) =>
-  ({ tx, address }: { tx?: string; address?: string }): string => {
-    if (tx) {
-      return `${baseUrl}/${txPrefix}/${tx}`;
-    }
-    if (address) {
-      return `${baseUrl}/${addressPrefix}/${address}`;
-    }
-    return baseUrl;
-  };
-
 export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: WalletWidgetProps) => {
+  const { account, connected, connect, disconnect } = useAccountContext();
+  const { currentNetworkData } = useStateContext();
+
   const { breakpoints, palette } = useTheme();
-  const xsm = useMediaQuery(breakpoints.down('xsm'));
   const md = useMediaQuery(breakpoints.down('md'));
 
-  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-
-  // TODO add data
-  const networkConfig = {
-    isTestnet: true,
-    name: '',
-    explorerLink: '',
-  };
-  networkConfig['explorerLinkBuilder'] = linkBuilder({ baseUrl: networkConfig.explorerLink });
-  // getNetworkConfig(chainId);
-
-  const networkColor = networkConfig.isTestnet ? '#7157ff' : '#65c970';
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (connected) {
-      setOpen(true);
-      setAnchorEl(event.currentTarget);
-      return;
-    }
-    setWalletModalOpen(true);
-  };
+  const networkColor = currentNetworkData.isTestnet ? '#7157ff' : '#65c970';
 
   const handleDisconnect = () => {
     if (connected) {
-      disconnectWallet();
+      disconnect();
       setOpen(false);
     }
   };
 
   const handleSwitchWallet = () => {
-    setWalletModalOpen(true);
+    connect();
     setOpen(false);
   };
 
@@ -110,10 +73,6 @@ export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: Wallet
             titleProps={{
               typography: 'h4',
               addressCompactMode: CompactMode.MD,
-            }}
-            subtitleProps={{
-              addressCompactMode: CompactMode.LG,
-              typography: 'caption',
             }}
           />
         </Box>
@@ -164,7 +123,7 @@ export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: Wallet
                 borderRadius: '50%',
               }}
             />
-            <Typography variant='h3'>{networkConfig.name}</Typography>
+            <Typography variant='h3'>{currentNetworkData.name}</Typography>
           </Box>
         </Box>
       </Box>
@@ -181,7 +140,7 @@ export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: Wallet
         sx={{ color: 'text.dark', cursor: 'pointer' }}
         onClick={() => {
           void (async () => {
-            await navigator.clipboard.writeText(currentAccount);
+            await navigator.clipboard.writeText(account ?? '');
             setOpen(false);
           })();
         }}
@@ -205,29 +164,27 @@ export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: Wallet
         </ListItemText>
       </Box>
 
-      {networkConfig.explorer && (
-        <Link href={networkConfig.explorer}>
-          <Box component={component} sx={{ color: 'text.dark' }} onClick={() => setOpen(false)}>
-            <ListItemIcon
-              sx={{
-                color: {
-                  xs: 'text.dark',
-                  md: 'text.dark',
-                  minWidth: 'unset',
-                  marginRight: 12,
-                },
-              }}
-            >
-              <SvgIcon fontSize='small'>
-                <OpenInNewOffIcon />
-              </SvgIcon>
-            </ListItemIcon>
-            <ListItemText>
-              <Typography variant='buttonS'>View on Explorer</Typography>
-            </ListItemText>
-          </Box>
-        </Link>
-      )}
+      <Link href={currentNetworkData.explorerLinkBuilder({ address: account ?? '' })}>
+        <Box component={component} sx={{ color: 'text.dark' }} onClick={() => setOpen(false)}>
+          <ListItemIcon
+            sx={{
+              color: {
+                xs: 'text.dark',
+                md: 'text.dark',
+                minWidth: 'unset',
+                marginRight: 12,
+              },
+            }}
+          >
+            <SvgIcon fontSize='small'>
+              <OpenInNewOffIcon />
+            </SvgIcon>
+          </ListItemIcon>
+          <ListItemText>
+            <Typography variant='buttonS'>View on Explorer</Typography>
+          </ListItemText>
+        </Box>
+      </Link>
       {md && (
         <>
           <Divider sx={{ my: { xs: 7, md: 0 }, borderColor: { xs: '#FFFFFF1F', md: 'divider' } }} />
@@ -270,7 +227,6 @@ export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: Wallet
   return (
     <>
       {connectBtn}
-
       {md ? (
         <DrawerWrapper open={open} setOpen={setOpen} headerHeight={headerHeight}>
           <List sx={{ px: 2, '.MuiListItem-root.Mui-disabled': { opacity: 1 } }}>
@@ -283,7 +239,6 @@ export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: Wallet
           MenuListProps={{
             'aria-labelledby': 'wallet-button',
           }}
-          anchorEl={anchorEl}
           open={open}
           onClose={() => setOpen(false)}
           keepMounted={true}

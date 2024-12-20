@@ -1,8 +1,10 @@
+import { NetworkConfig } from '@lendos/types/chain';
 import { MarketDataType } from '@lendos/types/market';
 import { createContext, useContext } from 'react';
 
 export interface StateContextType {
   currentMarketData: MarketDataType;
+  currentNetworkData: NetworkConfig;
 }
 
 export const StateContext = createContext<StateContextType>({} as StateContextType);
