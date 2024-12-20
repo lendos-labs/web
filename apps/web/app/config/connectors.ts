@@ -8,7 +8,7 @@ import {
   http,
 } from 'wagmi';
 import { Chain, mainnet, sepolia } from 'wagmi/chains';
-import { coinbaseWallet, injected, walletConnect } from 'wagmi/connectors';
+import { injected, walletConnect } from 'wagmi/connectors';
 
 const WALLETCONNECT_PROJECT_ID = process.env['NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID'];
 
@@ -27,12 +27,12 @@ const METADATA = {
 export function generateETHConnectors(): CreateConnectorFn[] {
   const connectors: CreateConnectorFn[] = [
     injected({ shimDisconnect: false }),
-    coinbaseWallet({
-      appName: METADATA.name,
-      appLogoUrl: METADATA.icons[0],
-      darkMode: true,
-      reloadOnDisconnect: true,
-    }),
+    // coinbaseWallet({
+    //   appName: METADATA.name,
+    //   appLogoUrl: METADATA.icons[0],
+    //   darkMode: true,
+    //   reloadOnDisconnect: true,
+    // }),
   ];
 
   if (WALLETCONNECT_PROJECT_ID) {
