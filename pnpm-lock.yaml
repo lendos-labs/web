@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@lendos/configs':
         specifier: workspace:*
-        version: link:packages/constants
+        version: link:packages/configs
       '@tsconfig/next':
         specifier: 2.0.3
         version: 2.0.3
@@ -165,7 +165,7 @@ importers:
       '@emotion/styled':
         specifier: ^11.14.0
         version: 11.14.0(@emotion/react@11.14.0(@types/react@18.3.1)(react@19.0.0))(@types/react@18.3.1)(react@19.0.0)
-      '@lendos/configs':
+      '@lendos/constants':
         specifier: workspace:*
         version: link:../constants
       '@mui/material':

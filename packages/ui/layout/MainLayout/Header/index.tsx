@@ -3,9 +3,9 @@
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { HideOnScroll } from './HideOnScroll';
-import Link from 'next/link';
-import { Routes } from '@lendos/configs/routes';
+import { Routes } from '@lendos/constants/routes';
 import Image from 'next/image';
+import { Link } from '../../../components/Link';
 
 const SWITCH_VISITED_KEY = 'switchVisited';
 const headerHeight = 48;

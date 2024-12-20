@@ -1,5 +1,5 @@
 {
-  "name": "@lendos/configs",
+  "name": "@lendos/constants",
   "version": "0.0.0",
   "type": "module",
   "exports": {
