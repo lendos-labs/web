@@ -1,66 +1,39 @@
+'use client';
+
 import React from 'react';
-import { Connect } from './components/Connect';
-import { Link } from '@lendos/ui/components/Link';
-import { CustomTable, TableHeadProperties } from '@lendos/ui/components/Table';
+import { ContentContainer } from '@lendos/ui/components/ContentContainer';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { SupplyAssetsList } from '../src/modules/dashboard/lists/SupplyAssetsList';
 
-const collateralHeader: TableHeadProperties[] = [
-  {
-    key: 'id',
-    title: 'ID',
-    sortKey: 'id',
-  },
-  {
-    key: 'pool',
-    title: 'Pool',
-  },
-  {
-    key: 'dex',
-    title: 'DEX',
-    sortKey: 'dex',
-  },
-  {
-    key: 'collateral',
-    title: 'Value',
-  },
-  {
-    key: 'actions',
-    title: '',
-    style: { width: '55%' },
-  },
-];
+interface DashboardContentWrapperProps {
+  isBorrow: boolean;
+}
 
-const Home = () => {
+const Home = ({ isBorrow }: DashboardContentWrapperProps) => {
+  const { breakpoints } = useTheme();
+
+  const isDesktop = useMediaQuery(breakpoints.up('lg'));
+  const paperWidth = isDesktop ? 'calc(50% - 8px)' : '100%';
   return (
-    <>
-      <Connect />
-      <Link href={'/test'}>Test</Link>
-      <CustomTable
-        header={collateralHeader}
-        data={[
-          {
-            id: 1,
-            pool: 'pool',
-            dex: 'dex1',
-            collateral: 'collateral',
-            actions: 'actions',
-          },
-          {
-            id: 2,
-            pool: 'pool',
-            dex: 'dex2',
-            collateral: 'collateral',
-            actions: 'actions',
-          },
-          {
-            id: 3,
-            pool: 'pool',
-            dex: 'dex3',
-            collateral: 'collateral',
-            actions: 'actions',
-          },
-        ]}
-      />
-    </>
+    <ContentContainer>
+      <Box
+        display={isDesktop ? 'flex' : 'block'}
+        justifyContent='space-between'
+        alignItems='flex-start'
+        width='100%'
+      >
+        <Box
+          sx={{
+            position: 'relative',
+
+            display: { xs: isBorrow ? 'none' : 'block', lg: 'block' },
+            width: paperWidth,
+          }}
+        >
+          <SupplyAssetsList type='asset' />
+        </Box>
+      </Box>
+    </ContentContainer>
   );
 };
 

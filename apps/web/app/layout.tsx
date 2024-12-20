@@ -2,11 +2,12 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { cookieToInitialState } from 'wagmi';
-import { montserrat, aldrich } from '@lendos/ui/fonts';
-import { wagmiConfig } from './config/connectors';
-import './globals.css';
-import { Providers } from './providers';
-import { ChildrenProps } from './types/common';
+import { aldrich, montserrat } from '@lendos/ui/fonts';
+import { wagmiConfig } from '../src/config/connectors';
+import '../src/globals.css';
+import { Providers } from '../src/providers.tsx';
+import { ChildrenProps } from '../src/types/common';
+import { Box } from '@mui/material';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,11 +20,17 @@ async function RootLayout({ children }: ChildrenProps) {
 
   return (
     <html lang='en'>
-      <body className={`${aldrich.variable} ${montserrat.variable} font-sans`}>
+      <Box
+        component='body'
+        className={`${aldrich.variable} ${montserrat.variable} font-sans`}
+        display='flex'
+        flexDirection='column'
+        minHeight={'100dvh'}
+      >
         <AppRouterCacheProvider>
           <Providers initialState={wagmiInitialState}>{children}</Providers>
         </AppRouterCacheProvider>
-      </body>
+      </Box>
     </html>
   );
 }
