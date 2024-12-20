@@ -177,6 +177,9 @@ importers:
       '@mui/utils':
         specifier: ^6.2.1
         version: 6.2.1(@types/react@18.3.1)(react@19.0.0)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       next:
         specifier: ^15.1.0
         version: 15.1.0(@babel/core@7.26.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
