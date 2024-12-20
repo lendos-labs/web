@@ -13,7 +13,7 @@
     "./fonts": "./fonts/index.ts",
     "./layout/*": "./layout/*/index.tsx",
     "./theme/*": "./theme/theme.ts",
-    "./components": "./components/*/index.tsx"
+    "./components/*": "./components/*/index.tsx"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -21,6 +21,7 @@
     "@mui/material": "^6.2.1",
     "@mui/material-nextjs": "^6.2.1",
     "@mui/utils": "^6.2.1",
+    "clsx": "^2.1.1",
     "next": "^15.1.0",
     "react": "^19.0.0"
   },
