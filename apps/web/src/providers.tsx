@@ -9,6 +9,7 @@ import { ChildrenProps } from './types/common.ts';
 import React from 'react';
 import { MuiLayout } from '@lendos/ui/layout/MuiLayout';
 import { MainLayout } from '@lendos/ui/layout/MainLayout';
+import { ModalContextProvider } from '@lendos/ui/providers/ModalProvider';
 
 const queryClient = new QueryClient();
 
@@ -19,7 +20,9 @@ export const Providers = ({ children, initialState }: ChildrenProps & { initialS
         <WagmiProvider config={wagmiConfig} initialState={initialState}>
           <ConnectKitProvider>
             <FuelProviders>
-              <MainLayout>{children}</MainLayout>
+              <ModalContextProvider>
+                <MainLayout>{children}</MainLayout>
+              </ModalContextProvider>
             </FuelProviders>
           </ConnectKitProvider>
         </WagmiProvider>

@@ -7,6 +7,8 @@ import { Routes } from '@lendos/constants/routes';
 import Image from 'next/image';
 import { Link } from '../../../components/Link';
 import { ArrowsRightLeftIcon } from '@heroicons/react/16/solid';
+import { WalletWidget } from './WalletWidget';
+import { useModalContext } from '../../../providers/ModalProvider';
 
 const SWITCH_VISITED_KEY = 'switchVisited';
 const headerHeight = 48;
@@ -17,45 +19,45 @@ export const Header = () => {
   const sm = useMediaQuery(breakpoints.down('sm'));
 
   const [walletWidgetOpen, setWalletWidgetOpen] = useState<boolean>(false);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [visitedSwitch, setVisitedSwitch] = useState<boolean>(() => {
     return typeof window === 'undefined' ? true : Boolean(localStorage.getItem(SWITCH_VISITED_KEY));
   });
 
-  // TODO state
-  // const [mobileDrawerOpen, setMobileDrawerOpen] = useRootStore(state => [
-  //   state.mobileDrawerOpen,
-  //   state.setMobileDrawerOpen,
-  // ]);
-
-  // const { openSwitch } = useModalContext();
+  const { openSwitch } = useModalContext();
 
   // const { currentMarketData } = useProtocolDataContext();
 
-  // useEffect(() => {
-  //   if (mobileDrawerOpen && !md) {
-  //     setMobileDrawerOpen(false);
-  //   }
-  //   if (walletWidgetOpen) {
-  //     setWalletWidgetOpen(false);
-  //   }
-  // }, [md]);
+  useEffect(() => {
+    if (mobileDrawerOpen && !md) {
+      setMobileDrawerOpen(false);
+    }
+    if (walletWidgetOpen) {
+      setWalletWidgetOpen(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- call for first render
+  }, [md]);
 
-  // const toggleWalletWigit = (state: boolean) => {
-  //   if (md) setMobileDrawerOpen(state);
-  //   setWalletWidgetOpen(state);
-  // };
+  const toggleWalletWigit = (state: boolean) => {
+    if (md) {
+      setMobileDrawerOpen(state);
+    }
+    setWalletWidgetOpen(state);
+  };
 
-  // const toggleMobileMenu = (state: boolean) => {
-  //   if (md) setMobileDrawerOpen(state);
-  //   setMobileMenuOpen(state);
-  // };
+  const toggleMobileMenu = (state: boolean) => {
+    if (md) {
+      setMobileDrawerOpen(state);
+    }
+    setMobileMenuOpen(state);
+  };
 
-  // const handleSwitchClick = () => {
-  //   localStorage.setItem(SWITCH_VISITED_KEY, 'true');
-  //   setVisitedSwitch(true);
-  //   openSwitch();
-  // };
+  const handleSwitchClick = () => {
+    localStorage.setItem(SWITCH_VISITED_KEY, 'true');
+    setVisitedSwitch(true);
+    openSwitch();
+  };
 
   return (
     <HideOnScroll>
@@ -129,7 +131,7 @@ export const Header = () => {
           {true && (
             <StyledBadge invisible={visitedSwitch} variant='dot' badgeContent='' color='secondary'>
               <Button
-                // onClick={handleSwitchClick}
+                onClick={handleSwitchClick}
                 id='swap-tokens'
                 variant={palette.mode === 'dark' ? 'white' : 'switch'}
                 sx={{
@@ -150,11 +152,11 @@ export const Header = () => {
           )}
           {!mobileMenuOpen && (
             <Box display='flex' alignItems='center' gap={sm ? 2 : 7}>
-              {/* <WalletWidget
+              <WalletWidget
                 open={walletWidgetOpen}
                 setOpen={toggleWalletWigit}
                 headerHeight={headerHeight}
-              /> */}
+              />
             </Box>
           )}
           <Box sx={{ display: { xs: 'none', md: 'block' } }}>{/* <SettingsMenu /> */}</Box>

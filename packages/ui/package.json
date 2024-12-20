@@ -13,7 +13,8 @@
     "./fonts": "./fonts/index.ts",
     "./layout/*": "./layout/*/index.tsx",
     "./theme/*": "./theme/theme.ts",
-    "./components/*": "./components/*/index.tsx"
+    "./components/*": "./components/*/index.tsx",
+    "./providers/*": "./providers/*/index.tsx"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
