@@ -1,11 +1,12 @@
 'use client';
 
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { Badge, Box, Button, styled, SvgIcon, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { HideOnScroll } from './HideOnScroll';
 import { Routes } from '@lendos/constants/routes';
 import Image from 'next/image';
 import { Link } from '../../../components/Link';
+import { ArrowsRightLeftIcon } from '@heroicons/react/16/solid';
 
 const SWITCH_VISITED_KEY = 'switchVisited';
 const headerHeight = 48;
@@ -94,7 +95,113 @@ export const Header = () => {
             <Image src='./lendosLogo.svg' alt='lendOS' width={72} height={20} />
           </Box>
         </Box>
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, height: '100%' }}>{/* <NavItems /> */}</Box>
+        <Box display='flex' alignItems='center' gap={3}>
+          {true && (
+            <Button
+              component={Link}
+              href={Routes.borrowBoost}
+              variant='white'
+              sx={{
+                gap: 2,
+                alignItems: 'center',
+                width: { xs: '28px', md: '173px' },
+                minWidth: 0,
+                height: { xs: '28px', md: '36px' },
+              }}
+              aria-label='Switch tool'
+            >
+              {/* <Box
+                component={Image}
+                src={`/rocket.png`}
+                width={{ xs: 16, md: 20 }}
+                height={{ xs: 16, md: 20 }}
+                alt='rocket'
+                sx={{
+                  ...(palette.mode === 'dark' && {
+                    mixBlendMode: 'plus-lighter',
+                  }),
+                }}
+              /> */}
+              {!md && 'Borrow Boost'}
+            </Button>
+          )}
+          {true && (
+            <StyledBadge invisible={visitedSwitch} variant='dot' badgeContent='' color='secondary'>
+              <Button
+                // onClick={handleSwitchClick}
+                id='swap-tokens'
+                variant={palette.mode === 'dark' ? 'white' : 'switch'}
+                sx={{
+                  gap: 2,
+                  alignItems: 'center',
+                  width: { xs: '28px', md: '173px' },
+                  minWidth: 0,
+                  height: { xs: '28px', md: '36px' },
+                }}
+                aria-label='Switch tool'
+              >
+                {!md && 'Swap tokens'}
+                <SvgIcon sx={{ fontSize: { xs: 16, md: 20 } }}>
+                  <ArrowsRightLeftIcon />
+                </SvgIcon>
+              </Button>
+            </StyledBadge>
+          )}
+          {!mobileMenuOpen && (
+            <Box display='flex' alignItems='center' gap={sm ? 2 : 7}>
+              {/* <WalletWidget
+                open={walletWidgetOpen}
+                setOpen={toggleWalletWigit}
+                headerHeight={headerHeight}
+              /> */}
+            </Box>
+          )}
+          <Box sx={{ display: { xs: 'none', md: 'block' } }}>{/* <SettingsMenu /> */}</Box>
+          {!walletWidgetOpen && (
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+              {/* <MobileMenu
+                open={mobileMenuOpen}
+                setOpen={toggleMobileMenu}
+                headerHeight={headerHeight}
+              /> */}
+            </Box>
+          )}
+        </Box>
       </Box>
     </HideOnScroll>
   );
 };
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    top: '2px',
+    right: '2px',
+    borderRadius: '20px',
+    width: '10px',
+    height: '10px',
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.secondary.main,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: 'ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}));
