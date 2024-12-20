@@ -1,7 +1,7 @@
 'use client';
 
 import { Badge, Box, Button, styled, SvgIcon, useMediaQuery, useTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { HideOnScroll } from './HideOnScroll';
 import { Routes } from '@lendos/constants/routes';
 import Image from 'next/image';
@@ -9,11 +9,13 @@ import { Link } from '../../../components/Link';
 import { ArrowsRightLeftIcon } from '@heroicons/react/16/solid';
 import { WalletWidget } from './WalletWidget';
 import { useModalContext } from '../../../providers/ModalProvider';
+import { isFeatureEnabled } from '@lendos/constants/markets';
+import { useStateContext } from '../../../providers/StateProvider';
 
 const SWITCH_VISITED_KEY = 'switchVisited';
 const headerHeight = 48;
 
-export const Header = () => {
+export const Header = ({ connectBtn }: { connectBtn: ReactNode }) => {
   const { breakpoints, palette } = useTheme();
   const md = useMediaQuery(breakpoints.down('md'));
   const sm = useMediaQuery(breakpoints.down('sm'));
@@ -27,7 +29,9 @@ export const Header = () => {
 
   const { openSwitch } = useModalContext();
 
-  // const { currentMarketData } = useProtocolDataContext();
+  const { currentMarketData } = useStateContext();
+
+  console.log(currentMarketData);
 
   useEffect(() => {
     if (mobileDrawerOpen && !md) {
@@ -99,7 +103,7 @@ export const Header = () => {
         </Box>
         <Box sx={{ display: { xs: 'none', md: 'flex' }, height: '100%' }}>{/* <NavItems /> */}</Box>
         <Box display='flex' alignItems='center' gap={3}>
-          {true && (
+          {isFeatureEnabled.borrowBoost(currentMarketData) && (
             <Button
               component={Link}
               href={Routes.borrowBoost}
@@ -128,7 +132,7 @@ export const Header = () => {
               {!md && 'Borrow Boost'}
             </Button>
           )}
-          {true && (
+          {isFeatureEnabled.borrowBoost(currentMarketData) && (
             <StyledBadge invisible={visitedSwitch} variant='dot' badgeContent='' color='secondary'>
               <Button
                 onClick={handleSwitchClick}
@@ -156,6 +160,7 @@ export const Header = () => {
                 open={walletWidgetOpen}
                 setOpen={toggleWalletWigit}
                 headerHeight={headerHeight}
+                connectBtn={connectBtn}
               />
             </Box>
           )}

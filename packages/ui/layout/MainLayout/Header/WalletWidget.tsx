@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import OpenInNewOffIcon from '@mui/icons-material/OpenInNewOff';
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, ReactNode, useState } from 'react';
 import { CompactMode } from '../../../components/CompactableTypography';
 import { UserDisplay } from '../../../components/UserDisplay';
 import { Link } from '../../../components/Link';
@@ -28,6 +28,7 @@ interface WalletWidgetProps {
   open: boolean;
   setOpen: (value: boolean) => void;
   headerHeight: number;
+  connectBtn: ReactNode;
 }
 
 const linkBuilder =
@@ -50,7 +51,7 @@ const linkBuilder =
     return baseUrl;
   };
 
-export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps) => {
+export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: WalletWidgetProps) => {
   const { breakpoints, palette } = useTheme();
   const xsm = useMediaQuery(breakpoints.down('xsm'));
   const md = useMediaQuery(breakpoints.down('md'));
@@ -268,31 +269,7 @@ export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps)
 
   return (
     <>
-      {loading ? (
-        <Skeleton height={36} sx={{ width: { sx: '110px', md: '173px' } }} />
-      ) : (
-        <Button
-          variant={'white'}
-          aria-label='wallet'
-          id='wallet-button'
-          aria-controls={open ? 'wallet-button' : undefined}
-          aria-expanded={open ? 'true' : undefined}
-          aria-haspopup='true'
-          onClick={handleClick}
-          sx={{
-            p: connected ? '5px 8px' : undefined,
-            minWidth: xsm ? 'unset' : undefined,
-            width: { sx: '110px', md: '173px' },
-            fontWeight: 600,
-          }}
-        >
-          {connected ? (
-            <UserDisplay oneLiner={true} titleProps={{ variant: 'buttonM' }} />
-          ) : (
-            <>Connect wallet</>
-          )}
-        </Button>
-      )}
+      {connectBtn}
 
       {md ? (
         <DrawerWrapper open={open} setOpen={setOpen} headerHeight={headerHeight}>

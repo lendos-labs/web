@@ -4,5 +4,8 @@
   "type": "module",
   "exports": {
     "./*": "./src/*.ts"
+  },
+  "dependencies": {
+    "@lendos/types": "workspace:*"
   }
 }
