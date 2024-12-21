@@ -13,7 +13,6 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
       value={{
         account,
         connected: isConnected,
-        // chainId
         loading: isLoading,
         disconnect: () => disconnect(),
         connect: () => connect(),

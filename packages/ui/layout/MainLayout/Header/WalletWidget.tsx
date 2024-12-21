@@ -9,6 +9,7 @@ import {
   Menu,
   MenuItem,
   MenuList,
+  Skeleton,
   SvgIcon,
   Typography,
   useMediaQuery,
@@ -16,7 +17,6 @@ import {
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import OpenInNewOffIcon from '@mui/icons-material/OpenInNewOff';
-import { ReactNode } from 'react';
 import { CompactMode } from '../../../components/CompactableTypography';
 import { UserDisplay } from '../../../components/UserDisplay';
 import { Link } from '../../../components/Link';
@@ -24,22 +24,22 @@ import { DrawerWrapper } from './DrawerWrapper';
 import { MobileCloseButton } from './MobileCloseButton';
 import { useAccountContext } from '../../../providers/AccountProvider';
 import { useStateContext } from '../../../providers/StateProvider';
+import { useState } from 'react';
 
 interface WalletWidgetProps {
   open: boolean;
   setOpen: (value: boolean) => void;
   headerHeight: number;
-  connectBtn: ReactNode;
 }
 
-export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: WalletWidgetProps) => {
-  const { account, connected, connect, disconnect } = useAccountContext();
+export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps) => {
+  const { account, connected, loading, connect, disconnect } = useAccountContext();
   const { currentNetworkData } = useStateContext();
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
   const { breakpoints, palette } = useTheme();
+  const xsm = useMediaQuery(breakpoints.down('xsm'));
   const md = useMediaQuery(breakpoints.down('md'));
-
-  const networkColor = currentNetworkData.isTestnet ? '#7157ff' : '#65c970';
 
   const handleDisconnect = () => {
     if (connected) {
@@ -66,7 +66,6 @@ export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: Wallet
       >
         Account
       </Typography>
-
       <Box component={component} disabled>
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
           <UserDisplay
@@ -115,7 +114,7 @@ export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: Wallet
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box
               sx={{
-                bgcolor: networkColor,
+                bgcolor: currentNetworkData.isTestnet ? '#7157ff' : '#65c970',
                 width: 12,
                 height: 12,
                 mr: 2,
@@ -226,7 +225,34 @@ export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: Wallet
 
   return (
     <>
-      {connectBtn}
+      {loading ? (
+        <Skeleton height={36} sx={{ width: { sx: '110px', md: '173px' } }} />
+      ) : (
+        <Button
+          variant={'white'}
+          aria-label='wallet'
+          id='wallet-button'
+          aria-controls={open ? 'wallet-button' : undefined}
+          aria-expanded={open ? 'true' : undefined}
+          aria-haspopup='true'
+          onClick={event => {
+            if (!connected) {
+              connect();
+            } else {
+              setOpen(true);
+              setAnchorEl(event.currentTarget);
+            }
+          }}
+          sx={{
+            p: connected ? '5px 8px' : undefined,
+            minWidth: xsm ? 'unset' : undefined,
+            width: { sx: '110px', md: '173px' },
+            fontWeight: 600,
+          }}
+        >
+          {connected ? <UserDisplay titleProps={{ variant: 'buttonM' }} /> : 'Connect wallet'}
+        </Button>
+      )}
       {md ? (
         <DrawerWrapper open={open} setOpen={setOpen} headerHeight={headerHeight}>
           <List sx={{ px: 2, '.MuiListItem-root.Mui-disabled': { opacity: 1 } }}>
@@ -239,6 +265,7 @@ export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: Wallet
           MenuListProps={{
             'aria-labelledby': 'wallet-button',
           }}
+          anchorEl={anchorEl}
           open={open}
           onClose={() => setOpen(false)}
           keepMounted={true}
@@ -249,6 +276,7 @@ export const WalletWidget = ({ open, setOpen, headerHeight, connectBtn }: Wallet
         </Menu>
       )}
 
+      {/* TODO this logic go to webapp only for EVM */}
       {/* <WalletModal /> */}
     </>
   );

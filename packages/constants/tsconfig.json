@@ -2,11 +2,12 @@
   "compilerOptions": {
     "exactOptionalPropertyTypes": false,
     "composite": true,
-    "module": "Node16",
+    // "module": "Node16",
     "outDir": "dist",
     "preserveWatchOutput": true,
     "rootDir": "src",
-    "target": "ESNext"
+    "target": "ESNext",
+    "moduleResolution": "bundler"
   },
   "extends": "@tsconfig/strictest/tsconfig.json",
   "include": ["src"]

@@ -2,16 +2,10 @@ import { Box } from '@mui/material';
 import { Header } from './Header';
 import { ReactNode } from 'react';
 
-export const MainLayout = ({
-  children,
-  connectBtn,
-}: {
-  children: ReactNode;
-  connectBtn: ReactNode;
-}) => {
+export const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <Header connectBtn={connectBtn} />
+      <Header />
       <Box
         component='main'
         sx={{

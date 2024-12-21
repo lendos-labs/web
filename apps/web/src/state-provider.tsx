@@ -37,8 +37,11 @@ const linkBuilder =
 const mockNetwork = {
   isTestnet: true,
   name: 'Fuel',
-  explorerLink: '',
-  explorerLinkBuilder: linkBuilder({ baseUrl: '' }),
+  explorerLink: 'https://app.fuel.network',
+  explorerLinkBuilder: linkBuilder({
+    baseUrl: 'https://app.fuel.network',
+    addressPrefix: 'account',
+  }),
 } as NetworkConfig;
 
 export const StateProvider = ({ children }: { children: ReactNode }) => {

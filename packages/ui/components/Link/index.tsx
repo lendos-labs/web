@@ -83,18 +83,15 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
     }
 
     return (
-      <>
-        asd
-        <MuiLink
-          className={className}
-          href={href}
-          ref={ref}
-          target='_blank'
-          rel='noopener'
-          underline='none'
-          {...other}
-        />
-      </>
+      <MuiLink
+        className={className}
+        href={href}
+        ref={ref}
+        target='_blank'
+        rel='noopener'
+        underline='none'
+        {...other}
+      />
     );
   }
 

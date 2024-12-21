@@ -11,7 +11,6 @@ import { MuiLayout } from '@lendos/ui/layout/MuiLayout';
 import { MainLayout } from '@lendos/ui/layout/MainLayout';
 import { ModalContextProvider } from '@lendos/ui/providers/ModalProvider';
 import { StateProvider } from './state-provider';
-import { Connect } from './components/Connect';
 import { AccountProvider } from './account-provider';
 
 const queryClient = new QueryClient();
@@ -26,7 +25,7 @@ export const Providers = ({ children, initialState }: ChildrenProps & { initialS
               <FuelProviders>
                 <AccountProvider>
                   <ModalContextProvider>
-                    <MainLayout connectBtn={<Connect />}>{children}</MainLayout>
+                    <MainLayout>{children}</MainLayout>
                   </ModalContextProvider>
                 </AccountProvider>
               </FuelProviders>

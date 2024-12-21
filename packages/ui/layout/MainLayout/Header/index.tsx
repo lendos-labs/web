@@ -1,7 +1,7 @@
 'use client';
 
 import { Badge, Box, Button, styled, SvgIcon, useMediaQuery, useTheme } from '@mui/material';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HideOnScroll } from './HideOnScroll';
 import { Routes } from '@lendos/constants/routes';
 import Image from 'next/image';
@@ -11,11 +11,14 @@ import { WalletWidget } from './WalletWidget';
 import { useModalContext } from '../../../providers/ModalProvider';
 import { isFeatureEnabled } from '@lendos/constants/markets';
 import { useStateContext } from '../../../providers/StateProvider';
+import { NavItems } from './NavItems';
+import { SettingsMenu } from './SettingsMenu';
+import { MobileMenu } from './MobileMenu';
 
 const SWITCH_VISITED_KEY = 'switchVisited';
 const headerHeight = 48;
 
-export const Header = ({ connectBtn }: { connectBtn: ReactNode }) => {
+export const Header = () => {
   const { breakpoints, palette } = useTheme();
   const md = useMediaQuery(breakpoints.down('md'));
   const sm = useMediaQuery(breakpoints.down('sm'));
@@ -96,10 +99,23 @@ export const Header = ({ connectBtn }: { connectBtn: ReactNode }) => {
             }}
             onClick={() => setMobileMenuOpen(false)}
           >
-            <Image src='./lendosLogo.svg' alt='lendOS' width={72} height={20} />
+            <Image
+              src='./lendosLogo.svg'
+              alt='lendOS'
+              width={72}
+              height={20}
+              // TODO add this if nedded
+              // sx={{
+              //   ...(palette.mode === 'dark' && {
+              //     mixBlendMode: 'plus-lighter',
+              //   }),
+              // }}
+            />
           </Box>
         </Box>
-        <Box sx={{ display: { xs: 'none', md: 'flex' }, height: '100%' }}>{/* <NavItems /> */}</Box>
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, height: '100%' }}>
+          <NavItems />
+        </Box>
         <Box display='flex' alignItems='center' gap={3}>
           {isFeatureEnabled.borrowBoost(currentMarketData) && (
             <Button
@@ -115,18 +131,7 @@ export const Header = ({ connectBtn }: { connectBtn: ReactNode }) => {
               }}
               aria-label='Switch tool'
             >
-              {/* <Box
-                component={Image}
-                src={`/rocket.png`}
-                width={{ xs: 16, md: 20 }}
-                height={{ xs: 16, md: 20 }}
-                alt='rocket'
-                sx={{
-                  ...(palette.mode === 'dark' && {
-                    mixBlendMode: 'plus-lighter',
-                  }),
-                }}
-              /> */}
+              <Image src='/rocket.png' alt='rocket' width={md ? 20 : 16} height={md ? 20 : 16} />
               {!md && 'Borrow Boost'}
             </Button>
           )}
@@ -158,18 +163,19 @@ export const Header = ({ connectBtn }: { connectBtn: ReactNode }) => {
                 open={walletWidgetOpen}
                 setOpen={toggleWalletWigit}
                 headerHeight={headerHeight}
-                connectBtn={connectBtn}
               />
             </Box>
           )}
-          <Box sx={{ display: { xs: 'none', md: 'block' } }}>{/* <SettingsMenu /> */}</Box>
+          <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+            <SettingsMenu />
+          </Box>
           {!walletWidgetOpen && (
             <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-              {/* <MobileMenu
+              <MobileMenu
                 open={mobileMenuOpen}
                 setOpen={toggleMobileMenu}
                 headerHeight={headerHeight}
-              /> */}
+              />
             </Box>
           )}
         </Box>
