@@ -4,5 +4,8 @@
   "type": "module",
   "exports": {
     "./*": "./src/*.ts"
+  },
+  "dependencies": {
+    "@aave/contract-helpers": "1.25.0"
   }
 }

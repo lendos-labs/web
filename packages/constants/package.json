@@ -6,6 +6,7 @@
     "./*": "./src/*.ts"
   },
   "dependencies": {
+    "@aave/math-utils": "1.25.0",
     "@lendos/types": "workspace:*"
   }
 }

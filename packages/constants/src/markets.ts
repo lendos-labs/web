@@ -1,4 +1,4 @@
-import { MarketDataType } from '@lendos/types/market';
+import { CustomMarket, MarketDataType } from '@lendos/types/market';
 
 export const isFeatureEnabled = {
   faucet: (data: MarketDataType) => data.enabledFeatures?.faucet,
@@ -16,4 +16,11 @@ export const isFeatureEnabled = {
   strategies: (data: MarketDataType) => data.enabledFeatures?.strategies,
   borrowBoost: (data: MarketDataType) => data.enabledFeatures?.borrowBoost,
   addLiquidity: (data: MarketDataType) => data.enabledFeatures?.addLiquidity,
+};
+
+export const AssetsBeingOffboarded: Record<string, Record<string, string>> = {
+  [CustomMarket.proto_neon]: {
+    BUSD: 'https://governance.aave.com/t/arfc-busd-offboarding-plan/12170',
+    TUSD: 'https://governance.aave.com/t/arfc-tusd-offboarding-plan/14008',
+  },
 };

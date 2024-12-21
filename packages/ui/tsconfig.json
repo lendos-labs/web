@@ -7,5 +7,14 @@
     "composite": true
   },
   "extends": ["@tsconfig/strictest/tsconfig.json", "@tsconfig/vite-react/tsconfig.json"],
-  "include": ["components", "mui-theme.d.ts", "layout", "fonts", "theme", "helpers", "providers"]
+  "include": [
+    "components",
+    "mui-theme.d.ts",
+    "layout",
+    "fonts",
+    "theme",
+    "helpers",
+    "providers",
+    "modules"
+  ]
 }
