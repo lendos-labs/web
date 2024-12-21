@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { StateContext } from '@lendos/ui/providers/StateProvider';
 import { CustomMarket, MarketDataType } from '@lendos/types/market';
 import { ChainId, NetworkConfig } from '@lendos/types/chain';
@@ -45,11 +45,31 @@ const mockNetwork = {
 } as NetworkConfig;
 
 export const StateProvider = ({ children }: { children: ReactNode }) => {
+  const availableMarkets = [mockMarket];
+  const [currentMarketData, setMarket] = useState<MarketDataType>(
+    availableMarkets[0] ?? mockMarket,
+  );
+
+  const availableNetworks = { [ChainId.fuel]: mockNetwork };
+  const setCurrentMarket = (
+    market: CustomMarket,
+    // TODO add omitQueryParameterUpdate
+    // omitQueryParameterUpdate?: boolean
+  ) => {
+    const newMarket = availableMarkets.find(m => m.market === market);
+    if (!newMarket) {
+      return;
+    }
+    setMarket(newMarket);
+  };
   return (
     <StateContext.Provider
       value={{
-        currentMarketData: mockMarket,
+        availableMarkets,
+        availableNetworks,
+        currentMarketData,
         currentNetworkData: mockNetwork,
+        setCurrentMarket,
       }}
     >
       {children}

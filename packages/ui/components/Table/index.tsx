@@ -8,14 +8,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, ReactNode, useState } from 'react';
 import { Box, Button, Divider, useMediaQuery, useTheme } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { NoData } from '../NoData';
 
 export interface TableHeadProperties {
   key: string;
-  title: string;
+  title: string | ReactNode;
   sortKey?: string;
   style?: Record<string, string>;
 }
@@ -343,7 +343,7 @@ const MobileDetailItem = ({
                   justifyContent: 'space-between',
                   gap: 3,
                 }}
-                key={h.title}
+                key={h.key}
               >
                 {h.title && <Typography variant='h3'>{h.title}</Typography>}
                 {i[h.key]}
@@ -390,7 +390,7 @@ const MobileItem = ({
         )}
         {(collapsibleHeader ? header.filter(i => i.key !== 'actions') : header).map(h => (
           <Box
-            key={h.title}
+            key={h.key}
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
