@@ -2,6 +2,7 @@ import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { Reserves } from '@lendos/types/reserves';
 import { SupplyAssetsList } from './SupplyAssetsList.tsx';
 import { SuppliedPositionsList } from './SuppliedPositionsList.tsx';
+import { BorrowedPositionsList } from './BorrowedPositionsList.tsx';
 
 interface DashboardContentWrapperProps {
   isBorrow: boolean;
@@ -10,7 +11,6 @@ interface DashboardContentWrapperProps {
 export const DashboardContentWrapper = ({ isBorrow }: DashboardContentWrapperProps) => {
   const { breakpoints } = useTheme();
 
-  // const currentMarketData = useRootStore((store) => store.currentMarketData);
   const isDesktop = useMediaQuery(breakpoints.up('lg'));
   const paperWidth = isDesktop ? 'calc(50% - 8px)' : '100%';
 
@@ -48,7 +48,7 @@ export const DashboardContentWrapper = ({ isBorrow }: DashboardContentWrapperPro
           width: paperWidth,
         }}
       >
-        {/* <BorrowedPositionsList />*/}
+        <BorrowedPositionsList />
         {/* <BorrowAssetsList />*/}
       </Box>
     </Box>

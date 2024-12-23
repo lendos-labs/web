@@ -22,7 +22,7 @@ function NotFoundContainer() {
         {/*  <img width='100%' height='auto' src='/404/404.svg' alt='404 - Page not found' />*/}
         {/* </Box>*/}
 
-        <Typography variant='buttonM' sx={{ mt: 2 }}>
+        <Typography variant='display1' sx={{ mt: 2 }}>
           Page not found
         </Typography>
         <Typography sx={{ mt: 3, mb: 5, maxWidth: 480 }}>
