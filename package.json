@@ -13,6 +13,9 @@
     "remove-turbo-cache": "rm -rf ./node_modules/.cache/turbo",
     "update-dependencies": "turbo update-dependencies && npx npm-check-updates -u"
   },
+  "dependencies": {
+    "@aave/math-utils": "1.25.0"
+  },
   "devDependencies": {
     "@lendos/configs": "workspace:*",
     "@tsconfig/strictest": "2.0.5",

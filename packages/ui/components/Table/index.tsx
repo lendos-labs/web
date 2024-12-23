@@ -18,6 +18,7 @@ export interface TableHeadProperties {
   title: string | ReactNode;
   sortKey?: string;
   style?: Record<string, string>;
+  mobileHide?: boolean;
 }
 
 interface HeaderRowProps extends SortProps {
@@ -395,12 +396,32 @@ const MobileItem = ({
               display: 'flex',
               justifyContent: 'space-between',
               color: 'text.secondary',
+              width: '100%',
             }}
           >
-            <Typography variant='h3' color='text.dark'>
-              {h.title}
-            </Typography>
-            <Box>{row[h.key]}</Box>
+            {h.title === '' ||
+              (!h.mobileHide && (
+                <Typography
+                  sx={{
+                    flex: 1,
+                  }}
+                  variant='h3'
+                  color='text.dark'
+                >
+                  {h.title}
+                </Typography>
+              ))}
+            <Box
+              sx={
+                !h.title
+                  ? {
+                      flex: 1,
+                    }
+                  : {}
+              }
+            >
+              {row[h.key]}
+            </Box>
           </Box>
         ))}
         {collapsibleHeader && (

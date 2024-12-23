@@ -1,6 +1,6 @@
 'use client';
 
-import { useMediaQuery, useTheme } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { useState } from 'react';
 import { ListWrapper } from '../../components/ListWrapper';
 import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
@@ -42,7 +42,9 @@ export const MarketAssetsListContainer = ({
         />
       }
     >
-      <MarketAssetsList reserves={filteredData} loading={loading} />
+      <Box sx={{ px: 4 }}>
+        <MarketAssetsList reserves={filteredData} loading={loading} />
+      </Box>
     </ListWrapper>
   );
 };
