@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { Header } from './Header';
 import { ReactNode } from 'react';
+import { Footer } from './Footer';
 
 export const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -18,8 +19,8 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
         {children}
       </Box>
 
-      {/* <AppFooter />
-      <FeedbackModal /> */}
+      <Footer />
+      {/* <FeedbackModal /> */}
     </>
   );
 };
