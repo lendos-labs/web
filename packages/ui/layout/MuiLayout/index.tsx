@@ -6,6 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 import { getDesignTokens, getThemedComponents } from '../../theme/theme';
+import { getCookie } from 'cookies-next';
 
 export const ColorModeContext = createContext({
   toggleColorMode: () => {
@@ -19,19 +20,17 @@ export const MuiLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [mode, setMode] = useState<Mode>(prefersDarkMode ? 'dark' : 'light');
 
-  const colorMode = useMemo(
-    () => ({
+  const colorMode = useMemo(() => {
+    return {
       toggleColorMode: () => {
         setMode(prevMode => {
           const newMode = prevMode === 'light' ? 'dark' : 'light';
           document.cookie = `colorMode=${newMode};path=/`;
-          // Cookies.set('colorMode', newMode);
           return newMode;
         });
       },
-    }),
-    [],
-  );
+    };
+  }, []);
 
   const theme = useMemo(() => {
     const themeCreate = createTheme(getDesignTokens(mode));
@@ -39,9 +38,7 @@ export const MuiLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   }, [mode]);
 
   useEffect(() => {
-    const cookieMode = document.cookie.split('; ').find(row => row.startsWith('colorMode=')) as
-      | Mode
-      | undefined;
+    const cookieMode = getCookie('colorMode') as Mode | undefined;
     const initialMode = cookieMode ?? (prefersDarkMode ? 'dark' : 'light');
 
     setMode(initialMode);

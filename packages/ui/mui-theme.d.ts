@@ -1,6 +1,20 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type -- need for themes */
-import { TypeAction } from '@mui/material';
-import { ColorPartial } from '@mui/material/styles/createPalette';
+import {TypeAction} from '@mui/material';
+import {ColorPartial} from '@mui/material/styles/createPalette';
+
+declare module '@mui/material/styles' {
+  interface Theme {
+    customPalette: {
+      primaryGradient: string;
+    };
+  }
+
+  interface ThemeOptions {
+    customPalette?: {
+      primaryGradient?: string;
+    };
+  }
+}
 
 declare module '@mui/material/styles/createPalette' {
   interface PaletteColor extends ColorPartial {}
