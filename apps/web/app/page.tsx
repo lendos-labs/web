@@ -2,7 +2,7 @@ import React from 'react';
 import DashboardContainer from '@lendos/ui/modules/DashboardContainer';
 
 const Home = () => {
-  return <DashboardContainer reserves={[]} loading={false} />;
+  return <DashboardContainer />;
 };
 
 export default Home;

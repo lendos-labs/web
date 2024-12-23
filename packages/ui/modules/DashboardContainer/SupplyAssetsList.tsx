@@ -1,40 +1,65 @@
 import { ListWrapper } from '@lendos/ui/components/ListWrapper';
 import { Box, Typography } from '@mui/material';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import { CustomTable, TableHeadProperties } from '@lendos/ui/components/Table';
-import { Reserves } from '@lendos/types/reserves';
+import { CustomTable, TableData } from '@lendos/ui/components/Table';
+import { FormattedReservesAndIncentives, Reserves, ReserveToken } from '@lendos/types/reserves';
+import { getSupplyAssetsCells, supplyAssetsHead } from './TableData.tsx';
+import { reserves } from '@lendos/constants/reserves';
+import { useCallback, useMemo, useState } from 'react';
+import { useStateContext } from '../../providers/StateProvider';
+import { useModalContext } from '../../providers/ModalProvider';
 
 interface SupplyAssetsListProps {
   type: Reserves;
 }
 
-const collateralHeader: TableHeadProperties[] = [
-  {
-    key: 'symbol',
-    title: 'Assets',
-    sortKey: 'symbol',
-  },
-  {
-    key: 'walletBalance',
-    title: 'Wallet balance',
-    sortKey: 'walletBalance',
-  },
-  {
-    key: 'supplyAPY',
-    title: 'APY',
-    sortKey: 'supplyAPY',
-  },
-  {
-    key: 'usageAsCollateralEnabledOnUser',
-    title: 'Can be collateral',
-  },
-  {
-    key: 'actions',
-    title: '',
-  },
-];
-
 export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const { currentMarketData } = useStateContext();
+  const { openSupply, openSwitch } = useModalContext();
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSwitchClick = useCallback(
+    (reserve: FormattedReservesAndIncentives<ReserveToken>) => {
+      openSwitch(reserve.underlyingAsset);
+      setAnchorEl(null);
+    },
+    [openSwitch, setAnchorEl], // Залежності, від яких залежить функція
+  );
+
+  const data = useMemo(() => {
+    return reserves.map(reserve => {
+      // const wrappedToken = wrappedTokenReserves.find(
+      //   r => r.tokenOut.underlyingAsset === underlyingAsset,
+      // );
+      //
+      // const canSupplyAsWrappedToken =
+      //   wrappedToken &&
+      //   walletBalances[wrappedToken.tokenIn.underlyingAsset.toLowerCase()].amount !== '0';
+
+      return getSupplyAssetsCells(
+        reserve,
+        currentMarketData,
+        openSupply,
+        handleSwitchClick,
+        handleClose,
+        handleClick,
+        anchorEl,
+        open,
+        // canSupplyAsWrappedToken,
+      );
+    }) as TableData[];
+  }, [currentMarketData, openSupply, handleSwitchClick, anchorEl, open]);
+
   return (
     <ListWrapper
       titleComponent={
@@ -44,7 +69,7 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
           sx={{ mr: 4, display: 'flex', alignItems: 'center', gap: 1.5 }}
         >
           <PlayCircleIcon sx={{ color: 'primary.light' }} />
-          {type === 'asset' ? 'Assets to supply' : 'LP tokens to supply'}
+          {type === Reserves.ASSET ? 'Assets to supply' : 'LP tokens to supply'}
         </Typography>
       }
       localStorageName='supplyAssetsDashboardTableCollapse'
@@ -76,36 +101,7 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
       // }
     >
       <Box px={4}>
-        <CustomTable
-          heightRow={50}
-          header={collateralHeader}
-          data={[
-            {
-              symbol: 'ETH',
-              walletBalance: '2',
-              supplyAPY: '0.05%',
-              usageAsCollateralEnabledOnUser: true,
-            },
-            {
-              symbol: 'USDC',
-              walletBalance: '7',
-              supplyAPY: '0.02%',
-              usageAsCollateralEnabledOnUser: true,
-            },
-            {
-              symbol: 'USDT',
-              walletBalance: '5',
-              supplyAPY: '0.09%',
-              usageAsCollateralEnabledOnUser: true,
-            },
-            {
-              symbol: 'DAI',
-              walletBalance: '6',
-              supplyAPY: '0.05%',
-              usageAsCollateralEnabledOnUser: false,
-            },
-          ]}
-        />
+        <CustomTable heightRow={50} header={supplyAssetsHead} data={data} />
       </Box>
     </ListWrapper>
   );
