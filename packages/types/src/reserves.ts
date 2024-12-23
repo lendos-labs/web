@@ -2,6 +2,7 @@ import {
   PoolBaseCurrencyHumanized,
   ReserveDataHumanized as ReserveDataHumanizedType,
 } from '@aave/contract-helpers';
+import { ExtendedFormattedUser } from './user.js';
 
 export interface ReserveIncentiveResponse {
   incentiveAPR: string;
@@ -14,6 +15,13 @@ export interface IconMapInterface {
   name?: string;
   symbol?: string;
 }
+
+export enum InterestRate {
+  None = 'None',
+  Stable = 'Stable',
+  Variable = 'Variable',
+}
+
 export enum Reserves {
   ASSET = 'asset',
   LP = 'lp',
@@ -100,3 +108,93 @@ export type FormattedReservesAndIncentives<T = ReserveLpToken | ReserveToken> =
       isWrappedBaseAsset: boolean;
       rewardAPY?: number;
     } & ReserveDataHumanized<T>;
+
+export interface ReserveData {
+  id: string;
+  symbol: string;
+  name: string;
+  decimals: number;
+  underlyingAsset: string;
+  usageAsCollateralEnabled: boolean;
+  reserveFactor: string;
+  baseLTVasCollateral: string;
+  averageStableRate: string;
+  stableDebtLastUpdateTimestamp: number;
+  liquidityIndex: string;
+  reserveLiquidationThreshold: string;
+  reserveLiquidationBonus: string;
+  variableBorrowIndex: string;
+  variableBorrowRate: string;
+  availableLiquidity: string;
+  stableBorrowRate: string;
+  liquidityRate: string;
+  totalPrincipalStableDebt: string;
+  totalScaledVariableDebt: string;
+  lastUpdateTimestamp: number;
+  eModeCategoryId: number;
+  borrowCap: string;
+  supplyCap: string;
+  debtCeiling: string;
+  debtCeilingDecimals: number;
+  isolationModeTotalDebt: string;
+  eModeLtv: number;
+  eModeLiquidationThreshold: number;
+  eModeLiquidationBonus: number;
+  unbacked: string;
+}
+
+export interface BorrowAssetsItem {
+  id: string;
+  symbol: string;
+  name: string;
+  iconSymbol: string;
+  underlyingAsset: string;
+  stableBorrowRate: number | string;
+  variableBorrowRate: number | string;
+  availableBorrows: number | string;
+  availableBorrowsInUSD: number | string;
+  stableBorrowRateEnabled?: boolean;
+  isFreezed?: boolean;
+  aIncentivesData?: ReserveIncentiveResponse[];
+  vIncentivesData?: ReserveIncentiveResponse[];
+  sIncentivesData?: ReserveIncentiveResponse[];
+  borrowCap: string;
+  borrowableInIsolation: boolean;
+  totalBorrows: string;
+  totalLiquidityUSD: string;
+  borrowingEnabled: boolean;
+  isActive: boolean;
+  eModeCategoryId: number;
+}
+
+export interface SupplyAssetsItem {
+  underlyingAsset: string;
+  symbol: string;
+  iconSymbol: string;
+  name: string;
+  walletBalance: string;
+  walletBalanceUSD: string;
+  availableToDeposit: string;
+  availableToDepositUSD: string;
+  supplyAPY: number | string;
+  aIncentivesData?: ReserveIncentiveResponse[];
+  isFreezed?: boolean;
+  isIsolated: boolean;
+  totalLiquidity: string;
+  supplyCap: string;
+  isActive?: boolean;
+  usageAsCollateralEnabledOnUser: boolean;
+  detailsAddress: string;
+}
+
+type DashboardReserveData<T> = ExtendedFormattedUser['userReservesData'][0] &
+  FormattedReservesAndIncentives<T> &
+  BorrowAssetsItem &
+  SupplyAssetsItem;
+
+export type DashboardReserve<T = ReserveToken | ReserveLpToken> = DashboardReserveData<T> & {
+  // Additions
+  borrowRateMode: InterestRate; // for the borrow positions list
+  // Overrides
+  reserve: FormattedReservesAndIncentives;
+};

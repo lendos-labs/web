@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import React, { Fragment, ReactNode, useState } from 'react';
 import { Box, Button, Divider, useMediaQuery, useTheme } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { NoData } from '../NoData';
+import { NoContent } from '../NoContent';
 
 export interface TableHeadProperties {
   key: string;
@@ -491,7 +491,7 @@ export const CustomTable = ({
     : data;
 
   if (!data.length) {
-    return <NoData text='Empty list' />;
+    return <NoContent text='Empty list' />;
   }
 
   return md ? (

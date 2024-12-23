@@ -11,7 +11,7 @@ export enum ModalType {
   // Unstake,
   // StakeCooldown,
   // StakeRewardClaim,
-  // ClaimRewards,
+  ClaimRewards,
   // Emode,
   // Faucet,
   // Swap,
@@ -51,6 +51,7 @@ export interface ModalContextType<T extends ModalArgsType> {
   setLoadingTxns: (loading: boolean) => void;
   txError: string | undefined;
   setTxError: (error: string) => void;
+  openClaimRewards: () => void;
 }
 
 export const ModalContext = createContext<ModalContextType<ModalArgsType>>(
@@ -73,6 +74,9 @@ export const ModalContextProvider = ({ children }: { children: ReactNode }) => {
         openSwitch: (underlyingAsset, chainId) => {
           setType(ModalType.Switch);
           setArgs({ underlyingAsset, chainId });
+        },
+        openClaimRewards: () => {
+          setType(ModalType.ClaimRewards);
         },
         close: () => {
           setType(undefined);

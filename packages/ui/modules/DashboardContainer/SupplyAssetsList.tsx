@@ -2,10 +2,10 @@ import { ListWrapper } from '@lendos/ui/components/ListWrapper';
 import { Box, Typography } from '@mui/material';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { CustomTable, TableHeadProperties } from '@lendos/ui/components/Table';
-import React from 'react';
+import { Reserves } from '@lendos/types/reserves';
 
 interface SupplyAssetsListProps {
-  type: 'asset' | 'pl'; // Reserves TODO: Fix typo;
+  type: Reserves;
 }
 
 const collateralHeader: TableHeadProperties[] = [

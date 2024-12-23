@@ -18,9 +18,9 @@
   },
   "devDependencies": {
     "@lendos/configs": "workspace:*",
+    "@tsconfig/next": "2.0.3",
     "@tsconfig/strictest": "2.0.5",
     "@tsconfig/vite-react": "3.0.2",
-    "@tsconfig/next": "2.0.3",
     "prettier": "^3.2.5",
     "turbo": "^2.3.3",
     "typescript": "5.5.3"
@@ -28,5 +28,8 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "bignumber.js": "^9.1.2"
   }
 }
