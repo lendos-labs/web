@@ -75,10 +75,20 @@ export const getMarketsCells = (
 ) => {
   return {
     symbol: (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 3.5 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 2, lg: 3.5 } }}>
         <TokenIcon symbol={reserve.iconSymbol} size={26} />
-        <Box sx={{ overflow: 'hidden' }}>
-          <Typography variant='h3' color={'text.dark'} noWrap>
+        <Box>
+          <Typography
+            sx={theme => ({
+              typography: 'h3',
+              color: 'text.dark',
+              [theme.breakpoints.down('md')]: {
+                typography: 'h4',
+                color: 'text.primary',
+              },
+            })}
+            noWrap
+          >
             {reserve.name}
           </Typography>
 
@@ -89,7 +99,17 @@ export const getMarketsCells = (
               alignItems: 'center',
             }}
           >
-            <Typography variant='subtitle' color='text.dark' noWrap>
+            <Typography
+              sx={theme => ({
+                typography: 'subtitle',
+                color: 'text.dark',
+                [theme.breakpoints.down('md')]: {
+                  typography: 'subheader2',
+                  color: 'text.muted',
+                },
+              })}
+              noWrap
+            >
               {reserve.symbol}
             </Typography>
             {!reserve.isIsolated && (
@@ -131,8 +151,14 @@ export const getMarketsCells = (
                       : Number(reserve.supplyAPY)
                   }
                   variant='numberS'
-                  symbolsColor={'primary.light'}
-                  color={'primary.light'}
+                  sx={theme => ({
+                    typography: 'numberS',
+                    [theme.breakpoints.down('md')]: {
+                      typography: 'subtitle',
+                    },
+                  })}
+                  symbolsColor='primary.light'
+                  color='primary.light'
                   percent
                 />
               </Box>

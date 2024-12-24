@@ -378,17 +378,12 @@ const MobileItem = ({
           display: 'flex',
           flexDirection: 'column',
           gap: 3,
+          borderTop: '1px solid',
+          pt: 4,
+          pb: 6,
+          borderColor: theme => theme.palette.border.grey,
         }}
       >
-        {idx !== 0 && (
-          <Divider
-            sx={{
-              mb: 6,
-              mt: 8,
-              borderColor: theme => theme.palette.border.grey,
-            }}
-          />
-        )}
         {(collapsibleHeader ? header.filter(i => i.key !== 'actions') : header).map(h => (
           <Box
             key={h.key}
@@ -397,6 +392,7 @@ const MobileItem = ({
               justifyContent: 'space-between',
               color: 'text.secondary',
               width: '100%',
+              px: 4,
             }}
           >
             {h.title === '' ||
@@ -507,7 +503,7 @@ export const CustomTable = ({
       ))}
     </Box>
   ) : (
-    <TableContainer>
+    <TableContainer sx={{ px: 4 }}>
       <Table aria-label='collapsible table'>
         <TableHead>
           <HeaderRow

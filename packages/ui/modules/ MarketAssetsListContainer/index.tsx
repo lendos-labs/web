@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import { useState } from 'react';
 import { ListWrapper } from '../../components/ListWrapper';
 import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
@@ -15,8 +15,6 @@ export const MarketAssetsListContainer = ({
   loading: boolean;
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { breakpoints } = useTheme();
-  const sm = useMediaQuery(breakpoints.down('sm'));
 
   const filteredData = reserves
     .filter(res => res.isActive)
@@ -38,11 +36,11 @@ export const MarketAssetsListContainer = ({
         <TitleWithSearchBar
           onSearchTermChange={setSearchTerm}
           title='Assets'
-          searchPlaceholder={sm ? 'Search asset' : 'Search asset name, symbol, or address'}
+          searchPlaceholder='Search asset name, symbol, or address'
         />
       }
     >
-      <Box sx={{ px: 4 }}>
+      <Box>
         <MarketAssetsList reserves={filteredData} loading={loading} />
       </Box>
     </ListWrapper>
