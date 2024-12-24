@@ -1,47 +1,26 @@
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+'use client';
+
+import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
 import { useMediaQuery } from '@mui/material';
 import { MarketAssetsListMobileItemLoader } from './MarketAssetsListMobileItemLoader';
 import { MarketAssetsListItemLoader } from './MarketAssetsListItemLoader';
-import { CustomTable, TableHeadProperties } from '../../components/Table';
-import { VariableAPYTooltip } from '../../components/VariableAPYTooltip';
-
-const listHeaders: TableHeadProperties[] = [
-  {
-    key: 'symbol',
-    title: 'Asset',
-    sortKey: 'symbol',
-  },
-  {
-    key: 'totalLiquidityUSD',
-    title: 'Total supplied',
-    sortKey: 'totalLiquidityUSD',
-  },
-  {
-    key: 'supplyAPY',
-    title: 'Supply APY',
-    sortKey: 'supplyAPY',
-  },
-  {
-    key: 'totalDebtUSD',
-    title: 'Total borrowed',
-    sortKey: 'totalDebtUSD',
-  },
-  {
-    key: 'variableBorrowAPY',
-    title: (
-      <VariableAPYTooltip text='Borrow APY, variable' key='APY_list_variable_type' variant='h3' />
-    ),
-    sortKey: 'variableBorrowAPY',
-  },
-];
+import { CustomTable, TableData } from '../../components/Table';
+import { getMarketsCells, marketHeader } from './TableData';
+import { useMemo } from 'react';
+import { useStateContext } from '../../providers/StateProvider';
 
 interface MarketAssetsListProps {
-  reserves: FormattedReservesAndIncentives[];
+  reserves: FormattedReservesAndIncentives<ReserveToken>[];
   loading: boolean;
 }
 
-export default function MarketAssetsList({ loading }: MarketAssetsListProps) {
+export default function MarketAssetsList({ loading, reserves }: MarketAssetsListProps) {
   const isTableChangedToCards = useMediaQuery('(max-width:1125px)');
+  const { currentMarketData } = useStateContext();
+
+  const data = useMemo(() => {
+    return reserves.map(reserve => getMarketsCells(reserve, currentMarketData)) as TableData[];
+  }, [reserves, currentMarketData]);
 
   // Show loading state when loading
   if (loading) {
@@ -61,5 +40,5 @@ export default function MarketAssetsList({ loading }: MarketAssetsListProps) {
     );
   }
 
-  return <CustomTable heightRow={50} header={listHeaders} data={[]} />;
+  return <CustomTable heightRow={50} header={marketHeader} data={data} />;
 }

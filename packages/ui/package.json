@@ -18,6 +18,7 @@
     "./modules/*": "./modules/*/index.tsx"
   },
   "dependencies": {
+    "@aave/math-utils": "1.25.0",
     "@emotion/cache": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@heroicons/react": "^2.2.0",

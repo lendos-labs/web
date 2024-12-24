@@ -16,6 +16,20 @@ declare module '@mui/material/styles' {
   }
 }
 
+declare module '@mui/material/styles' {
+  interface Theme {
+    customPalette: {
+      primaryGradient: string;
+    };
+  }
+
+  interface ThemeOptions {
+    customPalette?: {
+      primaryGradient?: string;
+    };
+  }
+}
+
 declare module '@mui/material/styles/createPalette' {
   interface PaletteColor extends ColorPartial {}
 

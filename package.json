@@ -13,11 +13,15 @@
     "remove-turbo-cache": "rm -rf ./node_modules/.cache/turbo",
     "update-dependencies": "turbo update-dependencies && npx npm-check-updates -u"
   },
+  "dependencies": {
+    "@aave/math-utils": "1.25.0",
+    "bignumber.js": "^9.1.2"
+  },
   "devDependencies": {
     "@lendos/configs": "workspace:*",
+    "@tsconfig/next": "2.0.3",
     "@tsconfig/strictest": "2.0.5",
     "@tsconfig/vite-react": "3.0.2",
-    "@tsconfig/next": "2.0.3",
     "prettier": "^3.2.5",
     "turbo": "^2.3.3",
     "typescript": "5.5.3"

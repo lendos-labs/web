@@ -1,7 +1,13 @@
 import { createContext, useContext } from 'react';
+import { ExtendedFormattedUser } from '@lendos/types/user';
 
 export interface AccountContextType {
   account: string | null;
+  accountSummary: {
+    data: ExtendedFormattedUser | undefined;
+    loading: boolean;
+    error: unknown;
+  };
   connected: boolean;
   loading: boolean;
   connect: () => void;

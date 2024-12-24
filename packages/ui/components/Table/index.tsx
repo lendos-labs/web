@@ -11,13 +11,14 @@ import Typography from '@mui/material/Typography';
 import React, { Fragment, ReactNode, useState } from 'react';
 import { Box, Button, Divider, useMediaQuery, useTheme } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { NoData } from '../NoData';
+import { NoContent } from '../NoContent';
 
 export interface TableHeadProperties {
   key: string;
   title: string | ReactNode;
   sortKey?: string;
   style?: Record<string, string>;
+  mobileHide?: boolean;
 }
 
 interface HeaderRowProps extends SortProps {
@@ -377,17 +378,12 @@ const MobileItem = ({
           display: 'flex',
           flexDirection: 'column',
           gap: 3,
+          borderTop: '1px solid',
+          pt: 4,
+          pb: 6,
+          borderColor: theme => theme.palette.border.grey,
         }}
       >
-        {idx !== 0 && (
-          <Divider
-            sx={{
-              mb: 6,
-              mt: 8,
-              borderColor: theme => theme.palette.border.grey,
-            }}
-          />
-        )}
         {(collapsibleHeader ? header.filter(i => i.key !== 'actions') : header).map(h => (
           <Box
             key={h.key}
@@ -395,12 +391,33 @@ const MobileItem = ({
               display: 'flex',
               justifyContent: 'space-between',
               color: 'text.secondary',
+              width: '100%',
+              px: 4,
             }}
           >
-            <Typography variant='h3' color='text.dark'>
-              {h.title}
-            </Typography>
-            <Box>{row[h.key]}</Box>
+            {h.title === '' ||
+              (!h.mobileHide && (
+                <Typography
+                  sx={{
+                    flex: 1,
+                  }}
+                  variant='h3'
+                  color='text.dark'
+                >
+                  {h.title}
+                </Typography>
+              ))}
+            <Box
+              sx={
+                !h.title
+                  ? {
+                      flex: 1,
+                    }
+                  : {}
+              }
+            >
+              {row[h.key]}
+            </Box>
           </Box>
         ))}
         {collapsibleHeader && (
@@ -470,7 +487,7 @@ export const CustomTable = ({
     : data;
 
   if (!data.length) {
-    return <NoData text='Empty list' />;
+    return <NoContent text='Empty list' />;
   }
 
   return md ? (
@@ -486,7 +503,7 @@ export const CustomTable = ({
       ))}
     </Box>
   ) : (
-    <TableContainer>
+    <TableContainer sx={{ px: 4 }}>
       <Table aria-label='collapsible table'>
         <TableHead>
           <HeaderRow

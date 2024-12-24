@@ -38,10 +38,12 @@ const mockNetwork = {
   isTestnet: true,
   name: 'Fuel',
   explorerLink: 'https://app.fuel.network',
+  wrappedBaseAssetSymbol: 'wETH',
   explorerLinkBuilder: linkBuilder({
     baseUrl: 'https://app.fuel.network',
     addressPrefix: 'account',
   }),
+  networkLogoPath: '/icons/networks/fuel.svg',
 } as NetworkConfig;
 
 export const StateProvider = ({ children }: { children: ReactNode }) => {

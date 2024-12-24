@@ -1,17 +1,17 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 export enum ModalType {
-  // Supply,
-  // Withdraw,
+  Supply,
+  Withdraw,
   // Borrow,
   // Repay,
-  // CollateralChange,
+  CollateralChange,
   // RateSwitch,
   // Stake,
   // Unstake,
   // StakeCooldown,
   // StakeRewardClaim,
-  // ClaimRewards,
+  ClaimRewards,
   // Emode,
   // Faucet,
   // Swap,
@@ -38,6 +38,9 @@ export interface TxStateType {
 
 export interface ModalContextType<T extends ModalArgsType> {
   openSwitch: (underlyingAsset?: string, chainId?: number) => void;
+  openSupply: (underlyingAsset: string) => void;
+  openWithdraw: (underlyingAsset: string) => void;
+  openCollateralChange: (underlyingAsset: string) => void;
   close: () => void;
   type?: ModalType;
   args: T;
@@ -51,6 +54,7 @@ export interface ModalContextType<T extends ModalArgsType> {
   setLoadingTxns: (loading: boolean) => void;
   txError: string | undefined;
   setTxError: (error: string) => void;
+  openClaimRewards: () => void;
 }
 
 export const ModalContext = createContext<ModalContextType<ModalArgsType>>(
@@ -70,9 +74,24 @@ export const ModalContextProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ModalContext.Provider
       value={{
+        openSupply: underlyingAsset => {
+          setType(ModalType.Supply);
+          setArgs({ underlyingAsset });
+        },
+        openWithdraw: underlyingAsset => {
+          setType(ModalType.Withdraw);
+          setArgs({ underlyingAsset });
+        },
+        openCollateralChange: underlyingAsset => {
+          setType(ModalType.CollateralChange);
+          setArgs({ underlyingAsset });
+        },
         openSwitch: (underlyingAsset, chainId) => {
           setType(ModalType.Switch);
           setArgs({ underlyingAsset, chainId });
+        },
+        openClaimRewards: () => {
+          setType(ModalType.ClaimRewards);
         },
         close: () => {
           setType(undefined);
