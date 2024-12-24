@@ -1,17 +1,24 @@
-import { Box, BoxProps, Tooltip } from '@mui/material';
+import { Box, BoxProps, SxProps, Theme, Tooltip } from '@mui/material';
 import Image from 'next/image';
 
 interface MarketLogoProps {
-  size: number;
   logo: string;
   testChainName?: string;
-  sx?: BoxProps;
+  sx?: SxProps<Theme>;
+  size: BoxProps['width'];
 }
 
-export const MarketLogo = ({ size, logo, testChainName, sx }: MarketLogoProps) => {
+export const MarketLogo = ({ logo, testChainName, sx, size }: MarketLogoProps) => {
   return (
-    <Box sx={{ mr: 2, width: size, height: size, position: 'relative', ...sx }}>
-      <Image src={logo} alt='' width={size} height={size} />
+    <Box height={size} width={size} sx={{ mr: 2, position: 'relative', ...sx }}>
+      <Image
+        alt={`${logo} icon`}
+        src={logo}
+        quality={100}
+        fill
+        // sizes='100vw'
+        // style={{ objectFit: 'cover' }}
+      />
       {testChainName && (
         <Tooltip title={testChainName} arrow>
           <Box

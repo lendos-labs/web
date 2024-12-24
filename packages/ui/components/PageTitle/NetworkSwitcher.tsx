@@ -63,7 +63,15 @@ export const NetworkSwitcher = () => {
                     setAnchorEl(null);
                   }}
                 >
-                  {logoNetwork && <MarketLogo size={20} logo={logoNetwork} />}
+                  {logoNetwork && (
+                    <MarketLogo
+                      sx={{
+                        width: '20px',
+                        height: '20px',
+                      }}
+                      logo={logoNetwork}
+                    />
+                  )}
                   {m.marketTitle}
                 </MenuItem>
               );

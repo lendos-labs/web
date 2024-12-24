@@ -1,4 +1,4 @@
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useStateContext } from '../../providers/StateProvider';
@@ -12,9 +12,6 @@ export interface PageTitleProps {
 
 export const PageTitle = ({ pageTitle, withMarketSwitcher }: PageTitleProps) => {
   const { currentMarketData, currentNetworkData } = useStateContext();
-
-  const theme = useTheme();
-  const upToLG = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
     <Box
@@ -36,8 +33,10 @@ export const PageTitle = ({ pageTitle, withMarketSwitcher }: PageTitleProps) => 
         {withMarketSwitcher && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
             <MarketLogo
-              sx={{ mr: 0 }}
-              size={upToLG ? 40 : 28}
+              size={theme => (theme.breakpoints.down('sm') ? 28 : 40)}
+              sx={{
+                mr: 0,
+              }}
               logo={currentNetworkData.networkLogoPath}
             />
             <Box sx={{ display: 'inline-flex', alignItems: 'flex-start' }}>
@@ -55,7 +54,7 @@ export const PageTitle = ({ pageTitle, withMarketSwitcher }: PageTitleProps) => 
             {currentMarketData.isTestnet && (
               <Typography
                 variant='buttonS'
-                sx={{
+                sx={theme => ({
                   display: 'flex',
                   alignItems: 'center',
                   gap: 2,
@@ -64,7 +63,7 @@ export const PageTitle = ({ pageTitle, withMarketSwitcher }: PageTitleProps) => 
                   borderRadius: 1,
                   text: 'text.white',
                   bgcolor: theme.palette.mode === 'dark' ? 'primary.light' : 'primary.main',
-                }}
+                })}
               >
                 <InfoOutlinedIcon sx={{ fontSize: '18px' }} />
                 Testnet

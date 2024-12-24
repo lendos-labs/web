@@ -5,6 +5,7 @@ import { Reserves } from '@lendos/types/reserves';
 const ReserveOverview = () => {
   return (
     <ReserveOverviewContainer
+      loading={false}
       reserve={{
         aIncentivesData: [],
         aTokenAddress: '0xa6Dd9FaA1c21976ecA3723282F7DC76a28A19b98',
