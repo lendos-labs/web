@@ -14,7 +14,8 @@
     "update-dependencies": "turbo update-dependencies && npx npm-check-updates -u"
   },
   "dependencies": {
-    "@aave/math-utils": "1.25.0"
+    "@aave/math-utils": "1.25.0",
+    "bignumber.js": "^9.1.2"
   },
   "devDependencies": {
     "@lendos/configs": "workspace:*",
@@ -28,8 +29,5 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
-  },
-  "dependencies": {
-    "bignumber.js": "^9.1.2"
   }
 }
