@@ -87,7 +87,7 @@ export const getSuppliedPositionsCells = (
         href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
         sx={{ display: 'flex', alignItems: 'center', gap: 3.5 }}
       >
-        <TokenIcon symbol={reserve.iconSymbol} size={26} />
+        <TokenIcon symbol={reserve.iconSymbol} sx={{ fontSize: '26px' }} />
         <Tooltip title={`${reserve.name} (${reserve.symbol})`} arrow placement='top'>
           <Typography variant='subtitle' sx={{ color: 'text.dark' }} noWrap data-cy={`assetName`}>
             {reserve.symbol}
@@ -230,7 +230,7 @@ export const getSupplyAssetsCells = (
         href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
         sx={{ display: 'flex', alignItems: 'center', gap: 3.5 }}
       >
-        <TokenIcon symbol={reserve.iconSymbol} size={26} />
+        <TokenIcon symbol={reserve.iconSymbol} sx={{ fontSize: '26px' }} />
         <Tooltip title={`${reserve.name} (${reserve.symbol})`} arrow placement='top'>
           <Typography variant='subtitle' sx={{ color: 'text.dark' }} noWrap data-cy={`assetName`}>
             {reserve.symbol}
