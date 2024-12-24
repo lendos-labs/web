@@ -1,13 +1,13 @@
 import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackOutlined';
-import { Box, Button, Skeleton, SvgIcon, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useRouter } from 'next/router';
+import { Box, Skeleton, Typography, useMediaQuery, useTheme } from '@mui/material';
+
 import { useStateContext } from '../../providers/StateProvider';
 import { MarketLogo } from '../../components/MarketLogo';
 
 import { TokenIcon } from '../../components/TokenIcon';
 import { TopInfoPanelItem } from '../../components/TopInfoPanelItem';
 import { TopInfoPanel } from '../../components/TopInfoPanel';
+import { BackButton } from './BackButton';
 // import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
 // import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
 // import { TopInfoPanel } from '../../components/TopInfoPanel/TopInfoPanel';
@@ -26,7 +26,6 @@ interface ReserveTopDetailsProps {
 }
 
 export const ReserveTopDetailsWrapper = ({ reserve, loading }: ReserveTopDetailsProps) => {
-  const router = useRouter();
   const { currentNetworkData, currentMarketData } = useStateContext();
   const { addERC20Token, switchNetwork, chainId: connectedChainId, connected } = useWeb3Context();
 
@@ -64,7 +63,7 @@ export const ReserveTopDetailsWrapper = ({ reserve, loading }: ReserveTopDetails
 
   return (
     <TopInfoPanel
-      mode={'paper'}
+      mode='paper'
       titleComponent={
         <Box>
           <Box
@@ -75,31 +74,12 @@ export const ReserveTopDetailsWrapper = ({ reserve, loading }: ReserveTopDetails
               mb: 6,
             }}
           >
-            <Button
-              variant='text'
-              size='small'
-              color='primary'
-              disableRipple
-              sx={{
-                p: 0,
-                mr: 6,
-              }}
-              startIcon={
-                <SvgIcon sx={{ fontSize: '20px' }}>
-                  <ArrowBackRoundedIcon />
-                </SvgIcon>
-              }
-              onClick={() => {
-                // https://github.com/vercel/next.js/discussions/34980
-                if (history.state.idx !== 0) router.back();
-                else router.push('/markets');
-              }}
-            >
-              Back
-            </Button>
+            <BackButton />
             <MarketLogo
-              sx={{ mr: 3 }}
-              size={downToSM ? 18 : 24}
+              size={theme => (theme.breakpoints.down('sm') ? 18 : 24)}
+              sx={{
+                mr: 3,
+              }}
               logo={currentNetworkData.networkLogoPath}
             />
             <Box sx={{ display: 'inline-flex', alignItems: 'flex-start' }}>
