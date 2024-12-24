@@ -112,7 +112,7 @@ export const getMarketsCells = (
             >
               {reserve.symbol}
             </Typography>
-            {!reserve.isIsolated && (
+            {reserve.isIsolated && (
               <Box style={{ marginLeft: '8px' }}>
                 <IsolatedEnabledBadge />
               </Box>
@@ -188,7 +188,7 @@ export const getMarketsCells = (
                 variant='numberS'
                 symbolsVariant='numberS'
               />
-              {!isFeatureEnabled.points(market) && (
+              {isFeatureEnabled.points(market) && (
                 <Box
                   sx={theme => ({
                     display: 'flex',
@@ -220,7 +220,7 @@ export const getMarketsCells = (
                 </Box>
               )}
             </Box>
-            {!isFeatureEnabled.customPoints(market) && (
+            {isFeatureEnabled.customPoints(market) && (
               <Box
                 sx={theme => ({
                   display: 'flex',
@@ -282,7 +282,7 @@ export const getMarketsCells = (
               variant='numberS'
               symbolsVariant='numberS'
             />
-            {!isFeatureEnabled.points(market) && (
+            {isFeatureEnabled.points(market) && (
               <Box
                 sx={theme => ({
                   display: 'flex',
