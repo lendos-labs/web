@@ -1,5 +1,5 @@
 import { ListWrapper } from '@lendos/ui/components/ListWrapper';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { CustomTable, TableData } from '@lendos/ui/components/Table';
 import { FormattedReservesAndIncentives, Reserves, ReserveToken } from '@lendos/types/reserves';
@@ -100,9 +100,7 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
       //   </>
       // }
     >
-      <Box px={4}>
-        <CustomTable heightRow={50} header={supplyAssetsHead} data={data} />
-      </Box>
+      <CustomTable heightRow={50} header={supplyAssetsHead} data={data} paddingColl={1} />
     </ListWrapper>
   );
 };

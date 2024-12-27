@@ -1,45 +1,24 @@
 import { valueToBigNumber } from '@aave/math-utils';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import { Box, Typography } from '@mui/material';
-import { useState } from 'react';
+import { Typography } from '@mui/material';
+import { useMemo, useState } from 'react';
 import { useAccountContext } from '../../providers/AccountProvider';
 import { ListTopInfoItem } from '../../components/ListTopInfoItem';
 import { TotalBorrowAPYTooltip } from '../../components/infoTooltips/TotalBorrowAPYTooltip.tsx';
 import { ListWrapper } from '../../components/ListWrapper';
 import { NoContent } from '../../components/NoContent';
-import { CustomTable, TableHeadProperties } from '../../components/Table';
+import { CustomTable, TableData } from '../../components/Table';
 import { BorrowPowerTooltip } from '../../components/infoTooltips/BorrowPowerTooltip.tsx';
-
-const head: TableHeadProperties[] = [
-  {
-    key: 'symbol',
-    title: 'Asset',
-    sortKey: 'symbol',
-  },
-  {
-    key: 'variableBorrows',
-    title: 'Debt',
-    sortKey: 'variableBorrows',
-  },
-  {
-    key: 'borrowAPY',
-    title: 'APY',
-    sortKey: 'borrowAPY',
-  },
-  {
-    // <APYTypeTooltip text={<>APY type</>} key='APY type' variant='h3' />
-    key: 'typeAPY',
-    title: 'APY type',
-  },
-  {
-    key: 'actions',
-    title: '',
-  },
-];
+import { reservesDashboard } from '@lendos/constants/reserves';
+import { borrowedPositionsHead, getBorrowedPositionsCells } from './TableData.tsx';
+import { useStateContext } from '../../providers/StateProvider';
+import { useModalContext } from '../../providers/ModalProvider';
 
 export const BorrowedPositionsList = () => {
   const { accountSummary } = useAccountContext();
-  const { data } = accountSummary;
+  const { data: userData } = accountSummary;
+  const { openBorrow, openRepay, openRateSwitch, openDebtSwitch } = useModalContext();
+  const { currentMarketData } = useStateContext();
 
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
 
@@ -81,26 +60,30 @@ export const BorrowedPositionsList = () => {
   //     [] as (ExtendedFormattedUser['userReservesData'][0] & { borrowRateMode: InterestRate })[],
   //   ) || [];
 
-  const maxBorrowAmount = valueToBigNumber(data?.totalBorrowsMarketReferenceCurrency ?? '0').plus(
-    data?.availableBorrowsMarketReferenceCurrency ?? '0',
-  );
+  const maxBorrowAmount = valueToBigNumber(
+    userData?.totalBorrowsMarketReferenceCurrency ?? '0',
+  ).plus(userData?.availableBorrowsMarketReferenceCurrency ?? '0');
 
   const collateralUsagePercent = maxBorrowAmount.eq(0)
     ? '0'
-    : valueToBigNumber(data?.totalBorrowsMarketReferenceCurrency ?? '0')
+    : valueToBigNumber(userData?.totalBorrowsMarketReferenceCurrency ?? '0')
         .div(maxBorrowAmount)
         .toFixed();
 
   // Transform to the DashboardReserve schema so the sort utils can work with it
   // const preSortedReserves = borrowPositions as DashboardReserve[];
-  const sortedReserves = [
-    {
-      symbol: 'USDC',
-      walletBalance: '7',
-      supplyAPY: '0.02%',
-      usageAsCollateralEnabledOnUser: true,
-    },
-  ];
+  const data = useMemo(() => {
+    return reservesDashboard.map(reserve => {
+      return getBorrowedPositionsCells(
+        reserve,
+        currentMarketData,
+        openBorrow,
+        openRepay,
+        openRateSwitch,
+        openDebtSwitch,
+      );
+    }) as TableData[];
+  }, [currentMarketData, openBorrow, openDebtSwitch, openRateSwitch, openRepay]);
 
   return (
     <ListWrapper
@@ -116,15 +99,15 @@ export const BorrowedPositionsList = () => {
         </Typography>
       }
       localStorageName='borrowedAssetsDashboardTableCollapse'
-      noData={!sortedReserves.length}
+      noData={!data.length}
       topInfo={
         <>
-          {!!sortedReserves.length && (
+          {!!data.length && (
             <>
-              <ListTopInfoItem title={<>Balance</>} value={data?.totalBorrowsUSD ?? 0} />
+              <ListTopInfoItem title={<>Balance</>} value={userData?.totalBorrowsUSD ?? 0} />
               <ListTopInfoItem
                 title={<>APY</>}
-                value={data?.debtAPY ?? 0}
+                value={userData?.debtAPY ?? 0}
                 percent
                 tooltip={<TotalBorrowAPYTooltip setOpen={setTooltipOpen} />}
               />
@@ -139,10 +122,8 @@ export const BorrowedPositionsList = () => {
         </>
       }
     >
-      {sortedReserves.length ? (
-        <Box px={4}>
-          <CustomTable heightRow={50} header={head} data={sortedReserves} />
-        </Box>
+      {data.length ? (
+        <CustomTable heightRow={50} header={borrowedPositionsHead} data={data} paddingColl={1} />
       ) : (
         <NoContent text={'Nothing borrowed yet'} />
       )}

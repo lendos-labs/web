@@ -41,6 +41,7 @@ export interface CollapsibleTableProps {
   data: TableData[];
   collapsibleHeader?: TableHeadProperties[];
   heightRow?: number;
+  paddingColl?: number;
 }
 
 const getAlign = (index: number, arr: TableHeadProperties[]) => {
@@ -226,11 +227,13 @@ const Row = ({
   header,
   collapsibleHeader,
   heightRow,
+  paddingColl,
 }: {
   row: CollapsibleTableProps['data'][0];
   header: CollapsibleTableProps['header'];
   collapsibleHeader: CollapsibleTableProps['collapsibleHeader'];
   heightRow: number;
+  paddingColl: number;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -242,15 +245,20 @@ const Row = ({
           pl: '12px',
           pr: '16px',
           py: 0,
+
+          '&:last-child .MuiTableCell-root': {
+            border: 'none',
+          },
+
+          '.MuiTableCell-root': {
+            height: '10px',
+            minHeight: '10px',
+          },
         }}
       >
         {(collapsibleHeader ? header.filter(i => i.key !== 'actions') : header).map(
           (h, hIndex, hArr) => (
-            <TableCell
-              key={h.key}
-              sx={{ borderWidth: '1px', borderColor: 'border.grey' }}
-              align={getAlign(hIndex, hArr)}
-            >
+            <TableCell key={h.key} sx={{ padding: paddingColl }} align={getAlign(hIndex, hArr)}>
               <Box
                 sx={{
                   display: 'flex',
@@ -462,6 +470,7 @@ export const CustomTable = ({
   collapsibleHeader,
   data,
   heightRow = 84,
+  paddingColl = 4,
 }: CollapsibleTableProps) => {
   const { breakpoints } = useTheme();
   const md = useMediaQuery(breakpoints.down('md'));
@@ -514,11 +523,7 @@ export const CustomTable = ({
             setSortDesc={setSortDesc}
           />
         </TableHead>
-        <TableBody
-          sx={{
-            height: '64px',
-          }}
-        >
+        <TableBody>
           {sortData.map((row, index) => (
             <Row
               key={index}
@@ -526,6 +531,7 @@ export const CustomTable = ({
               header={header}
               collapsibleHeader={collapsibleHeader}
               heightRow={heightRow}
+              paddingColl={paddingColl}
             />
           ))}
         </TableBody>

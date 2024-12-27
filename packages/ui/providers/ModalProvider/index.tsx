@@ -1,12 +1,13 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import { InterestRate } from '@lendos/types/reserves';
 
 export enum ModalType {
   Supply,
   Withdraw,
-  // Borrow,
-  // Repay,
+  Borrow,
+  Repay,
   CollateralChange,
-  // RateSwitch,
+  RateSwitch,
   // Stake,
   // Unstake,
   // StakeCooldown,
@@ -15,7 +16,7 @@ export enum ModalType {
   // Emode,
   // Faucet,
   // Swap,
-  // DebtSwitch,
+  DebtSwitch,
   // GovDelegation,
   // GovVote,
   // V3Migration,
@@ -27,7 +28,9 @@ export enum ModalType {
 
 export interface ModalArgsType {
   underlyingAsset?: string;
+  currentRateMode?: InterestRate;
   chainId?: number;
+  isFrozen?: boolean;
 }
 
 export interface TxStateType {
@@ -38,9 +41,13 @@ export interface TxStateType {
 
 export interface ModalContextType<T extends ModalArgsType> {
   openSwitch: (underlyingAsset?: string, chainId?: number) => void;
+  openBorrow: (underlyingAsset: string) => void;
   openSupply: (underlyingAsset: string) => void;
   openWithdraw: (underlyingAsset: string) => void;
+  openRepay: (underlyingAsset: string, currentRateMode: InterestRate, isFrozen: boolean) => void;
+  openRateSwitch: (underlyingAsset: string, currentRateMode: InterestRate) => void;
   openCollateralChange: (underlyingAsset: string) => void;
+  openDebtSwitch: (underlyingAsset: string, currentRateMode: InterestRate) => void;
   close: () => void;
   type?: ModalType;
   args: T;
@@ -73,47 +80,67 @@ export const ModalContextProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <ModalContext.Provider
-      value={{
-        openSupply: underlyingAsset => {
-          setType(ModalType.Supply);
-          setArgs({ underlyingAsset });
-        },
-        openWithdraw: underlyingAsset => {
-          setType(ModalType.Withdraw);
-          setArgs({ underlyingAsset });
-        },
-        openCollateralChange: underlyingAsset => {
-          setType(ModalType.CollateralChange);
-          setArgs({ underlyingAsset });
-        },
-        openSwitch: (underlyingAsset, chainId) => {
-          setType(ModalType.Switch);
-          setArgs({ underlyingAsset, chainId });
-        },
-        openClaimRewards: () => {
-          setType(ModalType.ClaimRewards);
-        },
-        close: () => {
-          setType(undefined);
-          setArgs({});
-          setMainTxState({});
-          setApprovalTxState({});
-          setGasLimit('');
-          setTxError('');
-        },
-        type,
-        args,
-        approvalTxState,
-        mainTxState,
-        setApprovalTxState,
-        setMainTxState,
-        gasLimit,
-        setGasLimit,
-        loadingTxns,
-        setLoadingTxns,
-        txError,
-        setTxError,
-      }}
+      value={useMemo(
+        () => ({
+          openSupply: underlyingAsset => {
+            setType(ModalType.Supply);
+            setArgs({ underlyingAsset });
+          },
+          openBorrow: underlyingAsset => {
+            setType(ModalType.Borrow);
+            setArgs({ underlyingAsset });
+          },
+          openRateSwitch: (underlyingAsset, currentRateMode) => {
+            setType(ModalType.RateSwitch);
+            setArgs({ underlyingAsset, currentRateMode });
+          },
+
+          openRepay: (underlyingAsset, currentRateMode, isFrozen) => {
+            setType(ModalType.Repay);
+            setArgs({ underlyingAsset, currentRateMode, isFrozen });
+          },
+          openWithdraw: underlyingAsset => {
+            setType(ModalType.Withdraw);
+            setArgs({ underlyingAsset });
+          },
+          openCollateralChange: underlyingAsset => {
+            setType(ModalType.CollateralChange);
+            setArgs({ underlyingAsset });
+          },
+          openSwitch: (underlyingAsset, chainId) => {
+            setType(ModalType.Switch);
+            setArgs({ underlyingAsset, chainId });
+          },
+          openClaimRewards: () => {
+            setType(ModalType.ClaimRewards);
+          },
+          openDebtSwitch: (underlyingAsset, currentRateMode) => {
+            setType(ModalType.DebtSwitch);
+            setArgs({ underlyingAsset, currentRateMode });
+          },
+          close: () => {
+            setType(undefined);
+            setArgs({});
+            setMainTxState({});
+            setApprovalTxState({});
+            setGasLimit('');
+            setTxError('');
+          },
+          type,
+          args,
+          approvalTxState,
+          mainTxState,
+          setApprovalTxState,
+          setMainTxState,
+          gasLimit,
+          setGasLimit,
+          loadingTxns,
+          setLoadingTxns,
+          txError,
+          setTxError,
+        }),
+        [type, args, approvalTxState, mainTxState, gasLimit, loadingTxns, txError],
+      )}
     >
       {children}
     </ModalContext.Provider>
