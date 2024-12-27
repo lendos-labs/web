@@ -1,6 +1,5 @@
 'use client';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConnectKitProvider } from 'connectkit';
 import { State, WagmiProvider } from 'wagmi';
 import { wagmiConfig } from './config/connectors';
@@ -12,12 +11,11 @@ import { MainLayout } from '@lendos/ui/layout/MainLayout';
 import { ModalContextProvider } from '@lendos/ui/providers/ModalProvider';
 import { StateProvider } from './state-provider';
 import { AccountProvider } from './account-provider';
-
-const queryClient = new QueryClient();
+import QueryProvider from '@lendos/ui/providers/QueryProvider';
 
 export const Providers = ({ children, initialState }: ChildrenProps & { initialState?: State }) => {
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryProvider>
       <MuiLayout>
         <StateProvider>
           <WagmiProvider config={wagmiConfig} initialState={initialState}>
@@ -33,6 +31,6 @@ export const Providers = ({ children, initialState }: ChildrenProps & { initialS
           </WagmiProvider>
         </StateProvider>
       </MuiLayout>
-    </QueryClientProvider>
+    </QueryProvider>
   );
 };

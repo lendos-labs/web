@@ -1,3 +1,5 @@
+'use client';
+
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import {
