@@ -36,9 +36,10 @@ export const NextLinkComposed = React.forwardRef<HTMLAnchorElement, NextLinkComp
         scroll={scroll}
         shallow={shallow}
         passHref
+        legacyBehavior
         locale={locale}
       >
-        <Anchor ref={ref} as={'span'} {...other} />
+        <Anchor ref={ref} {...other} />
       </NextLink>
     );
   },

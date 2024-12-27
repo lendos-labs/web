@@ -64,7 +64,7 @@ export const IncentivesTooltipContent = ({
                   mb: incentives.length > 1 ? 2 : 0,
                 }}
               >
-                <TokenIcon symbol={incentive.rewardTokenSymbol} size={20} sx={{ mr: 1 }} />
+                <TokenIcon symbol={incentive.rewardTokenSymbol} sx={{ fontSize: '20px', mr: 1 }} />
                 <Typography variant={typographyVariant}>{incentive.rewardTokenSymbol}</Typography>
               </Box>
             }

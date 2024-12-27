@@ -60,7 +60,6 @@ ATokenIcon.displayName = 'ATokenIcon';
 interface TokenIconProps extends IconProps {
   symbol: string;
   aToken?: boolean;
-  size: number;
 }
 
 /**
@@ -69,17 +68,19 @@ interface TokenIconProps extends IconProps {
  * @param param0
  * @returns
  */
-export function SingleTokenIcon({ symbol, aToken, size, ...rest }: TokenIconProps) {
+export function SingleTokenIcon({ symbol, aToken, ...rest }: TokenIconProps) {
   return (
     <Icon {...rest} sx={{ display: 'flex', position: 'relative', borderRadius: '50%', ...rest.sx }}>
       {aToken ? (
         <ATokenIcon symbol={symbol} />
       ) : (
         <Image
-          src={`/icons/tokens/${symbol.toLowerCase()}.svg`}
-          width={size}
-          height={size}
           alt={`${symbol} icon`}
+          src={`/icons/tokens/${symbol.toLowerCase()}.svg`}
+          quality={100}
+          fill
+          sizes='100vw'
+          style={{ objectFit: 'cover' }}
         />
       )}
     </Icon>
@@ -90,17 +91,15 @@ interface MultiTokenIconProps extends IconProps {
   symbols: string[];
   badgeSymbol?: string;
   aToken?: boolean;
-  size: number;
 }
 
-export function MultiTokenIcon({ symbols, badgeSymbol, size, ...rest }: MultiTokenIconProps) {
+export function MultiTokenIcon({ symbols, badgeSymbol, ...rest }: MultiTokenIconProps) {
   if (!badgeSymbol) {
     return (
       <Box sx={{ display: 'inline-flex', position: 'relative' }}>
         {symbols.map((symbol, ix) => (
           <SingleTokenIcon
             {...rest}
-            size={size}
             key={symbol}
             symbol={symbol}
             sx={{ ml: ix === 0 ? 0 : `calc(-1 * 0.2em)`, ...rest.sx }}
@@ -114,7 +113,6 @@ export function MultiTokenIcon({ symbols, badgeSymbol, size, ...rest }: MultiTok
       {symbols.map((symbol, ix) => (
         <SingleTokenIcon
           {...rest}
-          size={size}
           key={symbol}
           symbol={symbol}
           sx={{ ml: ix === 0 ? 0 : `calc(-1 * 0.5em)`, ...rest.sx }}

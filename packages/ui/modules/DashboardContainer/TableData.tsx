@@ -10,7 +10,12 @@ import {
 } from '@mui/material';
 import { MouseEvent } from 'react';
 import { TableHeadProperties } from '../../components/Table';
-import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
+import {
+  DashboardReserve,
+  FormattedReservesAndIncentives,
+  InterestRate,
+  ReserveToken,
+} from '@lendos/types/reserves';
 import { TokenIcon } from '../../components/TokenIcon';
 import { CollateralSwitchTooltip } from '../../components/infoTooltips/CollateralSwitchTooltip.tsx';
 import { ListButtonsColumn } from './ListButtonsColumn.tsx';
@@ -28,12 +33,20 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { isFeatureEnabled } from '@lendos/constants/markets';
 import { ListItemCanBeCollateral } from './ListItemCanBeCollateral.tsx';
+import { APYTypeTooltip } from '../../components/infoTooltips/APYTypeTooltip.tsx';
+import { ListItemAPYButton } from './ListItemAPYButton.tsx';
+import { ListAPRColumn } from './ListAPRColumn.tsx';
+import { AvailableTooltip } from '../../components/infoTooltips/AvailableTooltip.tsx';
+import { CapType } from '@lendos/types/cap';
+import { VariableAPYTooltip } from '../../components/VariableAPYTooltip';
+import { CapsHint } from '../../components/CapsHint';
 
 export const suppliedPositionsHead: TableHeadProperties[] = [
   {
     key: 'symbol',
     title: 'Assets',
     sortKey: 'symbol',
+    mobileHide: true,
   },
   {
     key: 'underlyingBalance',
@@ -59,6 +72,7 @@ export const lpHead = [
   {
     key: 'symbol',
     title: 'Pool',
+    mobileHide: true,
   },
   {
     key: 'Balance',
@@ -87,11 +101,25 @@ export const getSuppliedPositionsCells = (
         href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
         sx={{ display: 'flex', alignItems: 'center', gap: 3.5 }}
       >
-        <TokenIcon symbol={reserve.iconSymbol} size={26} />
+        <TokenIcon
+          symbol={reserve.iconSymbol}
+          sx={{ fontSize: ['40px', '40px', '40px', '26px'] }}
+        />
         <Tooltip title={`${reserve.name} (${reserve.symbol})`} arrow placement='top'>
-          <Typography variant='subtitle' sx={{ color: 'text.dark' }} noWrap data-cy={`assetName`}>
-            {reserve.symbol}
-          </Typography>
+          <Box>
+            <Typography variant='subtitle' sx={{ color: 'text.dark' }} noWrap data-cy={`assetName`}>
+              {reserve.symbol}
+            </Typography>
+            <Typography
+              variant='subheader2'
+              color='text.muted'
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {reserve.symbol}
+            </Typography>
+          </Box>
         </Tooltip>
       </Box>
     ),
@@ -167,7 +195,7 @@ export const getSuppliedPositionsCells = (
           variant='contained'
           size={'small'}
           onClick={() => openSupply(reserve.underlyingAsset)}
-          sx={{ minWidth: '82px' }}
+          sx={{ minWidth: '82px', width: { xs: '100%', md: 'auto' } }}
         >
           Supply
         </Button>
@@ -175,7 +203,7 @@ export const getSuppliedPositionsCells = (
           disabled={!reserve.isActive || reserve.isPaused}
           variant='white'
           size={'small'}
-          sx={{ minWidth: '82px' }}
+          sx={{ minWidth: '82px', width: { xs: '100%', md: 'auto' } }}
           onClick={() => {
             openWithdraw(reserve.underlyingAsset);
           }}
@@ -192,6 +220,7 @@ export const supplyAssetsHead: TableHeadProperties[] = [
     key: 'symbol',
     title: 'Assets',
     sortKey: 'symbol',
+    mobileHide: true,
   },
   {
     key: 'walletBalance',
@@ -230,11 +259,25 @@ export const getSupplyAssetsCells = (
         href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
         sx={{ display: 'flex', alignItems: 'center', gap: 3.5 }}
       >
-        <TokenIcon symbol={reserve.iconSymbol} size={26} />
+        <TokenIcon
+          symbol={reserve.iconSymbol}
+          sx={{ fontSize: ['40px', '40px', '40px', '26px'] }}
+        />
         <Tooltip title={`${reserve.name} (${reserve.symbol})`} arrow placement='top'>
-          <Typography variant='subtitle' sx={{ color: 'text.dark' }} noWrap data-cy={`assetName`}>
-            {reserve.symbol}
-          </Typography>
+          <Box>
+            <Typography variant='subtitle' sx={{ color: 'text.dark' }} noWrap data-cy={`assetName`}>
+              {reserve.symbol}
+            </Typography>
+            <Typography
+              variant='subheader2'
+              color='text.muted'
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {reserve.symbol}
+            </Typography>
+          </Box>
         </Tooltip>
       </Box>
     ),
@@ -296,6 +339,7 @@ export const getSupplyAssetsCells = (
             openSupply(reserve.underlyingAsset);
           }}
           size={'small'}
+          sx={{ width: { xs: '100%', md: 'auto' } }}
         >
           Supply
         </Button>
@@ -304,6 +348,7 @@ export const getSupplyAssetsCells = (
           sx={{
             minWidth: 0,
             px: 4,
+            display: { xs: 'none', sm: 'flex' },
           }}
           variant='white'
           onClick={handleClick}
@@ -313,6 +358,19 @@ export const getSupplyAssetsCells = (
           size={'small'}
         >
           ...
+        </Button>
+        <Button
+          variant='white'
+          size={'small'}
+          component={Link}
+          href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
+          sx={{
+            display: { xs: 'flex', sm: 'none' },
+            width: { xs: '100%', md: 'auto' },
+          }}
+          fullWidth
+        >
+          Details
         </Button>
         <Menu
           id='supply-item-extra-menu'
@@ -357,6 +415,292 @@ export const getSupplyAssetsCells = (
             <ListItemText>Details</ListItemText>
           </MenuItem>
         </Menu>
+      </ListButtonsColumn>
+    ),
+  };
+};
+
+export const borrowedPositionsHead: TableHeadProperties[] = [
+  {
+    key: 'symbol',
+    title: 'Asset',
+    sortKey: 'symbol',
+    mobileHide: true,
+  },
+  {
+    key: 'variableBorrows',
+    title: 'Debt',
+    sortKey: 'variableBorrows',
+  },
+  {
+    key: 'borrowAPY',
+    title: 'APY',
+    sortKey: 'borrowAPY',
+  },
+  {
+    key: 'typeAPY',
+    title: <APYTypeTooltip text='APY type' key='APY type' variant='h3' />,
+  },
+  {
+    key: 'action',
+    title: '',
+  },
+];
+
+export const getBorrowedPositionsCells = (
+  reserve: FormattedReservesAndIncentives<DashboardReserve>,
+  market: MarketDataType,
+  openBorrow: ModalContextType<ModalArgsType>['openBorrow'],
+  openRepay: ModalContextType<ModalArgsType>['openRepay'],
+  openRateSwitch: ModalContextType<ModalArgsType>['openRateSwitch'],
+  openDebtSwitch: ModalContextType<ModalArgsType>['openDebtSwitch'],
+) => {
+  const disableBorrow =
+    !reserve.isActive || !reserve.borrowingEnabled || reserve.isFrozen || reserve.isPaused;
+
+  const disableRepay = !reserve.isActive || reserve.isPaused;
+
+  const showSwitchButton = isFeatureEnabled.debtSwitch(market) ?? false;
+  const disableSwitch = reserve.isPaused || !reserve.isActive || reserve.symbol === 'stETH';
+
+  const borrowAPY =
+    reserve.borrowRateMode === InterestRate.Variable
+      ? Number(reserve.variableBorrowAPY)
+      : Number(reserve.stableBorrowAPY);
+
+  const incentives =
+    reserve.borrowRateMode === InterestRate.Variable
+      ? reserve.vIncentivesData
+      : reserve.sIncentivesData;
+
+  const totalBorrows =
+    reserve.borrowRateMode === InterestRate.Variable
+      ? reserve.variableBorrows
+      : reserve.stableBorrows;
+
+  const totalBorrowsUSD =
+    reserve.borrowRateMode === InterestRate.Variable
+      ? reserve.variableBorrowsUSD
+      : reserve.stableBorrowsUSD;
+
+  return {
+    symbol: (
+      <Box
+        component={Link}
+        href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
+        sx={{ display: 'flex', alignItems: 'center', gap: 3.5 }}
+      >
+        <TokenIcon
+          symbol={reserve.iconSymbol}
+          sx={{ fontSize: ['40px', '40px', '40px', '26px'] }}
+        />
+        <Tooltip title={`${reserve.name} (${reserve.symbol})`} arrow placement='top'>
+          <Box>
+            <Typography variant='subtitle' sx={{ color: 'text.dark' }} noWrap data-cy={`assetName`}>
+              {reserve.symbol}
+            </Typography>
+            <Typography
+              variant='subheader2'
+              color='text.muted'
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {reserve.symbol}
+            </Typography>
+          </Box>
+        </Tooltip>
+      </Box>
+    ),
+    variableBorrows: (
+      <ListValueColumn symbol={reserve.symbol} value={totalBorrows} subValue={totalBorrowsUSD} />
+    ),
+    borrowAPY: <ListAPRColumn value={borrowAPY} incentives={incentives} symbol={reserve.symbol} />,
+    typeAPY: (
+      <ListItemAPYButton
+        stableBorrowRateEnabled={reserve.stableBorrowRateEnabled}
+        borrowRateMode={reserve.borrowRateMode}
+        disabled={
+          !reserve.stableBorrowRateEnabled ||
+          reserve.isFrozen ||
+          !reserve.isActive ||
+          reserve.isPaused
+        }
+        onClick={() => {
+          openRateSwitch(reserve.underlyingAsset, reserve.borrowRateMode);
+        }}
+        stableBorrowAPY={reserve.stableBorrowAPY}
+        variableBorrowAPY={reserve.variableBorrowAPY}
+        underlyingAsset={reserve.underlyingAsset}
+        currentMarket={market.market}
+      />
+    ),
+    action: (
+      <ListButtonsColumn>
+        {showSwitchButton ? (
+          <Button
+            disabled={disableSwitch}
+            variant='contained'
+            onClick={() => {
+              openDebtSwitch(reserve.underlyingAsset, reserve.borrowRateMode);
+            }}
+            data-cy={`swapButton`}
+            size={'small'}
+            sx={{
+              width: { xs: '100%', md: 'auto' },
+            }}
+          >
+            Switch
+          </Button>
+        ) : (
+          <Button
+            disabled={disableBorrow}
+            variant='contained'
+            size={'small'}
+            onClick={() => {
+              openBorrow(reserve.underlyingAsset);
+            }}
+            sx={{
+              width: { xs: '100%', md: 'auto' },
+            }}
+          >
+            Borrow
+          </Button>
+        )}
+        <Button
+          disabled={disableRepay}
+          variant='white'
+          size={'small'}
+          onClick={() => {
+            openRepay(reserve.underlyingAsset, reserve.borrowRateMode, reserve.isFrozen);
+          }}
+          sx={{
+            width: { xs: '100%', md: 'auto' },
+          }}
+        >
+          Repay
+        </Button>
+      </ListButtonsColumn>
+    ),
+  };
+};
+
+export const borrowAssetsHead: TableHeadProperties[] = [
+  {
+    key: 'symbol',
+    title: 'Asset',
+    sortKey: 'symbol',
+    mobileHide: true,
+  },
+  {
+    key: 'availableBorrows',
+    title: (
+      <AvailableTooltip
+        capType={CapType.borrowCap}
+        text='Available'
+        key='availableBorrows'
+        variant='h3'
+      />
+    ),
+    sortKey: 'availableBorrows',
+  },
+  {
+    key: 'variableBorrowAPY',
+    title: <VariableAPYTooltip text='APY, variable' key='variableBorrowAPY' variant='h3' />,
+    sortKey: 'variableBorrowAPY',
+  },
+  {
+    key: 'action',
+    title: '',
+  },
+];
+
+export const getBorrowAssetsCells = (
+  reserve: FormattedReservesAndIncentives<DashboardReserve>,
+  market: MarketDataType,
+  openBorrow: ModalContextType<ModalArgsType>['openBorrow'],
+) => {
+  const disableBorrow = reserve.isFreezed ?? Number(reserve.availableBorrows) <= 0;
+
+  return {
+    symbol: (
+      <Box
+        component={Link}
+        href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
+        sx={{ display: 'flex', alignItems: 'center', gap: 3.5 }}
+      >
+        <TokenIcon
+          symbol={reserve.iconSymbol}
+          sx={{ fontSize: ['40px', '40px', '40px', '26px'] }}
+        />
+        <Tooltip title={`${reserve.name} (${reserve.symbol})`} arrow placement='top'>
+          <Box>
+            <Typography variant='subtitle' sx={{ color: 'text.dark' }} noWrap data-cy={`assetName`}>
+              {reserve.symbol}
+            </Typography>
+            <Typography
+              variant='subheader2'
+              color='text.muted'
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {reserve.symbol}
+            </Typography>
+          </Box>
+        </Tooltip>
+      </Box>
+    ),
+    availableBorrows: (
+      <ListValueColumn
+        symbol={reserve.symbol}
+        value={Number(reserve.availableBorrows)}
+        subValue={Number(reserve.availableBorrowsInUSD)}
+        disabled={Number(reserve.availableBorrows) === 0}
+        withTooltip={false}
+        capsComponent={
+          <CapsHint
+            capType={CapType.borrowCap}
+            capAmount={reserve.borrowCap}
+            totalAmount={reserve.totalBorrows}
+            withoutText
+          />
+        }
+      />
+    ),
+    variableBorrowAPY: (
+      <ListAPRColumn
+        value={Number(reserve.variableBorrowRate)}
+        incentives={reserve.vIncentivesData}
+        symbol={reserve.symbol}
+      />
+    ),
+    action: (
+      <ListButtonsColumn>
+        <Button
+          disabled={disableBorrow}
+          variant='contained'
+          size={'small'}
+          onClick={() => {
+            openBorrow(reserve.underlyingAsset);
+          }}
+          sx={{
+            width: { xs: '100%', md: 'auto' },
+          }}
+        >
+          Borrow
+        </Button>
+        <Button
+          variant='white'
+          size={'small'}
+          component={Link}
+          href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
+          sx={{
+            width: { xs: '100%', md: 'auto' },
+          }}
+        >
+          Details
+        </Button>
       </ListButtonsColumn>
     ),
   };

@@ -13,8 +13,8 @@ export const ListButtonsColumn = ({ children, isColumnHeader = false }: ListButt
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        maxWidth: 160,
-        minWidth: 160,
+        maxWidth: { xs: '100%', md: 160 },
+        minWidth: { xs: '100%', md: 160 },
         flex: isColumnHeader ? 1 : 1,
         gap: '6px',
       }}

@@ -76,7 +76,7 @@ export const getMarketsCells = (
   return {
     symbol: (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 2, lg: 3.5 } }}>
-        <TokenIcon symbol={reserve.iconSymbol} size={26} />
+        <TokenIcon symbol={reserve.iconSymbol} sx={{ fontSize: '26px' }} />
         <Box>
           <Typography
             sx={theme => ({

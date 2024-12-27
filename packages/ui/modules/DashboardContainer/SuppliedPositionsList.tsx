@@ -1,5 +1,5 @@
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { Reserves } from '@lendos/types/reserves';
 import { ListWrapper } from '../../components/ListWrapper';
@@ -83,13 +83,12 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
       }
     >
       {data.length ? (
-        <Box px={4}>
-          <CustomTable
-            heightRow={50}
-            header={type === Reserves.ASSET ? suppliedPositionsHead : lpHead}
-            data={data}
-          />
-        </Box>
+        <CustomTable
+          heightRow={50}
+          header={type === Reserves.ASSET ? suppliedPositionsHead : lpHead}
+          data={data}
+          paddingColl={1}
+        />
       ) : (
         <NoContent text='Nothing supplied yet' />
       )}

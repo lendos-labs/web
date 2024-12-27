@@ -3,6 +3,7 @@ import { Reserves } from '@lendos/types/reserves';
 import { SupplyAssetsList } from './SupplyAssetsList.tsx';
 import { SuppliedPositionsList } from './SuppliedPositionsList.tsx';
 import { BorrowedPositionsList } from './BorrowedPositionsList.tsx';
+import { BorrowAssetsList } from './BorrowAssetsList.tsx';
 
 interface DashboardContentWrapperProps {
   isBorrow: boolean;
@@ -43,13 +44,12 @@ export const DashboardContentWrapper = ({ isBorrow }: DashboardContentWrapperPro
       <Box
         sx={{
           position: 'relative',
-
           display: { xs: !isBorrow ? 'none' : 'block', lg: 'block' },
           width: paperWidth,
         }}
       >
         <BorrowedPositionsList />
-        {/* <BorrowAssetsList />*/}
+        <BorrowAssetsList />
       </Box>
     </Box>
   );
