@@ -1,3 +1,5 @@
+'use client';
+
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, BoxProps, IconButton, InputBase, useMediaQuery, useTheme } from '@mui/material';

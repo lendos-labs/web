@@ -22,6 +22,9 @@
     "theme",
     "helpers",
     "providers",
-    "modules"
+    "modules",
+    "services",
+    "hooks",
+    "utils"
   ]
 }

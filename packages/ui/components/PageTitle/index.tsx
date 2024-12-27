@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { ReactNode } from 'react';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
