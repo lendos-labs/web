@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react';
 import { ReservesContext } from '@lendos/ui/providers/ReservesProvider';
 
-export const StateProvider = ({ children }: { children: ReactNode }) => {
+export const ReservesProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ReservesContext.Provider
       value={{
-        loading: true,
+        loading: false,
         reserves: [],
         lpReserves: [],
         accountLpReserves: [],

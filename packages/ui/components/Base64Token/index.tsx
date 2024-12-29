@@ -30,15 +30,11 @@ export function Base64Token({
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    console.log({ a: !loading && ref.current?.contentDocument });
-
     if (!loading && ref.current?.contentDocument) {
       if (aToken) {
+        // TODO fix this
         // const inner = ref.current?.contentDocument?.childNodes?.[0] as any;
-        const inner = ref.current.contentDocument.childNodes[0];
-
-        console.log({ inner });
-
+        // const inner = ref.current.contentDocument.childNodes[0];
         // const oldWidth = inner.getAttribute('width');
         // const oldHeight = inner.getAttribute('height');
         // const vb = inner.getAttribute('viewBox');
@@ -49,17 +45,15 @@ export function Base64Token({
         // if (!vb) {
         //   inner.setAttribute('viewBox', `0 0 ${oldWidth} ${oldHeight}`);
         // }
-
         // aRef.current?.appendChild(inner);
         // const s = new XMLSerializer().serializeToString(aRef.current as unknown as Node);
-
         // onImageGenerated(
         //   `data:image/svg+xml;base64,${window.btoa(unescape(encodeURIComponent(s)))}`,
         // );
       } else {
         const s = new XMLSerializer().serializeToString(ref.current.contentDocument);
         onImageGenerated(
-          `data:image/svg+xml;base64,${window.btoa(unescape(encodeURIComponent(s)))}`,
+          `data:image/svg+xml;base64,${window.btoa(decodeURI(encodeURIComponent(s)))}`,
         );
       }
     }

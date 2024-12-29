@@ -1,5 +1,5 @@
 import { BigNumberValue, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+import { FormattedReservesAndIncentives, InterestRate } from '@lendos/types/reserves';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import {
   Box,
@@ -17,6 +17,7 @@ import { useModalContext } from '../../providers/ModalProvider';
 import { Warning } from '../../components/Warning';
 import { Link } from '../../components/Link';
 import { Routes } from '@lendos/constants/routes';
+import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
 import { AvailableTooltip } from '../../components/infoTooltips/AvailableTooltip';
 import { CapType } from '@lendos/types/cap';
 import { FormattedNumber } from '../../components/FormattedNumber';
@@ -25,30 +26,13 @@ import { StyledTxModalToggleButton } from '../../components/StyledToggleTabButto
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import { useAccountContext } from '../../providers/AccountProvider';
 import { useStateContext } from '../../providers/StateProvider';
-// import React, { ElementType, ReactNode, useState } from 'react';
-
-// import { getMarketInfoById } from 'src/components/MarketSwitcher';
-// import { FormattedNumber } from 'src/components/primitives/FormattedNumber';
-// import { Warning } from 'src/components/primitives/Warning';
-// import { StyledTxModalToggleButton } from 'src/components/StyledToggleButton';
-// import { StyledTxModalToggleGroup } from 'src/components/StyledToggleButtonGroup';
-// import { ConnectWalletButton } from 'src/components/WalletConnection/ConnectWalletButton';
-// import { useAppDataContext } from 'src/hooks/app-data-provider/useAppDataProvider';
-// import { useWalletBalances } from 'src/hooks/app-data-provider/useWalletBalances';
-// import { useModalContext } from 'src/hooks/useModal';
-// import { usePermissions } from 'src/hooks/usePermissions';
-// import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
-// import { useRootStore } from 'src/store/root';
-// import { getMaxAmountAvailableToBorrow } from 'src/utils/getMaxAmountAvailableToBorrow';
-// import { getMaxAmountAvailableToSupply } from 'src/utils/getMaxAmountAvailableToSupply';
-// import { GENERAL } from 'src/utils/mixPanelEvents';
-// import { amountToUsd } from 'src/utils/utils';
-
-// import { CapType } from '../../components/caps/helper';
-// import { AvailableTooltip } from '../../components/infoTooltips/AvailableTooltip';
-// import { Link, ROUTES } from '../../components/primitives/Link';
-// import { useReserveActionState } from '../../hooks/useReserveActionState';
-// import { FormattedReservesAndIncentives } from 'src/types/reserves';
+import { useReservesContext } from '../../providers/ReservesProvider';
+import { useBalanceContext } from '../../providers/BalanceProvider';
+import { getMaxAmountAvailableToBorrow } from '@lendos/constants/getMaxAmountAvailableToBorrow';
+import { getMaxAmountAvailableToSupply } from '@lendos/constants/getMaxAmountAvailableToSupply';
+import { amountToUsd } from '@lendos/constants/round';
+import { useReserveActionState } from './hooks/useReserveActionState';
+import { ConnectWalletButton } from '../../components/ConnectWalletButton';
 
 const amountToUSD = (
   amount: BigNumberValue,
@@ -69,22 +53,15 @@ interface ReserveActionsProps {
 export const ReserveActions = ({ reserve }: ReserveActionsProps) => {
   const [selectedAsset, setSelectedAsset] = useState(reserve.symbol);
 
-  const {
-    account,
-    loading: loadingWeb3Context,
-    accountSummary,
-    isLoadingReserves,
-  } = useAccountContext();
-  const { currentMarketData, currentNetworkData } = useStateContext();
+  const { loading: loadingWeb3, account } = useAccountContext();
+  const { accountSummary, loading: loadingReserves, baseCurrencyData } = useReservesContext();
+  const { currentNetworkData, currentMarketData, minRemainingBaseTokenBalance } = useStateContext();
   const { openBorrow, openSupply } = useModalContext();
 
-  // const { user, baseCurrencyData } = useAppDataContext();
-  const { walletBalances, loading: loadingWalletBalance } = useWalletBalances(currentMarketData);
+  const { walletBalances, loading: loadingWalletBalance } = useBalanceContext();
 
-  const [minRemainingBaseTokenBalance] = useRootStore(store => [
-    store.poolComputed.minRemainingBaseTokenBalance,
-  ]);
   const { baseAssetSymbol } = currentNetworkData;
+
   let balance = walletBalances[reserve.underlyingAsset];
   if (reserve.isWrappedBaseAsset && selectedAsset === baseAssetSymbol) {
     balance = walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()];
@@ -93,15 +70,15 @@ export const ReserveActions = ({ reserve }: ReserveActionsProps) => {
   let maxAmountToBorrow = '0';
   let maxAmountToSupply = '0';
 
-  if (accountSummary.data) {
+  if (accountSummary) {
     maxAmountToBorrow = getMaxAmountAvailableToBorrow(
       reserve,
-      user,
+      accountSummary,
       InterestRate.Variable,
     ).toString();
 
     maxAmountToSupply = getMaxAmountAvailableToSupply(
-      balance?.amount || '0',
+      balance?.amount ?? '0',
       reserve,
       reserve.underlyingAsset,
       minRemainingBaseTokenBalance,
@@ -121,21 +98,19 @@ export const ReserveActions = ({ reserve }: ReserveActionsProps) => {
   ).toString();
 
   const { disableSupplyButton, disableBorrowButton, alerts } = useReserveActionState({
-    balance: balance?.amount || '0',
+    balance: balance?.amount ?? '0',
     maxAmountToSupply: maxAmountToSupply.toString(),
     maxAmountToBorrow: maxAmountToBorrow.toString(),
     reserve,
   });
 
-  if (!currentAccount) {
-    return <ConnectWallet loading={loadingWeb3Context} />;
+  if (!account) {
+    return <ConnectWallet loading={loadingWeb3} />;
   }
 
   if (loadingReserves || loadingWalletBalance) {
     return <ActionsSkeleton />;
   }
-
-  // const { market } = getMarketInfoById(currentMarket);
 
   return (
     <PaperWrapper>
@@ -150,9 +125,9 @@ export const ReserveActions = ({ reserve }: ReserveActionsProps) => {
         </Box>
       )}
       <WalletBalance
-        balance={balance.amount}
+        balance={balance?.amount ?? '0'}
         symbol={selectedAsset}
-        marketTitle={market.marketTitle}
+        marketTitle={currentMarketData.marketTitle}
       />
       {reserve.isFrozen || reserve.isPaused ? (
         <Box sx={{ mt: 3 }}>{reserve.isPaused ? <PauseWarning /> : <FrozenWarning />}</Box>
@@ -167,7 +142,7 @@ export const ReserveActions = ({ reserve }: ReserveActionsProps) => {
               disable={disableSupplyButton}
               onActionClicked={() => {
                 if (reserve.isWrappedBaseAsset && selectedAsset === baseAssetSymbol) {
-                  openSupply('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'.toLowerCase());
+                  openSupply(API_ETH_MOCK_ADDRESS.toLowerCase());
                 } else {
                   openSupply(reserve.underlyingAsset);
                 }

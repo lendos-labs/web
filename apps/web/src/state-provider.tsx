@@ -71,6 +71,7 @@ export const StateProvider = ({ children }: { children: ReactNode }) => {
         availableNetworks,
         currentMarketData,
         currentNetworkData: mockNetwork,
+        minRemainingBaseTokenBalance: '1',
         setCurrentMarket,
       }}
     >

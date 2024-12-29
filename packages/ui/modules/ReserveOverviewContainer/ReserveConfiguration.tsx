@@ -5,7 +5,7 @@ import { PanelRow } from './ReservesPanel';
 import { SupplyInfo } from './SupplyInfo';
 import { useAssetCaps } from '../../providers/AssetCapsProvider';
 import { useStateContext } from '../../providers/StateProvider';
-import { BorrowInfo } from './BorrowInfo'
+import { BorrowInfo } from './BorrowInfo';
 
 interface ReserveConfigurationProps {
   reserve: FormattedReservesAndIncentives;

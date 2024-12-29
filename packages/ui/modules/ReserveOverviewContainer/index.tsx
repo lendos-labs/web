@@ -8,6 +8,7 @@ import { Box } from '@mui/material';
 import { Mode, OverviewTab } from './OverviewTab';
 import { useState } from 'react';
 import { ReserveConfigurationWrapper } from './ReserveConfigurationWrapper';
+import { ReserveActions } from './ReserveActions';
 
 export const ReserveOverviewContainer = ({
   reserve,
@@ -50,7 +51,7 @@ export const ReserveOverviewContainer = ({
               width: { xs: '100%', lg: '416px' },
             }}
           >
-            {/* <ReserveActions reserve={reserve} /> */}
+            <ReserveActions reserve={reserve} />
           </Box>
         </Box>
       </ContentContainer>

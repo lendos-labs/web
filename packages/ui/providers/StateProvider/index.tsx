@@ -7,6 +7,7 @@ export interface StateContextType {
   availableNetworks: Record<number, NetworkConfig>;
   currentMarketData: MarketDataType;
   currentNetworkData: NetworkConfig;
+  minRemainingBaseTokenBalance: string;
   setCurrentMarket: (market: CustomMarket, omitQueryParameterUpdate?: boolean) => void;
 }
 

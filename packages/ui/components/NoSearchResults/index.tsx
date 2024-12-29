@@ -36,7 +36,7 @@ export const NoSearchResults: FC<NoSearchResultsProps> = ({ searchTerm, subtitle
           sx={{ textAlign: 'center', maxWidth: '480px', overflowWrap: 'anywhere' }}
           variant='h2'
         >
-          {`No search results${searchTerm && ` for \'${searchTerm}\'`}`}
+          {`No search results${searchTerm && ` for '${searchTerm}'`}`}
         </Typography>
       )}
       {subtitle && (
