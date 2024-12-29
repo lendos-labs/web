@@ -8,10 +8,10 @@ export const StateProvider = ({ children }: { children: ReactNode }) => {
         loading: true,
         reserves: [],
         lpReserves: [],
-        userLpReserves: [],
+        accountLpReserves: [],
         eModes: {},
         accountSummary: undefined,
-        userReserves: [],
+        accountReserves: [],
         baseCurrencyData: {
           marketReferenceCurrencyDecimals: 6,
           marketReferenceCurrencyPriceInUsd: '1',

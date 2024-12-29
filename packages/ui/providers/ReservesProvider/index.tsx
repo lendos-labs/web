@@ -16,10 +16,10 @@ export interface ReservesContextType {
   loading: boolean;
   reserves: FormattedReservesAndIncentives<ReserveToken>[];
   lpReserves: FormattedReservesAndIncentives<ReserveLpToken>[];
-  userLpReserves: FormattedUserReserves<ReserveLpToken>[];
+  accountLpReserves: FormattedUserReserves<ReserveLpToken>[];
   eModes: Record<number, EmodeCategory>;
   accountSummary: ExtendedFormattedUser | undefined;
-  userReserves: UserReservesDataHumanized[];
+  accountReserves: UserReservesDataHumanized[];
   baseCurrencyData: PoolBaseCurrencyHumanized;
 }
 
