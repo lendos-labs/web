@@ -15,11 +15,6 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
       value={useMemo(
         () => ({
           account,
-          accountSummary: {
-            data: undefined,
-            loading: false,
-            error: undefined,
-          },
           chainId,
           connected: isConnected,
           loading: isLoading,

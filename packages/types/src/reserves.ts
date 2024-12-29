@@ -1,7 +1,4 @@
-import {
-  PoolBaseCurrencyHumanized,
-  ReserveDataHumanized as ReserveDataHumanizedType,
-} from '@aave/contract-helpers';
+import { ReserveDataHumanized as ReserveDataHumanizedType } from '@aave/contract-helpers';
 import { ExtendedFormattedUser } from './user.js';
 
 export interface ReserveIncentiveResponse {
@@ -198,3 +195,20 @@ export type DashboardReserve<T = ReserveToken | ReserveLpToken> = DashboardReser
   // Overrides
   reserve: FormattedReservesAndIncentives;
 };
+
+export interface EmodeCategory {
+  id: number;
+  ltv: number;
+  liquidationThreshold: number;
+  liquidationBonus: number;
+  priceSource: string;
+  label: string;
+  assets: string[];
+}
+
+export interface PoolBaseCurrencyHumanized {
+  marketReferenceCurrencyDecimals: number;
+  marketReferenceCurrencyPriceInUsd: string;
+  networkBaseTokenPriceInUsd: string;
+  networkBaseTokenPriceDecimals: number;
+}

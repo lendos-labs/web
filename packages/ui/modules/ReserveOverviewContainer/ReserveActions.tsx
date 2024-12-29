@@ -1,4 +1,3 @@
-// import { API_ETH_MOCK_ADDRESS, InterestRate } from '@aave/contract-helpers';
 import { BigNumberValue, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
@@ -13,10 +12,21 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { useState } from 'react';
-import { useModalContext } from '../../providers/ModalProvider'
+import { ElementType, ReactNode, useState } from 'react';
+import { useModalContext } from '../../providers/ModalProvider';
+import { Warning } from '../../components/Warning';
+import { Link } from '../../components/Link';
+import { Routes } from '@lendos/constants/routes';
+import { AvailableTooltip } from '../../components/infoTooltips/AvailableTooltip';
+import { CapType } from '@lendos/types/cap';
+import { FormattedNumber } from '../../components/FormattedNumber';
+import { StyledTxModalToggleGroup } from '../../components/StyledToggleButtonGroup';
+import { StyledTxModalToggleButton } from '../../components/StyledToggleTabButton';
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+import { useAccountContext } from '../../providers/AccountProvider';
+import { useStateContext } from '../../providers/StateProvider';
 // import React, { ElementType, ReactNode, useState } from 'react';
-// import { WalletIcon } from 'src/components/icons/WalletIcon';
+
 // import { getMarketInfoById } from 'src/components/MarketSwitcher';
 // import { FormattedNumber } from 'src/components/primitives/FormattedNumber';
 // import { Warning } from 'src/components/primitives/Warning';
@@ -59,18 +69,22 @@ interface ReserveActionsProps {
 export const ReserveActions = ({ reserve }: ReserveActionsProps) => {
   const [selectedAsset, setSelectedAsset] = useState(reserve.symbol);
 
-  const { currentAccount, loading: loadingWeb3Context } = useWeb3Context();
+  const {
+    account,
+    loading: loadingWeb3Context,
+    accountSummary,
+    isLoadingReserves,
+  } = useAccountContext();
+  const { currentMarketData, currentNetworkData } = useStateContext();
   const { openBorrow, openSupply } = useModalContext();
-  const currentMarket = useRootStore(store => store.currentMarket);
-  const currentNetworkConfig = useRootStore(store => store.currentNetworkConfig);
-  const currentMarketData = useRootStore(store => store.currentMarketData);
-  const { user, loading: loadingReserves, baseCurrencyData } = useAppDataContext();
+
+  // const { user, baseCurrencyData } = useAppDataContext();
   const { walletBalances, loading: loadingWalletBalance } = useWalletBalances(currentMarketData);
 
   const [minRemainingBaseTokenBalance] = useRootStore(store => [
     store.poolComputed.minRemainingBaseTokenBalance,
   ]);
-  const { baseAssetSymbol } = currentNetworkConfig;
+  const { baseAssetSymbol } = currentNetworkData;
   let balance = walletBalances[reserve.underlyingAsset];
   if (reserve.isWrappedBaseAsset && selectedAsset === baseAssetSymbol) {
     balance = walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()];
@@ -79,7 +93,7 @@ export const ReserveActions = ({ reserve }: ReserveActionsProps) => {
   let maxAmountToBorrow = '0';
   let maxAmountToSupply = '0';
 
-  if (user) {
+  if (accountSummary.data) {
     maxAmountToBorrow = getMaxAmountAvailableToBorrow(
       reserve,
       user,
@@ -121,15 +135,7 @@ export const ReserveActions = ({ reserve }: ReserveActionsProps) => {
     return <ActionsSkeleton />;
   }
 
-  const onSupplyClicked = () => {
-    if (reserve.isWrappedBaseAsset && selectedAsset === baseAssetSymbol) {
-      openSupply(API_ETH_MOCK_ADDRESS.toLowerCase(), currentMarket, reserve.name, 'reserve', true);
-    } else {
-      openSupply(reserve.underlyingAsset, currentMarket, reserve.name, 'reserve', true);
-    }
-  };
-
-  const { market } = getMarketInfoById(currentMarket);
+  // const { market } = getMarketInfoById(currentMarket);
 
   return (
     <PaperWrapper>
@@ -155,22 +161,26 @@ export const ReserveActions = ({ reserve }: ReserveActionsProps) => {
           <Divider sx={{ mt: 4, mb: 6, borderColor: theme => theme.palette.border.grey }} />
           <Stack gap={3}>
             <SupplyAction
-              reserve={reserve}
               value={maxAmountToSupply.toString()}
               usdValue={maxAmountToSupplyUsd}
               symbol={selectedAsset}
               disable={disableSupplyButton}
-              onActionClicked={onSupplyClicked}
+              onActionClicked={() => {
+                if (reserve.isWrappedBaseAsset && selectedAsset === baseAssetSymbol) {
+                  openSupply('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'.toLowerCase());
+                } else {
+                  openSupply(reserve.underlyingAsset);
+                }
+              }}
             />
             {reserve.borrowingEnabled && (
               <BorrowAction
-                reserve={reserve}
                 value={maxAmountToBorrow.toString()}
                 usdValue={maxAmountToBorrowUsd}
                 symbol={selectedAsset}
                 disable={disableBorrowButton}
                 onActionClicked={() => {
-                  openBorrow(reserve.underlyingAsset, currentMarket, reserve.name, 'reserve', true);
+                  openBorrow(reserve.underlyingAsset);
                 }}
               />
             )}
@@ -185,7 +195,7 @@ export const ReserveActions = ({ reserve }: ReserveActionsProps) => {
 const PauseWarning = () => {
   return (
     <Warning sx={{ mb: 0 }} severity='error' icon={true}>
-      <>Because this asset is paused, no actions can be taken until further notice</>
+      Because this asset is paused, no actions can be taken until further notice
     </Warning>
   );
 };
@@ -195,7 +205,7 @@ const FrozenWarning = () => {
     <Warning sx={{ mb: 0 }} severity='error' icon={true}>
       <>
         Since this asset is frozen, the only available actions are withdraw and repay which can be
-        accessed from the <Link href={ROUTES.dashboard}>Dashboard</Link>
+        accessed from the <Link href={Routes.dashboard}>Dashboard</Link>
       </>
     </Warning>
   );
@@ -249,7 +259,7 @@ const PaperWrapper = ({ children }: { children: ReactNode }) => {
         sx={{ mb: 6, display: 'flex', alignItems: 'center', gap: 1.5 }}
       >
         <PlayCircleIcon sx={{ color: 'primary.light' }} />
-        <>Your info</>
+        Your info
       </Typography>
 
       {children}
@@ -265,10 +275,10 @@ const ConnectWallet = ({ loading }: { loading: boolean }) => {
       ) : (
         <>
           <Typography variant='h3' sx={{ mb: { xs: 6, xsm: 10 } }}>
-            <>Your info</>
+            Your info
           </Typography>
           <Typography sx={{ mb: 6 }} color='text.secondary'>
-            <>Please connect a wallet to view your personal information here.</>
+            Please connect a wallet to view your personal information here.
           </Typography>
           <ConnectWalletButton />
         </>
@@ -283,32 +293,12 @@ interface ActionProps {
   symbol: string;
   disable: boolean;
   onActionClicked: () => void;
-  reserve: FormattedReservesAndIncentives;
 }
 
-const SupplyAction = ({
-  reserve,
-  value,
-  usdValue,
-  symbol,
-  disable,
-  onActionClicked,
-}: ActionProps) => {
+const SupplyAction = ({ value, usdValue, symbol, disable, onActionClicked }: ActionProps) => {
   return (
     <Stack>
-      <AvailableTooltip
-        variant='h3'
-        text={<>Available to supply</>}
-        capType={CapType.supplyCap}
-        event={{
-          eventName: GENERAL.TOOL_TIP,
-          eventParams: {
-            tooltip: 'Available to supply: your info',
-            asset: reserve.underlyingAsset,
-            assetName: reserve.name,
-          },
-        }}
-      />
+      <AvailableTooltip variant='h3' text={<>Available to supply</>} capType={CapType.supplyCap} />
       <Stack
         sx={{ height: '44px' }}
         direction='row'
@@ -316,7 +306,7 @@ const SupplyAction = ({
         alignItems='center'
       >
         <Box>
-          <ValueWithSymbol variant={'numberM'} value={value} symbol={symbol} />
+          <ValueWithSymbol variant='numberM' value={value} symbol={symbol} />
           <FormattedNumber
             value={usdValue}
             variant='numberS'
@@ -334,36 +324,17 @@ const SupplyAction = ({
           data-cy='supplyButton'
           size='small'
         >
-          <>Supply</>
+          Supply
         </Button>
       </Stack>
     </Stack>
   );
 };
 
-const BorrowAction = ({
-  reserve,
-  value,
-  usdValue,
-  symbol,
-  disable,
-  onActionClicked,
-}: ActionProps) => {
+const BorrowAction = ({ value, usdValue, symbol, disable, onActionClicked }: ActionProps) => {
   return (
     <Stack>
-      <AvailableTooltip
-        variant='h3'
-        text={<>Available to borrow</>}
-        capType={CapType.borrowCap}
-        event={{
-          eventName: GENERAL.TOOL_TIP,
-          eventParams: {
-            tooltip: 'Available to borrow: your info',
-            asset: reserve.underlyingAsset,
-            assetName: reserve.name,
-          },
-        }}
-      />
+      <AvailableTooltip variant='h3' text={<>Available to borrow</>} capType={CapType.borrowCap} />
       <Stack
         sx={{ height: '44px' }}
         direction='row'
@@ -389,7 +360,7 @@ const BorrowAction = ({
           data-cy='borrowButton'
           size='small'
         >
-          <>Borrow</>
+          Borrow
         </Button>
       </Stack>
     </Stack>
@@ -412,7 +383,7 @@ const WrappedBaseAssetSelector = ({
       color='primary'
       value={selectedAsset}
       exclusive
-      onChange={(_, value) => setSelectedAsset(value)}
+      onChange={(_, value) => setSelectedAsset(value as string)}
       sx={{ mb: 4 }}
     >
       <StyledTxModalToggleButton value={assetSymbol}>
@@ -451,7 +422,7 @@ interface WalletBalanceProps {
 const WalletBalance = ({ balance, symbol }: WalletBalanceProps) => {
   return (
     <Stack direction='row' gap={3}>
-      <WalletIcon sx={{ width: '40px', height: '40px', stroke: `#DCDCDC` }} />
+      <AccountBalanceWalletOutlinedIcon sx={{ width: '40px', height: '40px', stroke: `#DCDCDC` }} />
       <Box>
         <Typography variant='h3'>Wallet balance</Typography>
         <ValueWithSymbol value={balance} symbol={symbol} />

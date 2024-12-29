@@ -11,8 +11,8 @@ import { CustomTable, TableData } from '../../components/Table';
 import { getSuppliedPositionsCells, lpHead, suppliedPositionsHead } from './TableData.tsx';
 import { reserves } from '@lendos/constants/reserves';
 import { useStateContext } from '../../providers/StateProvider';
-import { useAccountContext } from '../../providers/AccountProvider';
 import { useModalContext } from '../../providers/ModalProvider';
+import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
 
 interface SuppliedPositionsListProps {
   type: Reserves;
@@ -20,18 +20,18 @@ interface SuppliedPositionsListProps {
 
 export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
   const { currentMarketData } = useStateContext();
-  const { accountSummary } = useAccountContext();
-  const { data: userData } = accountSummary;
+  const { accountSummary } = useReservesContext();
+
   const { openSupply, openWithdraw, openCollateralChange } = useModalContext();
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
 
   const data = useMemo(() => {
     return reserves.map(reserve => {
-      const canBeEnabledAsCollateral = userData
+      const canBeEnabledAsCollateral = accountSummary
         ? reserve.reserveLiquidationThreshold !== '0' &&
-          ((!reserve.isIsolated && !userData.isInIsolationMode) ||
-            userData.isolatedReserve?.underlyingAsset === reserve.underlyingAsset ||
-            (reserve.isIsolated && userData.totalCollateralMarketReferenceCurrency === '0'))
+          ((!reserve.isIsolated && !accountSummary.isInIsolationMode) ||
+            accountSummary.isolatedReserve?.underlyingAsset === reserve.underlyingAsset ||
+            (reserve.isIsolated && accountSummary.totalCollateralMarketReferenceCurrency === '0'))
         : false;
       return getSuppliedPositionsCells(
         reserve,
@@ -42,7 +42,7 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
         canBeEnabledAsCollateral,
       );
     }) as TableData[];
-  }, [currentMarketData, openCollateralChange, openSupply, openWithdraw, userData]);
+  }, [currentMarketData, openCollateralChange, openSupply, openWithdraw, accountSummary]);
 
   return (
     <ListWrapper
@@ -64,16 +64,16 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
           <>
             {!!data.length && (
               <>
-                <ListTopInfoItem title={'Balance'} value={userData?.totalLiquidityUSD ?? 0} />
+                <ListTopInfoItem title={'Balance'} value={accountSummary?.totalLiquidityUSD ?? 0} />
                 <ListTopInfoItem
                   title='APY'
-                  value={userData?.earnedAPY ?? 0}
+                  value={accountSummary?.earnedAPY ?? 0}
                   percent
                   tooltip={<TotalSupplyAPYTooltip setOpen={setTooltipOpen} />}
                 />
                 <ListTopInfoItem
                   title='Collateral'
-                  value={userData?.totalCollateralUSD ?? 0}
+                  value={accountSummary?.totalCollateralUSD ?? 0}
                   tooltip={<CollateralTooltip setOpen={setTooltipOpen} />}
                 />
               </>

@@ -2,7 +2,6 @@ import { valueToBigNumber } from '@aave/math-utils';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
-import { useAccountContext } from '../../providers/AccountProvider';
 import { ListTopInfoItem } from '../../components/ListTopInfoItem';
 import { TotalBorrowAPYTooltip } from '../../components/infoTooltips/TotalBorrowAPYTooltip.tsx';
 import { ListWrapper } from '../../components/ListWrapper';
@@ -13,10 +12,11 @@ import { reservesDashboard } from '@lendos/constants/reserves';
 import { borrowedPositionsHead, getBorrowedPositionsCells } from './TableData.tsx';
 import { useStateContext } from '../../providers/StateProvider';
 import { useModalContext } from '../../providers/ModalProvider';
+import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
 
 export const BorrowedPositionsList = () => {
-  const { accountSummary } = useAccountContext();
-  const { data: userData } = accountSummary;
+  const { accountSummary } = useReservesContext();
+
   const { openBorrow, openRepay, openRateSwitch, openDebtSwitch } = useModalContext();
   const { currentMarketData } = useStateContext();
 
@@ -61,12 +61,12 @@ export const BorrowedPositionsList = () => {
   //   ) || [];
 
   const maxBorrowAmount = valueToBigNumber(
-    userData?.totalBorrowsMarketReferenceCurrency ?? '0',
-  ).plus(userData?.availableBorrowsMarketReferenceCurrency ?? '0');
+    accountSummary?.totalBorrowsMarketReferenceCurrency ?? '0',
+  ).plus(accountSummary?.availableBorrowsMarketReferenceCurrency ?? '0');
 
   const collateralUsagePercent = maxBorrowAmount.eq(0)
     ? '0'
-    : valueToBigNumber(userData?.totalBorrowsMarketReferenceCurrency ?? '0')
+    : valueToBigNumber(accountSummary?.totalBorrowsMarketReferenceCurrency ?? '0')
         .div(maxBorrowAmount)
         .toFixed();
 
@@ -104,10 +104,10 @@ export const BorrowedPositionsList = () => {
         <>
           {!!data.length && (
             <>
-              <ListTopInfoItem title={<>Balance</>} value={userData?.totalBorrowsUSD ?? 0} />
+              <ListTopInfoItem title={<>Balance</>} value={accountSummary?.totalBorrowsUSD ?? 0} />
               <ListTopInfoItem
                 title={<>APY</>}
-                value={userData?.debtAPY ?? 0}
+                value={accountSummary?.debtAPY ?? 0}
                 percent
                 tooltip={<TotalBorrowAPYTooltip setOpen={setTooltipOpen} />}
               />

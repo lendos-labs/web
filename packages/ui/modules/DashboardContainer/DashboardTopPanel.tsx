@@ -13,6 +13,7 @@ import { useModalContext } from '../../providers/ModalProvider';
 import { normalize, UserIncentiveData, valueToBigNumber } from '@aave/math-utils';
 import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
 import { LiquidationRiskParametresInfoModal } from './LiquidationRiskParametresInfoModal';
+import { useReservesContext } from '../../providers/ReservesProvider';
 
 const DashboardTopPanel = () => {
   const reserves: FormattedReservesAndIncentives<ReserveToken>[] = [];
@@ -20,22 +21,23 @@ const DashboardTopPanel = () => {
   const [open, setOpen] = useState(false);
 
   const { currentMarketData, currentNetworkData } = useStateContext();
-  const { account, accountSummary } = useAccountContext();
+  const { account } = useAccountContext();
+  const { accountSummary, loading } = useReservesContext();
   const { openClaimRewards } = useModalContext();
-
-  const { data, loading } = accountSummary;
 
   const { breakpoints } = useTheme();
   const downToSM = useMediaQuery(breakpoints.down('sm'));
   const noDataTypographyVariant = downToSM ? 'secondary16' : 'secondary21';
 
-  const { claimableRewardsUsd } = data
-    ? Object.keys(data.calculatedUserIncentives).reduce<{
+  const { claimableRewardsUsd } = accountSummary
+    ? Object.keys(accountSummary.calculatedUserIncentives).reduce<{
         claimableRewardsUsd: number;
         assets: string[];
       }>(
         (acc, rewardTokenAddress) => {
-          const incentive = data.calculatedUserIncentives[rewardTokenAddress] as UserIncentiveData;
+          const incentive = accountSummary.calculatedUserIncentives[
+            rewardTokenAddress
+          ] as UserIncentiveData;
 
           const rewardBalance = normalize(
             incentive.claimableRewards,
@@ -72,10 +74,10 @@ const DashboardTopPanel = () => {
     : { claimableRewardsUsd: 0 };
 
   const loanToValue =
-    data?.totalCollateralMarketReferenceCurrency === '0'
+    accountSummary?.totalCollateralMarketReferenceCurrency === '0'
       ? '0'
-      : valueToBigNumber(data?.totalBorrowsMarketReferenceCurrency ?? '0')
-          .dividedBy(data?.totalCollateralMarketReferenceCurrency ?? '1')
+      : valueToBigNumber(accountSummary?.totalBorrowsMarketReferenceCurrency ?? '0')
+          .dividedBy(accountSummary?.totalCollateralMarketReferenceCurrency ?? '1')
           .toFixed();
 
   return (
@@ -90,7 +92,7 @@ const DashboardTopPanel = () => {
         <TopInfoPanelItem title='Net worth' loading={loading} hideIcon>
           {account ? (
             <FormattedNumber
-              value={Number(data?.netWorthUSD ?? 0)}
+              value={Number(accountSummary?.netWorthUSD ?? 0)}
               symbol='USD'
               variant={'numberM'}
               visibleDecimals={2}
@@ -110,9 +112,9 @@ const DashboardTopPanel = () => {
           loading={loading}
           hideIcon
         >
-          {account && data && Number(data.netWorthUSD) > 0 ? (
+          {account && accountSummary && Number(accountSummary.netWorthUSD) > 0 ? (
             <FormattedNumber
-              value={data.netAPY || 0}
+              value={accountSummary.netAPY || 0}
               variant={'numberM'}
               visibleDecimals={2}
               percent
@@ -121,14 +123,14 @@ const DashboardTopPanel = () => {
             <NoData variant={noDataTypographyVariant} sx={{ opacity: '0.7', color: 'text.dark' }} />
           )}
         </TopInfoPanelItem>
-        {account && data?.healthFactor !== '-1' && (
+        {account && accountSummary?.healthFactor !== '-1' && (
           <TopInfoPanelItem
             title={<Box sx={{ display: 'inline-flex', alignItems: 'center' }}>Health factor</Box>}
             loading={loading}
             hideIcon
           >
             <HealthFactorNumber
-              value={data?.healthFactor ?? '-1'}
+              value={accountSummary?.healthFactor ?? '-1'}
               variant={'numberM'}
               onInfoClick={() => {
                 setOpen(true);
@@ -174,10 +176,10 @@ const DashboardTopPanel = () => {
       <LiquidationRiskParametresInfoModal
         open={open}
         setOpen={setOpen}
-        healthFactor={data?.healthFactor ?? '-1'}
+        healthFactor={accountSummary?.healthFactor ?? '-1'}
         loanToValue={loanToValue}
-        currentLoanToValue={data?.currentLoanToValue ?? '0'}
-        currentLiquidationThreshold={data?.currentLiquidationThreshold ?? '0'}
+        currentLoanToValue={accountSummary?.currentLoanToValue ?? '0'}
+        currentLiquidationThreshold={accountSummary?.currentLiquidationThreshold ?? '0'}
       />
     </>
   );
