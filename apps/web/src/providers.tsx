@@ -12,6 +12,8 @@ import { ModalContextProvider } from '@lendos/ui/providers/ModalProvider';
 import { StateProvider } from './state-provider';
 import { AccountProvider } from './account-provider';
 import QueryProvider from '@lendos/ui/providers/QueryProvider';
+import { BalanceProvider } from './balance-provider';
+import { ReservesProvider } from './reserves-providers';
 
 export const Providers = ({ children, initialState }: ChildrenProps & { initialState?: State }) => {
   return (
@@ -22,9 +24,13 @@ export const Providers = ({ children, initialState }: ChildrenProps & { initialS
             <ConnectKitProvider>
               <FuelProviders>
                 <AccountProvider>
-                  <ModalContextProvider>
-                    <MainLayout>{children}</MainLayout>
-                  </ModalContextProvider>
+                  <ReservesProvider>
+                    <BalanceProvider>
+                      <ModalContextProvider>
+                        <MainLayout>{children}</MainLayout>
+                      </ModalContextProvider>
+                    </BalanceProvider>
+                  </ReservesProvider>
                 </AccountProvider>
               </FuelProviders>
             </ConnectKitProvider>
