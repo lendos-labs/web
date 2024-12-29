@@ -1,3 +1,5 @@
+'use client';
+
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 import { AssetCapsProvider } from '../../providers/AssetCapsProvider';
 import { ReserveTopDetailsWrapper } from './ReserveTopDetailsWrapper';

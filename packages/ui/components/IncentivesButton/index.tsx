@@ -1,3 +1,5 @@
+'use client';
+
 import { valueToBigNumber } from '@aave/math-utils';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import { Box, SvgIcon, Typography } from '@mui/material';

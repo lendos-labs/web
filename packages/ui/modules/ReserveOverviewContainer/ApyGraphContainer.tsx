@@ -1,3 +1,5 @@
+'use client';
+
 import { MarketDataType } from '@lendos/types/market';
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 import { Box, Button, CircularProgress, Typography, useTheme } from '@mui/material';
@@ -8,8 +10,6 @@ import { GraphLegend } from './GraphLegend';
 import { GraphTimeRangeSelector } from './GraphTimeRangeSelector';
 import { ApyGraph } from './ApyGraph';
 import { useReserveRatesHistory } from './hooks/useReserveRatesHistory';
-
-
 
 interface ApyGraphContainerProps {
   graphKey: ApyGraphContainerKey;

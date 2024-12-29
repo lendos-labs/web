@@ -1,3 +1,5 @@
+'use client';
+
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Box, BoxProps, IconButton, SvgIcon, Typography } from '@mui/material';
 import { TypographyProps } from '@mui/material/Typography';

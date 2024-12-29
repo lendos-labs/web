@@ -1,3 +1,5 @@
+'use client';
+
 import { StyledComponent } from '@emotion/styled';
 import { Box, ClickAwayListener, Popper, Tooltip } from '@mui/material';
 import { PopperProps } from '@mui/material/Popper/BasePopper.types';
