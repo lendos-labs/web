@@ -1,24 +1,17 @@
-import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
-import { Box, Skeleton, Typography, useMediaQuery, useTheme } from '@mui/material';
+'use client';
 
+import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { useStateContext } from '../../providers/StateProvider';
 import { MarketLogo } from '../../components/MarketLogo';
-
 import { TokenIcon } from '../../components/TokenIcon';
 import { TopInfoPanelItem } from '../../components/TopInfoPanelItem';
 import { TopInfoPanel } from '../../components/TopInfoPanel';
 import { BackButton } from './BackButton';
-// import { useProtocolDataContext } from 'src/hooks/useProtocolDataContext';
-// import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
-// import { TopInfoPanel } from '../../components/TopInfoPanel/TopInfoPanel';
-// import { TopInfoPanelItem } from '../../components/TopInfoPanel/TopInfoPanelItem';
-// import { AddTokenDropdown } from './AddTokenDropdown';
-// import { ReserveTopDetails } from './ReserveTopDetails';
-// import { TokenLinkDropdown } from './TokenLinkDropdown';
-// import { MarketLogo } from '../../components/MarketSwitcher';
-// import React from 'react';
-// import { FormattedReservesAndIncentives, Reserves } from 'src/types/reserves';
-// import { SingleTokenIcon } from 'src/components/primitives/TokenIcon';
+import { TokenLinkDropdown } from './TokenLinkDropdown';
+import { AddTokenDropdown } from './AddTokenDropdown';
+import { useAccountContext } from '../../providers/AccountProvider';
+import { ReserveTopDetails } from './ReserveTopDetails';
 
 interface ReserveTopDetailsProps {
   reserve: FormattedReservesAndIncentives;
@@ -27,10 +20,7 @@ interface ReserveTopDetailsProps {
 
 export const ReserveTopDetailsWrapper = ({ reserve, loading }: ReserveTopDetailsProps) => {
   const { currentNetworkData, currentMarketData } = useStateContext();
-  const { addERC20Token, switchNetwork, chainId: connectedChainId, connected } = useWeb3Context();
-
-  const theme = useTheme();
-  const downToSM = useMediaQuery(theme.breakpoints.down('sm'));
+  const { connected } = useAccountContext();
 
   const ReserveIcon = () => {
     return (
@@ -76,7 +66,7 @@ export const ReserveTopDetailsWrapper = ({ reserve, loading }: ReserveTopDetails
           >
             <BackButton />
             <MarketLogo
-              size={theme => (theme.breakpoints.down('sm') ? 18 : 24)}
+              size={theme => (!theme.breakpoints.down('sm') ? 18 : 24)}
               sx={{
                 mr: 3,
               }}
@@ -98,21 +88,31 @@ export const ReserveTopDetailsWrapper = ({ reserve, loading }: ReserveTopDetails
       }
     >
       <Box
-        sx={{
+        sx={theme => ({
           display: 'flex',
+          alignItems: 'center',
           justifyContent: 'space-between',
-          flexDirection: downToSM ? 'column' : 'row',
+          flexDirection: 'row',
           gap: { sx: 0, lg: 6 },
-        }}
+          [theme.breakpoints.down('sm')]: {
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+          },
+        })}
       >
-        {!downToSM && (
+        <Box
+          sx={theme => ({
+            display: 'block',
+            [theme.breakpoints.down('sm')]: {
+              display: 'none',
+            },
+          })}
+        >
           <TopInfoPanelItem
             title={
-              !loading
-                ? reserve.type === Reserves.ASSET
-                  ? reserve.symbol
-                  : `${reserve.token0.symbol}/${reserve.token1.symbol}`
-                : null
+              reserve.type === Reserves.ASSET
+                ? reserve.symbol
+                : `${reserve.token0.symbol}/${reserve.token1.symbol}`
             }
             withoutIconWrapper
             icon={<ReserveIcon />}
@@ -122,46 +122,41 @@ export const ReserveTopDetailsWrapper = ({ reserve, loading }: ReserveTopDetails
               <ReserveName />
             </Box>
           </TopInfoPanelItem>
-        )}
-        {downToSM && (
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 6 }}>
-            <ReserveIcon />
-            <Box>
-              {!loading && (
-                <Typography sx={{ color: 'text.dark' }} variant='caption'>
-                  {reserve.type === Reserves.ASSET
-                    ? reserve.symbol
-                    : `${reserve.token0.symbol}/${reserve.token1.symbol}`}
-                </Typography>
+        </Box>
+
+        <Box
+          sx={theme => ({
+            display: 'none',
+            [theme.breakpoints.down('sm')]: {
+              display: 'flex',
+              alignItems: 'center',
+              mb: 6,
+            },
+          })}
+        >
+          <ReserveIcon />
+          <Box>
+            {!loading && (
+              <Typography sx={{ color: 'text.dark' }} variant='caption'>
+                {reserve.type === Reserves.ASSET
+                  ? reserve.symbol
+                  : `${reserve.token0.symbol}/${reserve.token1.symbol}`}
+              </Typography>
+            )}
+            <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
+              <ReserveName />
+              {loading ? (
+                <Skeleton width={160} height={16} sx={{ ml: 1, background: 'red' }} />
+              ) : (
+                <Box sx={{ display: 'flex' }}>
+                  <TokenLinkDropdown poolReserve={reserve} hideAToken={false} />
+
+                  {connected && <AddTokenDropdown poolReserve={reserve} hideAToken={false} />}
+                </Box>
               )}
-              <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
-                <ReserveName />
-                {loading ? (
-                  <Skeleton width={160} height={16} sx={{ ml: 1, background: 'red' }} />
-                ) : (
-                  <Box sx={{ display: 'flex' }}>
-                    <TokenLinkDropdown
-                      poolReserve={reserve}
-                      downToSM={downToSM}
-                      hideAToken={false}
-                    />
-                    {connected && (
-                      <AddTokenDropdown
-                        poolReserve={reserve}
-                        downToSM={downToSM}
-                        switchNetwork={switchNetwork}
-                        addERC20Token={addERC20Token}
-                        currentChainId={currentChainId}
-                        connectedChainId={connectedChainId}
-                        hideAToken={false}
-                      />
-                    )}
-                  </Box>
-                )}
-              </Box>
             </Box>
           </Box>
-        )}
+        </Box>
 
         <Box
           sx={{

@@ -1,4 +1,4 @@
-import { Box, Skeleton, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
 interface TopInfoPanelItemProps {
@@ -23,9 +23,6 @@ export const TopInfoPanelItem = ({
   loading,
   withoutIconWrapper,
 }: TopInfoPanelItemProps) => {
-  const theme = useTheme();
-  const upToSM = useMediaQuery(theme.breakpoints.up('sm'));
-
   return (
     <Box
       sx={{
@@ -74,7 +71,19 @@ export const TopInfoPanelItem = ({
 
           {titleIcon && titleIcon}
         </Box>
-        {loading ? <Skeleton width={60} height={upToSM ? 28 : 24} /> : children}
+        {loading ? (
+          <Skeleton
+            width={60}
+            sx={theme => ({
+              height: 24,
+              [theme.breakpoints.up('sm')]: {
+                height: 28,
+              },
+            })}
+          />
+        ) : (
+          children
+        )}
       </Box>
     </Box>
   );
