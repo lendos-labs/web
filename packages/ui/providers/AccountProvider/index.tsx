@@ -8,8 +8,11 @@ export interface AccountContextType {
     loading: boolean;
     error: unknown;
   };
+  chainId: number;
   connected: boolean;
   loading: boolean;
+  addToken: () => Promise<void>;
+  switchNetwork: () => Promise<void>;
   connect: () => void;
   disconnect: () => void;
 }

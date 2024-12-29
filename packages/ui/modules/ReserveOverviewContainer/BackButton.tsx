@@ -1,7 +1,8 @@
 import { Button, SvgIcon } from '@mui/material';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackOutlined';
-import { useRouter } from 'next/router';
+
 import { Routes } from '@lendos/constants/routes';
+import { useRouter } from 'next/navigation';
 
 export const BackButton = () => {
   const router = useRouter();
@@ -24,9 +25,7 @@ export const BackButton = () => {
         if ((history.state as { idx: number }).idx !== 0) {
           router.back();
         } else {
-          void (async () => {
-            await router.push(Routes.markets);
-          })();
+          router.push(Routes.markets);
         }
       }}
     >
