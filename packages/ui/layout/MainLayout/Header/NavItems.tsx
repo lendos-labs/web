@@ -1,3 +1,5 @@
+'use client';
+
 import { Button, List, ListItem, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useStateContext } from '../../../providers/StateProvider';
 import { navigation } from '@lendos/constants/routes';

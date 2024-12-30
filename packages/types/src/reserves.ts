@@ -1,5 +1,6 @@
 import { ReserveDataHumanized as ReserveDataHumanizedType } from '@aave/contract-helpers';
-import { ExtendedFormattedUser } from './user.js';
+import { ExtendedFormattedUser, FormatReserveUSDResponse } from './user.js';
+import { CustomMarket } from './market.js';
 
 export interface ReserveIncentiveResponse {
   incentiveAPR: string;
@@ -211,4 +212,15 @@ export interface PoolBaseCurrencyHumanized {
   marketReferenceCurrencyPriceInUsd: string;
   networkBaseTokenPriceInUsd: string;
   networkBaseTokenPriceDecimals: number;
+}
+
+export interface TotalFormatReserve extends FormatReserveUSDResponse {
+  market: CustomMarket;
+  marketTitle: string;
+  chainId: number;
+  iconSymbol?: string;
+}
+
+export interface TotalFormatReserveWithMarkets extends TotalFormatReserve {
+  markets: TotalFormatReserve[];
 }
