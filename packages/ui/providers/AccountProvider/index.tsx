@@ -1,10 +1,12 @@
-import { createContext, useContext } from 'react';
+import { createContext, Dispatch, SetStateAction, useContext } from 'react';
 
 export interface AccountContextType {
   account: string | null;
   chainId: number;
   connected: boolean;
   loading: boolean;
+  switchNetworkError: Error | undefined;
+  setSwitchNetworkError: Dispatch<SetStateAction<Error | undefined>>;
   addToken: () => Promise<void>;
   switchNetwork: () => Promise<void>;
   connect: () => void;

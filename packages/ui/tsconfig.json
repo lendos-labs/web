@@ -18,6 +18,7 @@
     "modules",
     "services",
     "hooks",
-    "utils"
+    "utils",
+    "modals"
   ]
 }
