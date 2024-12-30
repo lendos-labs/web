@@ -2,12 +2,13 @@ import { ListWrapper } from '@lendos/ui/components/ListWrapper';
 import { Typography } from '@mui/material';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { CustomTable, TableData } from '@lendos/ui/components/Table';
-import { FormattedReservesAndIncentives, Reserves, ReserveToken } from '@lendos/types/reserves';
-import { getSupplyAssetsCells, supplyAssetsHead } from './TableData.tsx';
-import { reserves } from '@lendos/constants/reserves';
+import { DashboardReserve, FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
+import { dexLpSupplyAssetsHead, getSupplyAssetsCells, supplyAssetsHead } from './TableData.tsx';
+import { dexReserves, reserves } from '@lendos/constants/reserves';
 import { useCallback, useMemo, useState } from 'react';
 import { useStateContext } from '../../providers/StateProvider';
 import { useModalContext } from '../../providers/ModalProvider';
+import { useBalanceContext } from '../../providers/BalanceProvider';
 
 interface SupplyAssetsListProps {
   type: Reserves;
@@ -19,6 +20,7 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
 
   const { currentMarketData } = useStateContext();
   const { openSupply, openSwitch } = useModalContext();
+  const { walletBalances } = useBalanceContext();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -29,23 +31,24 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
   };
 
   const handleSwitchClick = useCallback(
-    (reserve: FormattedReservesAndIncentives<ReserveToken>) => {
+    (reserve: FormattedReservesAndIncentives) => {
       openSwitch(reserve.underlyingAsset);
       setAnchorEl(null);
     },
-    [openSwitch, setAnchorEl], // Залежності, від яких залежить функція
+    [openSwitch, setAnchorEl],
   );
 
-  const data = useMemo(() => {
-    return reserves.map(reserve => {
-      // const wrappedToken = wrappedTokenReserves.find(
-      //   r => r.tokenOut.underlyingAsset === underlyingAsset,
-      // );
-      //
-      // const canSupplyAsWrappedToken =
-      //   wrappedToken &&
-      //   walletBalances[wrappedToken.tokenIn.underlyingAsset.toLowerCase()].amount !== '0';
+  const d = (type === Reserves.ASSET ? reserves : dexReserves).map(reserve => {
+    const walletBalance = walletBalances[reserve.underlyingAsset];
+    return {
+      ...reserve,
+      walletBalance: walletBalance?.amount ?? '0',
+      walletBalanceUSD: walletBalance?.amountUSD ?? '0',
+    };
+  });
 
+  const data = useMemo(() => {
+    return (d as FormattedReservesAndIncentives<DashboardReserve>[]).map(reserve => {
       return getSupplyAssetsCells(
         reserve,
         currentMarketData,
@@ -55,10 +58,9 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
         handleClick,
         anchorEl,
         open,
-        // canSupplyAsWrappedToken,
       );
     }) as TableData[];
-  }, [currentMarketData, openSupply, handleSwitchClick, anchorEl, open]);
+  }, [d, currentMarketData, openSupply, handleSwitchClick, anchorEl, open]);
 
   return (
     <ListWrapper
@@ -100,7 +102,12 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
       //   </>
       // }
     >
-      <CustomTable heightRow={50} header={supplyAssetsHead} data={data} paddingColl={1} />
+      <CustomTable
+        heightRow={50}
+        header={type === Reserves.ASSET ? supplyAssetsHead : dexLpSupplyAssetsHead}
+        data={data}
+        paddingColl={1}
+      />
     </ListWrapper>
   );
 };

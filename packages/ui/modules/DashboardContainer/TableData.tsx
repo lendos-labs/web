@@ -14,6 +14,8 @@ import {
   DashboardReserve,
   FormattedReservesAndIncentives,
   InterestRate,
+  ReserveLpToken,
+  Reserves,
   ReserveToken,
 } from '@lendos/types/reserves';
 import { TokenIcon } from '../../components/TokenIcon';
@@ -40,6 +42,7 @@ import { AvailableTooltip } from '../../components/infoTooltips/AvailableTooltip
 import { CapType } from '@lendos/types/cap';
 import { VariableAPYTooltip } from '../../components/VariableAPYTooltip';
 import { CapsHint } from '../../components/CapsHint';
+import { ReserveSubheader } from '../../components/ReserveSubheader';
 
 export const suppliedPositionsHead: TableHeadProperties[] = [
   {
@@ -65,24 +68,6 @@ export const suppliedPositionsHead: TableHeadProperties[] = [
   {
     key: 'action',
     title: '',
-  },
-];
-
-export const lpHead = [
-  {
-    key: 'symbol',
-    title: 'Pool',
-    mobileHide: true,
-  },
-  {
-    key: 'Balance',
-    title: 'Value',
-    sortKey: 'underlyingBalanceUSD',
-  },
-  {
-    key: 'DEX',
-    title: 'DEX',
-    sortKey: 'dex',
   },
 ];
 
@@ -215,6 +200,71 @@ export const getSuppliedPositionsCells = (
   };
 };
 
+export const lpHead = [
+  {
+    key: 'symbol',
+    title: 'Pool',
+    mobileHide: true,
+  },
+  {
+    key: 'underlyingBalanceUSD',
+    title: 'Value',
+    sortKey: 'underlyingBalanceUSD',
+  },
+  {
+    key: 'dexName',
+    title: 'DEX',
+    sortKey: 'dexName',
+  },
+];
+
+export const getDexLpSuppliedPositionsCells = (
+  reserve: FormattedReservesAndIncentives<ReserveLpToken>,
+  market: MarketDataType,
+) => {
+  return {
+    symbol: (
+      <Box
+        component={Link}
+        href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
+        sx={{ display: 'flex', alignItems: 'center', gap: 3.5 }}
+      >
+        <TokenIcon
+          symbol={`${reserve.token0.symbol}_${reserve.token1.symbol}`}
+          sx={{ fontSize: ['40px', '40px', '40px', '26px'] }}
+        />
+        <Tooltip
+          title={`${reserve.name} (${reserve.token0.symbol}/${reserve.token1.symbol})`}
+          arrow
+          placement='top'
+        >
+          <Box>
+            <Typography variant='subtitle' sx={{ color: 'text.dark' }} noWrap data-cy={`assetName`}>
+              {reserve.token0.symbol}/{reserve.token1.symbol}
+            </Typography>
+            <Typography
+              variant='subheader2'
+              color='text.muted'
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {reserve.token0.symbol}/{reserve.token1.symbol}
+            </Typography>
+          </Box>
+        </Tooltip>
+      </Box>
+    ),
+    // TODO: need to find out what is underlyingBalanceUSD
+    underlyingBalanceUSD: <ReserveSubheader value={'123'} variant='subtitle' />,
+    dexName: (
+      <Typography variant='subtitle' sx={{ ml: 3, color: 'text.dark' }} noWrap data-cy={`dexName`}>
+        {reserve.dex.name}
+      </Typography>
+    ),
+  };
+};
+
 export const supplyAssetsHead: TableHeadProperties[] = [
   {
     key: 'symbol',
@@ -243,15 +293,24 @@ export const supplyAssetsHead: TableHeadProperties[] = [
 ];
 
 export const getSupplyAssetsCells = (
-  reserve: FormattedReservesAndIncentives<ReserveToken>,
+  reserve: FormattedReservesAndIncentives<DashboardReserve>,
   market: MarketDataType,
   openSupply: ModalContextType<ModalArgsType>['openSupply'],
-  handleSwitchClick: (reserve: FormattedReservesAndIncentives<ReserveToken>) => void,
+  handleSwitchClick: (reserve: FormattedReservesAndIncentives) => void,
   handleClose: () => void,
   handleClick: (event: MouseEvent<HTMLButtonElement>) => void,
   anchorEl: HTMLElement | null,
   open: boolean,
 ) => {
+  const symbol =
+    reserve.type === Reserves.ASSET
+      ? reserve.iconSymbol
+      : `${reserve.token0.symbol}/${reserve.token1.symbol}`;
+
+  const iconSymbol =
+    reserve.type === Reserves.ASSET
+      ? reserve.iconSymbol
+      : `${reserve.token0.symbol}_${reserve.token1.symbol}`;
   return {
     symbol: (
       <Box
@@ -259,14 +318,11 @@ export const getSupplyAssetsCells = (
         href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
         sx={{ display: 'flex', alignItems: 'center', gap: 3.5 }}
       >
-        <TokenIcon
-          symbol={reserve.iconSymbol}
-          sx={{ fontSize: ['40px', '40px', '40px', '26px'] }}
-        />
-        <Tooltip title={`${reserve.name} (${reserve.symbol})`} arrow placement='top'>
+        <TokenIcon symbol={iconSymbol} sx={{ fontSize: ['40px', '40px', '40px', '26px'] }} />
+        <Tooltip title={`${reserve.name} (${symbol})`} arrow placement='top'>
           <Box>
             <Typography variant='subtitle' sx={{ color: 'text.dark' }} noWrap data-cy={`assetName`}>
-              {reserve.symbol}
+              {symbol}
             </Typography>
             <Typography
               variant='subheader2'
@@ -275,60 +331,92 @@ export const getSupplyAssetsCells = (
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {reserve.symbol}
+              {symbol}
             </Typography>
           </Box>
         </Tooltip>
       </Box>
     ),
-    walletBalance: <Box>balance</Box>,
-    supplyAPY: (
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        {reserve.rewardAPY && reserve.rewardAPY > 0 ? (
-          <Box>
-            <RewardAPYTooltip
-              supplyAPY={reserve.supplyAPY}
-              rewardAPY={reserve.rewardAPY}
-              cont={
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                  }}
-                >
-                  <StarCircle />
-                  <FormattedNumber
-                    compact
-                    value={
-                      reserve.rewardAPY - Number(reserve.supplyAPY) * 100 > 0
-                        ? (reserve.rewardAPY || 0) / 100
-                        : reserve.supplyAPY
-                    }
-                    variant='numberS'
-                    symbolsColor={'text.dark'}
-                    color={'text.dark'}
-                    percent
-                  />
-                </Box>
-              }
-            />
-          </Box>
-        ) : (
-          <Box sx={{ display: 'flex' }}>
-            <IncentivesCard
-              value={Number(reserve.supplyAPY)}
-              incentives={reserve.aIncentivesData}
-              symbol={reserve.symbol}
-            />
-          </Box>
-        )}
-      </Box>
-    ),
-    usageAsCollateralEnabledOnUser: (
-      <ListItemCanBeCollateral isIsolated={reserve.isIsolated} usageAsCollateralEnabled={false} />
-    ),
+    ...(reserve.type === Reserves.ASSET && {
+      // TODO: need change
+      walletBalance: (
+        <ListValueColumn
+          symbol={symbol}
+          value={Number(reserve.walletBalance)}
+          subValue={reserve.walletBalanceUSD}
+          withTooltip
+          disabled={Number(reserve.walletBalance) === 0}
+        />
+      ),
+      supplyAPY: (
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {reserve.rewardAPY && reserve.rewardAPY > 0 ? (
+            <Box>
+              <RewardAPYTooltip
+                supplyAPY={reserve.supplyAPY}
+                rewardAPY={reserve.rewardAPY}
+                cont={
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                    }}
+                  >
+                    <StarCircle />
+                    <FormattedNumber
+                      compact
+                      value={
+                        reserve.rewardAPY - Number(reserve.supplyAPY) * 100 > 0
+                          ? (reserve.rewardAPY || 0) / 100
+                          : reserve.supplyAPY
+                      }
+                      variant='numberS'
+                      symbolsColor={'text.dark'}
+                      color={'text.dark'}
+                      percent
+                    />
+                  </Box>
+                }
+              />
+            </Box>
+          ) : (
+            <Box sx={{ display: 'flex' }}>
+              <IncentivesCard
+                value={Number(reserve.supplyAPY)}
+                incentives={reserve.aIncentivesData}
+                symbol={reserve.symbol}
+              />
+            </Box>
+          )}
+        </Box>
+      ),
+      usageAsCollateralEnabledOnUser: (
+        <ListItemCanBeCollateral isIsolated={reserve.isIsolated} usageAsCollateralEnabled={false} />
+      ),
+    }),
+    ...(reserve.type === Reserves.LP && {
+      walletBalance: (
+        <FormattedNumber
+          value={Number(reserve.walletBalance)}
+          visibleDecimals={2}
+          variant='subtitle'
+          color='text.dark'
+        />
+      ),
+
+      dex: (
+        <Typography
+          variant='subtitle'
+          sx={{ ml: 3, color: 'text.dark' }}
+          noWrap
+          data-cy={`dexName`}
+        >
+          {(reserve as ReserveLpToken).dex.name}
+        </Typography>
+      ),
+    }),
     action: (
       <ListButtonsColumn>
         <Button
@@ -419,6 +507,28 @@ export const getSupplyAssetsCells = (
     ),
   };
 };
+
+export const dexLpSupplyAssetsHead: TableHeadProperties[] = [
+  {
+    key: 'symbol',
+    title: 'Pool',
+    mobileHide: true,
+  },
+  {
+    key: 'walletBalance',
+    title: 'Collateral value',
+    sortKey: 'walletBalance',
+  },
+
+  {
+    key: 'dex',
+    title: 'DEX',
+  },
+  {
+    key: 'action',
+    title: '',
+  },
+];
 
 export const borrowedPositionsHead: TableHeadProperties[] = [
   {

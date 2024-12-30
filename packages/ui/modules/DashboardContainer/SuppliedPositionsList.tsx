@@ -8,8 +8,13 @@ import { ListTopInfoItem } from '../../components/ListTopInfoItem';
 import { TotalSupplyAPYTooltip } from '../../components/infoTooltips/TotalSupplyAPYTooltip.tsx';
 import { CollateralTooltip } from '../../components/infoTooltips/CollateralTooltip.tsx';
 import { CustomTable, TableData } from '../../components/Table';
-import { getSuppliedPositionsCells, lpHead, suppliedPositionsHead } from './TableData.tsx';
-import { reserves } from '@lendos/constants/reserves';
+import {
+  getDexLpSuppliedPositionsCells,
+  getSuppliedPositionsCells,
+  lpHead,
+  suppliedPositionsHead,
+} from './TableData.tsx';
+import { dexReserves, reserves } from '@lendos/constants/reserves';
 import { useStateContext } from '../../providers/StateProvider';
 import { useModalContext } from '../../providers/ModalProvider';
 import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
@@ -43,6 +48,12 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
       );
     }) as TableData[];
   }, [currentMarketData, openCollateralChange, openSupply, openWithdraw, accountSummary]);
+
+  const dexLpData = useMemo(() => {
+    return dexReserves.map(reserve =>
+      getDexLpSuppliedPositionsCells(reserve, currentMarketData),
+    ) as TableData[];
+  }, [currentMarketData]);
 
   return (
     <ListWrapper
@@ -86,7 +97,7 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
         <CustomTable
           heightRow={50}
           header={type === Reserves.ASSET ? suppliedPositionsHead : lpHead}
-          data={data}
+          data={type === Reserves.ASSET ? data : dexLpData}
           paddingColl={1}
         />
       ) : (

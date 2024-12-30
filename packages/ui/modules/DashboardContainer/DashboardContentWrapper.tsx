@@ -4,6 +4,8 @@ import { SupplyAssetsList } from './SupplyAssetsList.tsx';
 import { SuppliedPositionsList } from './SuppliedPositionsList.tsx';
 import { BorrowedPositionsList } from './BorrowedPositionsList.tsx';
 import { BorrowAssetsList } from './BorrowAssetsList.tsx';
+import { isFeatureEnabled } from '@lendos/constants/markets';
+import { useStateContext } from '../../providers/StateProvider';
 
 interface DashboardContentWrapperProps {
   isBorrow: boolean;
@@ -11,9 +13,11 @@ interface DashboardContentWrapperProps {
 
 export const DashboardContentWrapper = ({ isBorrow }: DashboardContentWrapperProps) => {
   const { breakpoints } = useTheme();
+  const { currentMarketData } = useStateContext();
 
   const isDesktop = useMediaQuery(breakpoints.up('lg'));
   const paperWidth = isDesktop ? 'calc(50% - 8px)' : '100%';
+  const isDexLp = isFeatureEnabled.dexLp(currentMarketData);
 
   return (
     <Box
@@ -32,13 +36,13 @@ export const DashboardContentWrapper = ({ isBorrow }: DashboardContentWrapperPro
         }}
       >
         <SuppliedPositionsList type={Reserves.ASSET} />
-        {/* {isDexLp && (*/}
-        {/*  <Box sx={{ mt: 4 }}>*/}
-        {/*    <SuppliedPositionsList type={Reserves.LP} />*/}
-        {/*  </Box>*/}
-        {/* )}*/}
+        {isDexLp && (
+          <Box sx={{ mt: 4 }}>
+            <SuppliedPositionsList type={Reserves.LP} />
+          </Box>
+        )}
         <SupplyAssetsList type={Reserves.ASSET} />
-        {/* {isDexLp && <SupplyAssetsList type={Reserves.LP} />}*/}
+        {isDexLp && <SupplyAssetsList type={Reserves.LP} />}
       </Box>
 
       <Box
