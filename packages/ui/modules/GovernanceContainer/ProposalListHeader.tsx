@@ -100,7 +100,7 @@ export const ProposalListHeaderDesktop: React.FC<ProposalListHeaderElementProps>
         }}
         onChange={handleChange}
       >
-        <MenuItem value='all'>
+        <MenuItem value=''>
           <Typography color={'text.dark'} variant='subtitle'>
             All proposals
           </Typography>
