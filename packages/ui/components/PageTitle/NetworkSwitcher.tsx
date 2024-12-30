@@ -69,6 +69,7 @@ export const NetworkSwitcher = () => {
                         width: '20px',
                         height: '20px',
                       }}
+                      size='20px'
                       logo={logoNetwork}
                     />
                   )}
