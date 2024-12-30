@@ -19,7 +19,7 @@ export interface ReservesContextType {
   accountLpReserves: FormattedUserReserves<ReserveLpToken>[];
   eModes: Record<number, EmodeCategory>;
   accountSummary: ExtendedFormattedUser | undefined;
-  accountReserves: UserReservesDataHumanized[];
+  accountReserves: UserReservesDataHumanized['userReserves'];
   baseCurrencyData: PoolBaseCurrencyHumanized;
 }
 

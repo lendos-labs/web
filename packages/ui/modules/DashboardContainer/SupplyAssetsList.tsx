@@ -4,11 +4,11 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { CustomTable, TableData } from '@lendos/ui/components/Table';
 import { DashboardReserve, FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
 import { dexLpSupplyAssetsHead, getSupplyAssetsCells, supplyAssetsHead } from './TableData.tsx';
-import { dexReserves, reserves } from '@lendos/constants/reserves';
 import { useCallback, useMemo, useState } from 'react';
 import { useStateContext } from '../../providers/StateProvider';
 import { useModalContext } from '../../providers/ModalProvider';
 import { useBalanceContext } from '../../providers/BalanceProvider';
+import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
 
 interface SupplyAssetsListProps {
   type: Reserves;
@@ -21,6 +21,7 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
   const { currentMarketData } = useStateContext();
   const { openSupply, openSwitch } = useModalContext();
   const { walletBalances } = useBalanceContext();
+  const { reserves, lpReserves } = useReservesContext();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -38,7 +39,7 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
     [openSwitch, setAnchorEl],
   );
 
-  const d = (type === Reserves.ASSET ? reserves : dexReserves).map(reserve => {
+  const d = (type === Reserves.ASSET ? reserves : lpReserves).map(reserve => {
     const walletBalance = walletBalances[reserve.underlyingAsset];
     return {
       ...reserve,

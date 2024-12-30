@@ -1,9 +1,10 @@
-import React, { ReactNode, useMemo } from 'react';
+import React, { ReactNode, useMemo, useState } from 'react';
 import { AccountContext } from '@lendos/ui/providers/AccountProvider';
 import { useAccount, useConnectUI, useDisconnect, useIsConnected } from '@fuels/react';
 import { useChainId } from 'wagmi';
 
 export const AccountProvider = ({ children }: { children: ReactNode }) => {
+  const [switchNetworkError, setSwitchNetworkError] = useState<Error>();
   const { account } = useAccount();
   const { isLoading, connect } = useConnectUI();
   const { isConnected } = useIsConnected();
@@ -18,6 +19,8 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
           chainId,
           connected: isConnected,
           loading: isLoading,
+          switchNetworkError,
+          setSwitchNetworkError,
           disconnect: () => disconnect(),
           connect: () => connect(),
           addToken: async () => {
@@ -27,7 +30,16 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
             //
           },
         }),
-        [account, isConnected, isLoading, chainId, disconnect, connect],
+        [
+          account,
+          isConnected,
+          isLoading,
+          chainId,
+          switchNetworkError,
+          setSwitchNetworkError,
+          disconnect,
+          connect,
+        ],
       )}
     >
       {children}
