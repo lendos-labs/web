@@ -11,6 +11,7 @@ const mockMarket = {
     switch: true,
     borrowBoost: true,
     dexLp: true,
+    strategies: true,
   },
   addresses: {},
 } as MarketDataType;
