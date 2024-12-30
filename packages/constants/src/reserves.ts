@@ -1,7 +1,9 @@
 import {
   DashboardReserve,
+  EXPOSURE,
   FormattedReservesAndIncentives,
   InterestRate,
+  ReserveLpToken,
   Reserves,
   ReserveToken,
 } from '@lendos/types/reserves';
@@ -105,6 +107,30 @@ export const reserves = [
     variableRateSlope2: '60000',
   },
 ] as FormattedReservesAndIncentives<ReserveToken>[];
+
+export const dexReserves = [
+  {
+    ...reserves[0],
+    
+    type: Reserves.LP,
+    token0: {
+      symbol: 'USDC',
+      address: '0x1234567890abcdef1234567890abcdef12345678',
+    },
+    token1: {
+      symbol: 'USDT',
+      address: '0xabcdef1234567890abcdef1234567890abcdef12',
+    },
+    dex: {
+      name: 'Uniswap V2',
+      APY: 12.5,
+      totalSupply: '5000000000000000000000',
+      reserve0: '2500000000000000000000',
+      reserve1: '5000000000',
+    },
+    exposure: EXPOSURE.SINGLE,
+  },
+] as FormattedReservesAndIncentives<ReserveLpToken>[];
 
 export const reservesDashboard = [
   {
