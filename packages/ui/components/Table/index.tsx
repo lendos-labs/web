@@ -87,6 +87,9 @@ const HeaderRow = ({ header, sortName, sortDesc, setSortDesc, setSortName }: Hea
               px: '3px',
               borderBottomWidth: '1px',
               borderColor: 'border.grey',
+              flex: '1 1 0%',
+              minWidth: '50px',
+              maxWidth: '280px',
               ...i.style,
             }}
           >
@@ -272,7 +275,7 @@ const Row = ({
           ),
         )}
         {collapsibleHeader && (
-          <TableCell sx={{ borderWidth: '1px', borderColor: 'border.grey' }} align='right'>
+          <TableCell sx={{ borderWidth: '1px' }} align='right'>
             <Box
               sx={{
                 display: 'flex',
