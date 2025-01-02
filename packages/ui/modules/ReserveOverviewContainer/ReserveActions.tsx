@@ -270,6 +270,7 @@ interface ActionProps {
   onActionClicked: () => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- TODO add disabled
 const SupplyAction = ({ value, usdValue, symbol, disable, onActionClicked }: ActionProps) => {
   return (
     <Stack>
@@ -293,7 +294,7 @@ const SupplyAction = ({ value, usdValue, symbol, disable, onActionClicked }: Act
         <Button
           sx={{ width: '82px' }}
           onClick={onActionClicked}
-          disabled={disable}
+          disabled={true}
           fullWidth={false}
           variant='contained'
           data-cy='supplyButton'

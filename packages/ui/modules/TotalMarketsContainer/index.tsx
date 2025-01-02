@@ -3,20 +3,12 @@
 import { TotalContainer } from './TotalContainer.tsx';
 import { Box } from '@mui/material';
 import { TotalTopPanel } from './TotalTopPanel.tsx';
-import { totalData } from '@lendos/constants/reserves';
 import TotalAssetsListContainer from './TotalAssetsListContainer.tsx';
 import { useStateContext } from '../../providers/StateProvider';
+import { TotalFormatReserveWithMarkets } from '@lendos/types/reserves';
 
-const TotalMarketsContainer = (
-  {
-    // data,
-    // marketsData,
-  }: Readonly<{
-    // data: TotalFormatReserveWithMarkets[];
-    // marketsData: MarketDataType[];
-  }>,
-) => {
-  const data = totalData;
+const TotalMarketsContainer = () => {
+  const data = [] as TotalFormatReserveWithMarkets[];
   const { availableMarkets } = useStateContext();
   const marketsData = availableMarkets;
   return (

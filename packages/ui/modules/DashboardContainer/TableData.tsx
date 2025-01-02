@@ -298,9 +298,8 @@ export const getSupplyAssetsCells = (
   openSupply: ModalContextType<ModalArgsType>['openSupply'],
   handleSwitchClick: (reserve: FormattedReservesAndIncentives) => void,
   handleClose: () => void,
-  handleClick: (event: MouseEvent<HTMLButtonElement>) => void,
+  handleClick: (event: MouseEvent<HTMLButtonElement>, id: string) => void,
   anchorEl: HTMLElement | null,
-  open: boolean,
 ) => {
   const symbol =
     reserve.type === Reserves.ASSET
@@ -421,7 +420,7 @@ export const getSupplyAssetsCells = (
       <ListButtonsColumn>
         <Button
           // TODO: need to find out what is disabled
-          disabled={false}
+          disabled={true}
           variant='contained'
           onClick={() => {
             openSupply(reserve.underlyingAsset);
@@ -439,10 +438,10 @@ export const getSupplyAssetsCells = (
             display: { xs: 'none', sm: 'flex' },
           }}
           variant='white'
-          onClick={handleClick}
-          aria-controls={open ? 'basic-menu' : undefined}
+          onClick={e => handleClick(e, reserve.underlyingAsset)}
+          aria-controls={anchorEl ? 'basic-menu' : undefined}
           aria-haspopup='true'
-          aria-expanded={open ? 'true' : undefined}
+          aria-expanded={anchorEl ? 'true' : undefined}
           size={'small'}
         >
           ...
@@ -463,7 +462,7 @@ export const getSupplyAssetsCells = (
         <Menu
           id='supply-item-extra-menu'
           anchorEl={anchorEl}
-          open={open}
+          open={Boolean(anchorEl)}
           MenuListProps={{
             'aria-labelledby': 'supply-extra-button',
             sx: {
@@ -481,16 +480,18 @@ export const getSupplyAssetsCells = (
             },
           }}
         >
-          <MenuItem
-            sx={{ gap: 2 }}
-            onClick={() => handleSwitchClick(reserve)}
-            disabled={!isFeatureEnabled.switch(market)}
-          >
-            <SvgIcon fontSize='small'>
-              <SwapHorizIcon />
-            </SvgIcon>
-            <ListItemText>Switch</ListItemText>
-          </MenuItem>
+          {isFeatureEnabled.switch(market) && (
+            <MenuItem
+              sx={{ gap: 2 }}
+              onClick={() => handleSwitchClick(reserve)}
+              disabled={!isFeatureEnabled.switch(market)}
+            >
+              <SvgIcon fontSize='small'>
+                <SwapHorizIcon />
+              </SvgIcon>
+              <ListItemText>Switch</ListItemText>
+            </MenuItem>
+          )}
           <MenuItem
             sx={{ gap: 2 }}
             component={Link}

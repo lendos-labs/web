@@ -13,6 +13,7 @@ import { borrowedPositionsHead, getBorrowedPositionsCells } from './TableData.ts
 import { useStateContext } from '../../providers/StateProvider';
 import { useModalContext } from '../../providers/ModalProvider';
 import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
+const hide = true;
 
 export const BorrowedPositionsList = () => {
   const { accountSummary } = useReservesContext();
@@ -73,6 +74,10 @@ export const BorrowedPositionsList = () => {
   // Transform to the DashboardReserve schema so the sort utils can work with it
   // const preSortedReserves = borrowPositions as DashboardReserve[];
   const data = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO delete later
+    if (hide) {
+      return [];
+    }
     return reservesDashboard.map(reserve => {
       return getBorrowedPositionsCells(
         reserve,

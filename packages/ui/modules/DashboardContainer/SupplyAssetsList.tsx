@@ -15,26 +15,21 @@ interface SupplyAssetsListProps {
 }
 
 export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = useState<Record<string, null | HTMLElement>>({});
 
   const { currentMarketData } = useStateContext();
   const { openSupply, openSwitch } = useModalContext();
   const { walletBalances } = useBalanceContext();
   const { reserves, lpReserves } = useReservesContext();
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, id: string) => {
+    setAnchorEl(state => ({ ...state, [id]: event.currentTarget }));
   };
 
   const handleSwitchClick = useCallback(
     (reserve: FormattedReservesAndIncentives) => {
       openSwitch(reserve.underlyingAsset);
-      setAnchorEl(null);
+      setAnchorEl({});
     },
     [openSwitch, setAnchorEl],
   );
@@ -55,13 +50,12 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
         currentMarketData,
         openSupply,
         handleSwitchClick,
-        handleClose,
+        () => setAnchorEl({}),
         handleClick,
-        anchorEl,
-        open,
+        anchorEl[reserve.underlyingAsset] ?? null,
       );
     }) as TableData[];
-  }, [d, currentMarketData, openSupply, handleSwitchClick, anchorEl, open]);
+  }, [d, currentMarketData, openSupply, handleSwitchClick, anchorEl]);
 
   return (
     <ListWrapper

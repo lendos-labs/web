@@ -14,7 +14,6 @@ import {
   lpHead,
   suppliedPositionsHead,
 } from './TableData.tsx';
-import { dexReserves, reserves } from '@lendos/constants/reserves';
 import { useStateContext } from '../../providers/StateProvider';
 import { useModalContext } from '../../providers/ModalProvider';
 import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
@@ -23,14 +22,20 @@ interface SuppliedPositionsListProps {
   type: Reserves;
 }
 
+const empty = true;
+
 export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
   const { currentMarketData } = useStateContext();
-  const { accountSummary } = useReservesContext();
+  const { accountSummary, reserves, lpReserves } = useReservesContext();
 
   const { openSupply, openWithdraw, openCollateralChange } = useModalContext();
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
 
   const data = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO delete later
+    if (empty) {
+      return [];
+    }
     return reserves.map(reserve => {
       const canBeEnabledAsCollateral = accountSummary
         ? reserve.reserveLiquidationThreshold !== '0' &&
@@ -47,13 +52,17 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
         canBeEnabledAsCollateral,
       );
     }) as TableData[];
-  }, [currentMarketData, openCollateralChange, openSupply, openWithdraw, accountSummary]);
+  }, [currentMarketData, openCollateralChange, openSupply, openWithdraw, accountSummary, reserves]);
 
   const dexLpData = useMemo(() => {
-    return dexReserves.map(reserve =>
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO delete later
+    if (empty) {
+      return [];
+    }
+    return lpReserves.map(reserve =>
       getDexLpSuppliedPositionsCells(reserve, currentMarketData),
     ) as TableData[];
-  }, [currentMarketData]);
+  }, [currentMarketData, lpReserves]);
 
   return (
     <ListWrapper

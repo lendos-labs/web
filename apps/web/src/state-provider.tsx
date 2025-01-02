@@ -8,9 +8,9 @@ const mockMarket = {
   market: CustomMarket.proto_fuel,
   chainId: ChainId.fuel,
   enabledFeatures: {
-    switch: true,
-    borrowBoost: true,
-    dexLp: true,
+    switch: false,
+    borrowBoost: false,
+    dexLp: false,
     strategies: true,
   },
   addresses: {},

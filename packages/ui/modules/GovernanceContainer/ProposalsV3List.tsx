@@ -1,4 +1,4 @@
-import { Box, Paper, Skeleton, Stack } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { useState } from 'react';
 import { Vote } from '@lendos/types/governance';
 
@@ -12,10 +12,8 @@ export const ProposalsV3List = () => {
   const [proposalNetwork, setProposalNetwork] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const networkQuery = proposalNetwork === 'all' ? '' : `?network=${proposalNetwork}`;
-
   // const { data, isLoading: loadingProposals } = useVoting({ networkQuery });
-  const loadingProposals = false;
+
   const data = [
     {
       category: 'LST',
@@ -68,64 +66,65 @@ export const ProposalsV3List = () => {
               handleVote={id => mutate(id)}
             />
           ))}
-          {loadingProposals &&
-            Array.from({ length: 5 }).map((_, i) => <ProposalListSkeleton key={i} />)}
+          {/* {loadingProposals &&
+            Array.from({ length: 5 }).map((_, i) => <ProposalListSkeleton key={i} />)} */}
         </Box>
       ) : (
         <>
-          {!loadingProposals && listItems.length === 0 ? (
+          <NoSearchResults searchTerm={searchTerm} />
+          {/* {!loadingProposals && listItems.length === 0 ? (
             <NoSearchResults searchTerm={searchTerm} />
           ) : (
             Array.from({ length: 4 }).map((_, i) => <ProposalListSkeleton key={i} />)
-          )}
+          )} */}
         </>
       )}
     </Paper>
   );
 };
 
-const ProposalListSkeleton = () => {
-  return (
-    <Box
-      sx={{
-        p: 6,
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        borderBottom: theme => `1px solid ${theme.palette.divider}`,
-      }}
-    >
-      <Stack
-        direction='row'
-        sx={{
-          width: {
-            xs: '100%',
-            lg: '70%',
-          },
-          pr: { xs: 0, lg: 8 },
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Stack
-          direction='column'
-          sx={{
-            width: {
-              xs: '100%',
-              lg: '70%',
-            },
-            pr: { xs: 0, lg: 8 },
-            display: 'flex',
-            flexDirection: 'column',
-            gap: { xs: 3, lg: 6 },
-          }}
-        >
-          <Skeleton variant='rectangular' height={22} width={220} />
-          <Skeleton variant='rectangular' height={24} width={350} />
-        </Stack>
-      </Stack>
-      <Skeleton variant='rectangular' height={36} width={186} />
-    </Box>
-  );
-};
+// const ProposalListSkeleton = () => {
+//   return (
+//     <Box
+//       sx={{
+//         p: 6,
+//         display: 'flex',
+//         flexWrap: 'wrap',
+//         justifyContent: 'space-between',
+//         borderBottom: theme => `1px solid ${theme.palette.divider}`,
+//       }}
+//     >
+//       <Stack
+//         direction='row'
+//         sx={{
+//           width: {
+//             xs: '100%',
+//             lg: '70%',
+//           },
+//           pr: { xs: 0, lg: 8 },
+//           display: 'flex',
+//           flexDirection: 'column',
+//           justifyContent: 'space-between',
+//         }}
+//       >
+//         <Stack
+//           direction='column'
+//           sx={{
+//             width: {
+//               xs: '100%',
+//               lg: '70%',
+//             },
+//             pr: { xs: 0, lg: 8 },
+//             display: 'flex',
+//             flexDirection: 'column',
+//             gap: { xs: 3, lg: 6 },
+//           }}
+//         >
+//           <Skeleton variant='rectangular' height={22} width={220} />
+//           <Skeleton variant='rectangular' height={24} width={350} />
+//         </Stack>
+//       </Stack>
+//       <Skeleton variant='rectangular' height={36} width={186} />
+//     </Box>
+//   );
+// };
