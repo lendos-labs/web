@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  fuel-dev-lendos:
+    container_name: fuel-dev-lendos
+    image: fuel-dev-lendos:latest
+    build:
+      context: ./
+      dockerfile: ./apps/web/Dockerfile
+      args:
+        NODE: development
+    restart: always
+    ports:
+      - 9000:3000
+    networks:
+      - coplilot_network
+  
+networks:
+  coplilot_network:
+    external: true
