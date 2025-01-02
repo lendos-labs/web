@@ -13,6 +13,8 @@ import { Warning } from '../../components/Warning';
 import { ListWrapper } from '../../components/ListWrapper';
 import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
 
+const hide = true;
+
 export const BorrowAssetsList = () => {
   const { accountSummary } = useReservesContext();
   const { openBorrow } = useModalContext();
@@ -38,6 +40,10 @@ export const BorrowAssetsList = () => {
   const borrowDisabled = !borrowReserves.length;
 
   const data = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO delete later
+    if (hide) {
+      return [];
+    }
     return reservesDashboard.map(reserve => {
       return getBorrowAssetsCells(reserve, currentMarketData, openBorrow);
     }) as TableData[];
