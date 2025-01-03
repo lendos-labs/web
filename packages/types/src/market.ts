@@ -21,11 +21,9 @@ export interface MarketDataType {
     staking?: boolean;
     governance?: boolean;
     faucet?: boolean;
-    collateralRepay?: boolean;
     incentives?: boolean;
     permissions?: boolean;
     debtSwitch?: boolean;
-    withdrawAndSwitch?: boolean;
     switch?: boolean;
     points?: boolean;
     customPoints?: CustomPoints;
