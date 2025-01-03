@@ -19,8 +19,6 @@ export const ReservesProvider = ({ children }: { children: ReactNode }) => {
           return;
         }
 
-        console.log(i.icon);
-
         return {
           id: `${chainId}-${networkAsset.assetId}-0x770c638885d259d957ea250cd37f50ef0a24fe74`,
           underlyingAsset: networkAsset.assetId,
