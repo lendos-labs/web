@@ -5,7 +5,7 @@ import { Vote } from '@lendos/types/governance';
 import { ProposalListHeader } from './ProposalListHeader';
 import { ProposalV3ListItem } from './ProposalV3ListItem';
 import { NoSearchResults } from '../../components/NoSearchResults';
-import { useCreateEmployee } from '../../hooks/useGovernance.ts';
+import { useCreateEmployee } from '@lendos/constants/hooks/useGovernance';
 
 export const ProposalsV3List = () => {
   const [proposalFilter, setProposalFilter] = useState<string>('all');
