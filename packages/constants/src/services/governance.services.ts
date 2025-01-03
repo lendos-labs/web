@@ -1,5 +1,5 @@
-import { API, apiAuth } from '../utils/api.ts';
 import { Vote } from '@lendos/types/governance';
+import { API, apiAuth } from '../utils/api';
 
 export const governanceServices = {
   getVoting: async ({ networkQuery }: { networkQuery: string }) =>

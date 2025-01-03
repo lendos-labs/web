@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 import * as React from 'react';
 
 // Add support for the sx prop for consistency with the other branches.
-const Anchor = styled('a')({});
+const Anchor = styled('span')({});
 
 interface NextLinkComposedProps
   extends Omit<
@@ -23,7 +23,7 @@ interface NextLinkComposedProps
 }
 
 export const NextLinkComposed = React.forwardRef<HTMLAnchorElement, NextLinkComposedProps>(
-  function NextLinkComposed(props, ref) {
+  function NextLinkComposed(props, forwardedRef) {
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars -- need for remove href */
     const { to, linkAs, replace, scroll, shallow, prefetch, locale, href, ...other } = props;
 
@@ -36,10 +36,9 @@ export const NextLinkComposed = React.forwardRef<HTMLAnchorElement, NextLinkComp
         scroll={scroll}
         shallow={shallow}
         passHref
-        legacyBehavior
         locale={locale}
       >
-        <Anchor ref={ref} {...other} />
+        <Anchor ref={forwardedRef} {...other} />
       </NextLink>
     );
   },
@@ -69,20 +68,6 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
   });
 
   if (isExternal) {
-    if (noLinkStyle) {
-      return (
-        <Anchor
-          className={className}
-          href={href}
-          ref={ref}
-          target='_blank'
-          rel='noopener'
-          underline='none'
-          {...other}
-        />
-      );
-    }
-
     return (
       <MuiLink
         className={className}
