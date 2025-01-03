@@ -10,7 +10,7 @@ const mockMarket = {
   enabledFeatures: {
     switch: false,
     borrowBoost: false,
-    dexLp: false,
+    dexLp: true,
     strategies: true,
   },
   addresses: {},
@@ -38,11 +38,11 @@ const linkBuilder =
 
 const mockNetwork = {
   isTestnet: true,
-  name: 'Fuel',
-  explorerLink: 'https://app.fuel.network',
+  name: 'Fuel Sepolia',
+  explorerLink: 'https://app-testnet.fuel.network',
   wrappedBaseAssetSymbol: 'wETH',
   explorerLinkBuilder: linkBuilder({
-    baseUrl: 'https://app.fuel.network',
+    baseUrl: 'https://app-testnet.fuel.network',
     addressPrefix: 'account',
   }),
   networkLogoPath: '/icons/networks/fuel.svg',

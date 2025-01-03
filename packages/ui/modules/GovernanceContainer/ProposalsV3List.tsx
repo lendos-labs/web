@@ -22,11 +22,12 @@ export const ProposalsV3List = () => {
       is_voting: false,
       link: 'https://tether.to/',
       link_text: 'Tether',
-      network: 'hemi',
+      network: 'Fuel',
       proposal_id: 4,
       protocol_name: 'USDT',
       status: 'active',
       votes_count: 0,
+      icon: 'USDT',
     },
   ] as Vote[];
 

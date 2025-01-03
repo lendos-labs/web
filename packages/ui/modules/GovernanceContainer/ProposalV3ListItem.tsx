@@ -1,6 +1,7 @@
 import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 
 import { Vote } from '@lendos/types/governance';
+import Image from 'next/image';
 
 export const ProposalV3ListItem = ({
   proposal,
@@ -65,7 +66,12 @@ export const ProposalV3ListItem = ({
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <img src={`/icons/tokens/${proposal.icon}.svg`} width='24px' height='24px' alt='' />
+          <Image
+            src={`/icons/tokens/${proposal.icon.toLowerCase()}.svg`}
+            width={24}
+            height={24}
+            alt=''
+          />
           <Typography variant='h3' color={'text.dark'}>
             {proposal.protocol_name}
           </Typography>

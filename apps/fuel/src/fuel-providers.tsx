@@ -1,9 +1,7 @@
 'use client';
 
 import {
-  BakoSafeConnector,
   createConfig,
-  FueletWalletConnector,
   FuelWalletConnector,
   SolanaConnector,
   WalletConnectConnector,
@@ -22,9 +20,9 @@ export const fuelConfig = createConfig(() => {
   return {
     connectors: WALLETCONNECT_PROJECT_ID
       ? [
-          new FueletWalletConnector(),
+          // new FueletWalletConnector(),
           new FuelWalletConnector(),
-          new BakoSafeConnector(),
+          // new BakoSafeConnector(),
           new WalletConnectConnector({
             projectId: WALLETCONNECT_PROJECT_ID,
             wagmiConfig: wagmiConfig as Config,

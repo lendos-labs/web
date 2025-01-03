@@ -25,15 +25,7 @@ const METADATA = {
 };
 
 export function generateETHConnectors(): CreateConnectorFn[] {
-  const connectors: CreateConnectorFn[] = [
-    injected({ shimDisconnect: false }),
-    // coinbaseWallet({
-    //   appName: METADATA.name,
-    //   appLogoUrl: METADATA.icons[0],
-    //   darkMode: true,
-    //   reloadOnDisconnect: true,
-    // }),
-  ];
+  const connectors: CreateConnectorFn[] = [injected({ shimDisconnect: false })];
 
   if (WALLETCONNECT_PROJECT_ID) {
     connectors.push(

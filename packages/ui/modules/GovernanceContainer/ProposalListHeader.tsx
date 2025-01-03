@@ -42,6 +42,10 @@ const proposalFilters = [
 
 const proposalNetworks = [
   {
+    label: 'Fuel',
+    value: 'fuel',
+  },
+  {
     label: 'Neon',
     value: 'neon',
   },
