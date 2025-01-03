@@ -188,10 +188,16 @@ importers:
       object-hash:
         specifier: ^3.0.0
         version: 3.0.0
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
     devDependencies:
       '@types/object-hash':
         specifier: ^3.0.6
         version: 3.0.6
+      '@types/react':
+        specifier: 18.3.1
+        version: 18.3.1
 
   packages/types:
     dependencies:

@@ -3,6 +3,8 @@ import { Header } from './Header';
 import { ReactNode } from 'react';
 import { Footer } from './Footer';
 import { SupplyModal } from '../../modals/SupplyModal';
+import { RepayModal } from '../../modals/RepayModal';
+import { BorrowModal } from '../../modals/BorrowModal';
 
 export const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -22,6 +24,8 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
 
       <Footer />
       <SupplyModal />
+      <RepayModal />
+      <BorrowModal />
     </>
   );
 };

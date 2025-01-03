@@ -12,9 +12,11 @@
     "@lendos/types": "workspace:*",
     "@tanstack/react-query": "^5.62.8",
     "axios": "^1.7.9",
-    "object-hash": "^3.0.0"
+    "object-hash": "^3.0.0",
+    "react": "^19.0.0"
   },
   "devDependencies": {
-    "@types/object-hash": "^3.0.6"
+    "@types/object-hash": "^3.0.6",
+    "@types/react": "18.3.1"
   }
 }
