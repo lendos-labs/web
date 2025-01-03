@@ -1,8 +1,8 @@
 import { CHAIN_IDS } from 'fuels';
 import {
+  CreateConnectorFn,
   cookieStorage,
   createConfig as createConfigWagmiConfig,
-  CreateConnectorFn,
   createStorage,
   fallback,
   http,

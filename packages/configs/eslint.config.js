@@ -2,8 +2,8 @@
 import ESLintPluginESLintCommentsConfigs from '@eslint-community/eslint-plugin-eslint-comments/configs';
 import { fixupPluginRules } from '@eslint/compat';
 import eslint from '@eslint/js';
-import * as import_ from 'eslint-plugin-import';
 import prettier from 'eslint-config-prettier';
+import * as import_ from 'eslint-plugin-import';
 import react from 'eslint-plugin-react';
 import react_hooks from 'eslint-plugin-react-hooks';
 import storybook from 'eslint-plugin-storybook';

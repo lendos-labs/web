@@ -1,6 +1,8 @@
-import { Button, Menu, MenuItem, SvgIcon, Typography } from '@mui/material';
 import { useState } from 'react';
+
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import { Button, Menu, MenuItem, SvgIcon, Typography } from '@mui/material';
+
 import { DarkModeSwitcher } from './DarkModeSwitcher';
 
 export function SettingsMenu() {

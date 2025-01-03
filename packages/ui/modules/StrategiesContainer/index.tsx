@@ -1,15 +1,17 @@
 'use client';
 
-import { Box, Button, Grid2, SvgIcon } from '@mui/material';
 import { useMemo, useState } from 'react';
-import { useReservesContext } from '../../providers/ReservesProvider';
-import { strategiesPairs, strategiesTab } from './constants.ts';
-import { Pair } from './types.ts';
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Box, Button, Grid2, SvgIcon } from '@mui/material';
+
 import { StyledToggleTabGroup } from '../../components/StyledToggleButtonGroup';
 import { StyledToggleTabButton } from '../../components/StyledToggleTabButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useReservesContext } from '../../providers/ReservesProvider';
 import { DetailStrategy } from './DetailStrategy.tsx';
 import { StarategyCard } from './StarategyCard.tsx';
+import { strategiesPairs, strategiesTab } from './constants.ts';
+import { Pair } from './types.ts';
 
 function StrategiesContainer() {
   const [select, setSelect] = useState<string>(strategiesTab[0]?.label ?? '');

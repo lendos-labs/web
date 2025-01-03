@@ -1,4 +1,5 @@
-import { createContext, ReactElement, ReactNode, useContext, useMemo, useState } from 'react';
+import { ReactElement, ReactNode, createContext, useContext, useMemo, useState } from 'react';
+
 import { InterestRate } from '@lendos/types/reserves';
 
 export enum ModalType {

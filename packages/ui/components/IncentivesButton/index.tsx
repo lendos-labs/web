@@ -1,14 +1,17 @@
 'use client';
 
+import { useState } from 'react';
+
 import { valueToBigNumber } from '@aave/math-utils';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import { Box, SvgIcon, Typography } from '@mui/material';
-import { useState } from 'react';
-import { ContentWithTooltip } from '../ContentWithTooltip';
+
 import { ReserveIncentiveResponse } from '@lendos/types/reserves';
+
+import { ContentWithTooltip } from '../ContentWithTooltip';
 import { FormattedNumber } from '../FormattedNumber';
-import { IncentivesTooltipContent } from './IncentivesTooltipContent';
 import { TokenIcon } from '../TokenIcon';
+import { IncentivesTooltipContent } from './IncentivesTooltipContent';
 
 interface IncentivesButtonProps {
   symbol: string;

@@ -1,9 +1,11 @@
 'use client';
 
+import { ReactElement, ReactNode, useState } from 'react';
+
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Box, BoxProps, IconButton, SvgIcon, Typography } from '@mui/material';
 import { TypographyProps } from '@mui/material/Typography';
-import { ReactElement, ReactNode, useState } from 'react';
+
 import { ContentWithTooltip } from '../ContentWithTooltip';
 
 export interface TextWithTooltipProps extends TypographyProps {

@@ -1,8 +1,12 @@
-import { Box, styled, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { ComponentType, MouseEventHandler } from 'react';
-import { Link, LinkProps } from '../../../components/Link';
-import { Routes } from '@lendos/constants/routes';
+
 import Image from 'next/image';
+
+import { Box, Typography, styled, useMediaQuery, useTheme } from '@mui/material';
+
+import { Routes } from '@lendos/constants/routes';
+
+import { Link, LinkProps } from '../../../components/Link';
 
 interface StyledLinkProps {
   onClick?: MouseEventHandler<HTMLAnchorElement>;

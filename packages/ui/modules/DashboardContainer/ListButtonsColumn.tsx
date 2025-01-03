@@ -1,5 +1,6 @@
-import { Box } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { Box } from '@mui/material';
 
 interface ListButtonsColumnProps {
   children?: ReactNode;

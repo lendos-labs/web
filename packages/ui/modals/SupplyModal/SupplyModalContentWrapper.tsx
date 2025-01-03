@@ -1,27 +1,27 @@
-import { ExtendedFormattedUser } from '@lendos/types/user';
-import { ModalWrapperProps } from '../../components/ModalWrapper';
 import { ReactNode, useState } from 'react';
-import { useAssetCaps } from '../../providers/AssetCapsProvider';
-import { useReservesContext } from '../../providers/ReservesProvider';
-import { useStateContext } from '../../providers/StateProvider';
-import { useModalContext } from '../../providers/ModalProvider';
-import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
-import { getMaxAmountAvailableToSupply } from '@lendos/constants/getMaxAmountAvailableToSupply';
-import { IsolationModeWarning } from '../../components/IsolationModeWarning';
-import { getAssetCollateralType } from '@lendos/constants/getAssetCollateralType';
-import { CollateralType } from '@lendos/types/collateral';
-import { WrappedTokenConfig } from '@lendos/types/token';
-import { roundToTokenDecimals } from '@lendos/constants/round';
-import BigNumber from 'bignumber.js';
+
 import {
-  calculateHealthFactorFromBalancesBigUnits,
   USD_DECIMALS,
+  calculateHealthFactorFromBalancesBigUnits,
   valueToBigNumber,
 } from '@aave/math-utils';
-import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
+import BigNumber from 'bignumber.js';
+
 import { CapType } from '@lendos/types/cap';
-import { TxSuccessView } from '../../components/TxSuccessView';
+import { CollateralType } from '@lendos/types/collateral';
+import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
+import { WrappedTokenConfig } from '@lendos/types/token';
+import { ExtendedFormattedUser } from '@lendos/types/user';
+
+import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
+import { getAssetCollateralType } from '@lendos/constants/getAssetCollateralType';
+import { getMaxAmountAvailableToSupply } from '@lendos/constants/getMaxAmountAvailableToSupply';
+import { roundToTokenDecimals } from '@lendos/constants/round';
+
 import { AssetInput } from '../../components/AssetInput';
+import { GasEstimationError } from '../../components/GasEstimationError';
+import { IsolationModeWarning } from '../../components/IsolationModeWarning';
+import { ModalWrapperProps } from '../../components/ModalWrapper';
 import {
   DetailsCollateralLine,
   DetailsHFLine,
@@ -29,7 +29,12 @@ import {
   DetailsNumberLine,
   TxModalDetails,
 } from '../../components/TxModalDetails';
-import { GasEstimationError } from '../../components/GasEstimationError';
+import { TxSuccessView } from '../../components/TxSuccessView';
+import { useAssetCaps } from '../../providers/AssetCapsProvider';
+import { useModalContext } from '../../providers/ModalProvider';
+import { useReservesContext } from '../../providers/ReservesProvider';
+import { useStateContext } from '../../providers/StateProvider';
+
 export enum ErrorType {
   CAP_REACHED,
 }

@@ -1,9 +1,12 @@
 'use client';
 
-import { Box } from '@mui/material';
 import { useState } from 'react';
-import { ListWrapper } from '../../components/ListWrapper';
+
+import { Box } from '@mui/material';
+
 import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
+
+import { ListWrapper } from '../../components/ListWrapper';
 import { TitleWithSearchBar } from '../../components/TitleWithSearchBar';
 import MarketAssetsList from './MarketAssetsList';
 

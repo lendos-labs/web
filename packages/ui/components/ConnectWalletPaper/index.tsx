@@ -1,5 +1,6 @@
-import { Box, CircularProgress, Paper, PaperProps, Typography } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { Box, CircularProgress, Paper, PaperProps, Typography } from '@mui/material';
 
 interface ConnectWalletPaperProps extends PaperProps {
   loading?: boolean;

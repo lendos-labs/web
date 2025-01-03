@@ -1,11 +1,11 @@
 import { AlertColor, Typography } from '@mui/material';
 
+import { BasicModal } from '../../../components/BasicModal';
+import { FormattedNumber } from '../../../components/FormattedNumber';
 import { HealthFactorNumber } from '../../../components/HealthFactorNumber';
 import { HFContent } from './components/HFContent';
 import { InfoWrapper } from './components/InfoWrapper';
 import { LTVContent } from './components/LTVContent';
-import { FormattedNumber } from '../../../components/FormattedNumber';
-import { BasicModal } from '../../../components/BasicModal';
 
 interface LiquidationRiskParametresInfoModalProps {
   open: boolean;

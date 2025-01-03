@@ -1,15 +1,17 @@
 'use client';
 
-import { ContentContainer } from '../../components/ContentContainer';
-import { useAccountContext } from '../../providers/AccountProvider';
-import { Box } from '@mui/material';
-import StyledToggleButton from '../../components/StyledToggleTabButton';
 import { useState } from 'react';
+
+import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import StyledToggleGroup from '../../components/StyledToggleButtonGroup';
-import DashboardTopPanel from './DashboardTopPanel.tsx';
+
 import { ConnectWalletPaper } from '../../components/ConnectWalletPaper';
+import { ContentContainer } from '../../components/ContentContainer';
+import StyledToggleGroup from '../../components/StyledToggleButtonGroup';
+import StyledToggleButton from '../../components/StyledToggleTabButton';
+import { useAccountContext } from '../../providers/AccountProvider';
 import { DashboardContentWrapper } from './DashboardContentWrapper.tsx';
+import DashboardTopPanel from './DashboardTopPanel.tsx';
 
 const DashboardContainer = () => {
   const { account, loading: web3Loading } = useAccountContext();

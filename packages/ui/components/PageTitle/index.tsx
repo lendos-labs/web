@@ -1,6 +1,8 @@
-import { Box, Typography } from '@mui/material';
 import { ReactNode } from 'react';
+
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Box, Typography } from '@mui/material';
+
 import { useStateContext } from '../../providers/StateProvider';
 import { MarketLogo } from '../MarketLogo';
 import { NetworkSwitcher } from './NetworkSwitcher';

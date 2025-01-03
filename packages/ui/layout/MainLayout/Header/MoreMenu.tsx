@@ -1,11 +1,15 @@
+import { useState } from 'react';
+
+import { usePathname } from 'next/navigation';
+
 import { Button, ListItemIcon, ListItemText, SvgIcon } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useState } from 'react';
-import { useStateContext } from '../../../providers/StateProvider';
-import { Link } from '../../../components/Link';
+
 import { NavigationWithSubmenu } from '@lendos/types/menu';
-import { usePathname } from 'next/navigation';
+
+import { Link } from '../../../components/Link';
+import { useStateContext } from '../../../providers/StateProvider';
 import { earnIcons } from './constants';
 
 export function MoreMenu({ title, subMenu }: Readonly<NavigationWithSubmenu>) {

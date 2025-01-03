@@ -1,23 +1,25 @@
 import { valueToBigNumber } from '@aave/math-utils';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { Box, Typography } from '@mui/material';
-import { FormattedNumber } from '../../components/FormattedNumber';
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+
 import { MarketDataType } from '@lendos/types/market';
-import { AssetCapHookData } from '../../providers/AssetCapsProvider/types';
-import { TextWithTooltip } from '../../components/TextWithTooltip';
-import { ReserveSubheader } from '../../components/ReserveSubheader';
-import { Warning } from '../../components/Warning';
-import { PanelItem, PanelTitle } from './ReservesPanel';
-import { IncentivesButton } from '../../components/IncentivesButton';
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+
 import { CapsCircularStatus } from '../../components/CapsCircularStatus';
+import { FormattedNumber } from '../../components/FormattedNumber';
+import { IncentivesButton } from '../../components/IncentivesButton';
+import { ReserveSubheader } from '../../components/ReserveSubheader';
+import { TextWithTooltip } from '../../components/TextWithTooltip';
+import { Warning } from '../../components/Warning';
+import { AssetCapHookData } from '../../providers/AssetCapsProvider/types';
 import { ApyGraphContainer } from './ApyGraphContainer';
-import { ApyGraphContainerKey } from './types';
-import { ReserveOverviewBox } from './ReserveOverviewBox';
-import { MaxLTVTooltip } from './MaxLTVTooltip';
-import { LiquidationThresholdTooltip } from './LiquidationThresholdTooltip';
-import { LiquidationPenaltyTooltip } from './LiquidationPenaltyTooltip';
 import { DebtCeilingStatus } from './DebtCeilingStatus';
+import { LiquidationPenaltyTooltip } from './LiquidationPenaltyTooltip';
+import { LiquidationThresholdTooltip } from './LiquidationThresholdTooltip';
+import { MaxLTVTooltip } from './MaxLTVTooltip';
+import { ReserveOverviewBox } from './ReserveOverviewBox';
+import { PanelItem, PanelTitle } from './ReservesPanel';
+import { ApyGraphContainerKey } from './types';
 
 interface SupplyInfoProps {
   reserve: FormattedReservesAndIncentives;

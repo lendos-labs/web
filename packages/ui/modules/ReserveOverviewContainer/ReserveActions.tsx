@@ -1,5 +1,7 @@
+import { ElementType, ReactNode, useState } from 'react';
+
 import { BigNumberValue, USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
-import { FormattedReservesAndIncentives, InterestRate } from '@lendos/types/reserves';
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import {
   Box,
@@ -12,27 +14,29 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { ElementType, ReactNode, useState } from 'react';
-import { useModalContext } from '../../providers/ModalProvider';
-import { Warning } from '../../components/Warning';
-import { Link } from '../../components/Link';
-import { Routes } from '@lendos/constants/routes';
-import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
-import { AvailableTooltip } from '../../components/infoTooltips/AvailableTooltip';
+
 import { CapType } from '@lendos/types/cap';
-import { FormattedNumber } from '../../components/FormattedNumber';
-import { StyledTxModalToggleGroup } from '../../components/StyledToggleButtonGroup';
-import { StyledTxModalToggleButton } from '../../components/StyledToggleTabButton';
-import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
-import { useAccountContext } from '../../providers/AccountProvider';
-import { useStateContext } from '../../providers/StateProvider';
-import { useReservesContext } from '../../providers/ReservesProvider';
-import { useBalanceContext } from '../../providers/BalanceProvider';
+import { FormattedReservesAndIncentives, InterestRate } from '@lendos/types/reserves';
+
+import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
 import { getMaxAmountAvailableToBorrow } from '@lendos/constants/getMaxAmountAvailableToBorrow';
 import { getMaxAmountAvailableToSupply } from '@lendos/constants/getMaxAmountAvailableToSupply';
 import { amountToUsd } from '@lendos/constants/round';
-import { useReserveActionState } from './hooks/useReserveActionState';
+import { Routes } from '@lendos/constants/routes';
+
 import { ConnectWalletButton } from '../../components/ConnectWalletButton';
+import { FormattedNumber } from '../../components/FormattedNumber';
+import { Link } from '../../components/Link';
+import { StyledTxModalToggleGroup } from '../../components/StyledToggleButtonGroup';
+import { StyledTxModalToggleButton } from '../../components/StyledToggleTabButton';
+import { Warning } from '../../components/Warning';
+import { AvailableTooltip } from '../../components/infoTooltips/AvailableTooltip';
+import { useAccountContext } from '../../providers/AccountProvider';
+import { useBalanceContext } from '../../providers/BalanceProvider';
+import { useModalContext } from '../../providers/ModalProvider';
+import { useReservesContext } from '../../providers/ReservesProvider';
+import { useStateContext } from '../../providers/StateProvider';
+import { useReserveActionState } from './hooks/useReserveActionState';
 
 const amountToUSD = (
   amount: BigNumberValue,

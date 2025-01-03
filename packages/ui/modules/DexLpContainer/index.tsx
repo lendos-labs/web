@@ -1,17 +1,21 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { Paper } from '@mui/material';
-import { StyledToggleTabGroup } from '../../components/StyledToggleButtonGroup';
-import { Filters, PoolCategories, PoolData, UserPoolData } from '@lendos/types/dexLp';
-import { filtersInitValue, poolCategories } from '@lendos/constants/dexLp';
-import { useReservesContext } from '../../providers/ReservesProvider';
-import { StyledToggleTabButton } from '../../components/StyledToggleTabButton';
-import Typography from '@mui/material/Typography';
+
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import DexLpContainerFilters from './DexLpContainerFilters.tsx';
+import { Paper } from '@mui/material';
+import Typography from '@mui/material/Typography';
+
+import { Filters, PoolCategories, PoolData, UserPoolData } from '@lendos/types/dexLp';
+
+import { filtersInitValue, poolCategories } from '@lendos/constants/dexLp';
+
+import { StyledToggleTabGroup } from '../../components/StyledToggleButtonGroup';
+import { StyledToggleTabButton } from '../../components/StyledToggleTabButton';
+import { useReservesContext } from '../../providers/ReservesProvider';
 import { AllPoolsTableContainer } from './AllPoolsTableContainer.tsx';
 import { CollateralTableContainer } from './CollateralTableContainer.tsx';
+import DexLpContainerFilters from './DexLpContainerFilters.tsx';
 
 export const DexLpContainer = () => {
   const { lpReserves, accountLpReserves } = useReservesContext();

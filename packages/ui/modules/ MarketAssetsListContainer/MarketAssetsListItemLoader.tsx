@@ -1,6 +1,7 @@
 import { Box, Skeleton } from '@mui/material';
-import { ListItem } from '../../components/ListItem';
+
 import { ListColumn } from '../../components/ListColumn';
+import { ListItem } from '../../components/ListItem';
 
 export const MarketAssetsListItemLoader = () => {
   return (

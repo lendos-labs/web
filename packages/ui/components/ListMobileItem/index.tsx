@@ -1,8 +1,12 @@
-import { CustomMarket } from '@lendos/types/market';
-import { Box, Divider, Skeleton, Typography } from '@mui/material';
 import { ReactNode } from 'react';
-import { Link } from '../Link';
+
+import { Box, Divider, Skeleton, Typography } from '@mui/material';
+
+import { CustomMarket } from '@lendos/types/market';
+
 import { Routes } from '@lendos/constants/routes';
+
+import { Link } from '../Link';
 import { TokenIcon } from '../TokenIcon';
 
 interface ListMobileItemProps {

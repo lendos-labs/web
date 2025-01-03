@@ -1,8 +1,9 @@
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import { SvgIcon } from '@mui/material';
 
-import { ContentWithTooltip } from '../ContentWithTooltip';
 import { CapType } from '@lendos/types/cap';
+
+import { ContentWithTooltip } from '../ContentWithTooltip';
 
 interface CapsTooltipProps {
   availableValue: number;

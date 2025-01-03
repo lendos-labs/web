@@ -1,10 +1,13 @@
-import { InterestRate } from '@lendos/types/reserves';
 import { ReactNode } from 'react';
-import { useAccountContext } from '../../providers/AccountProvider';
-import { Box, Button, Typography } from '@mui/material';
-import { FormattedNumber } from '../FormattedNumber';
+
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
+import { Box, Button, Typography } from '@mui/material';
+
+import { InterestRate } from '@lendos/types/reserves';
+
+import { useAccountContext } from '../../providers/AccountProvider';
 import { BaseSuccessView } from '../BaseSuccessView';
+import { FormattedNumber } from '../FormattedNumber';
 
 export interface SuccessTxViewProps {
   txHash?: string;

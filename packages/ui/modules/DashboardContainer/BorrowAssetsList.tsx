@@ -1,17 +1,19 @@
+import { useMemo } from 'react';
+
 import { valueToBigNumber } from '@aave/math-utils';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { Box, Typography } from '@mui/material';
-import { useMemo } from 'react';
 
 import { reservesDashboard } from '@lendos/constants/reserves';
-import { borrowAssetsHead, getBorrowAssetsCells } from './TableData.tsx';
-import { CustomTable, TableData } from '../../components/Table';
-import { NoContent } from '../../components/NoContent';
-import { useModalContext } from '../../providers/ModalProvider';
-import { useStateContext } from '../../providers/StateProvider';
-import { Warning } from '../../components/Warning';
+
 import { ListWrapper } from '../../components/ListWrapper';
+import { NoContent } from '../../components/NoContent';
+import { CustomTable, TableData } from '../../components/Table';
+import { Warning } from '../../components/Warning';
+import { useModalContext } from '../../providers/ModalProvider';
 import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
+import { useStateContext } from '../../providers/StateProvider';
+import { borrowAssetsHead, getBorrowAssetsCells } from './TableData.tsx';
 
 const hide = true;
 

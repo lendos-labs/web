@@ -1,5 +1,6 @@
-import { Box, BoxProps, Typography, TypographyProps } from '@mui/material';
 import type { ReactNode } from 'react';
+
+import { Box, BoxProps, Typography, TypographyProps } from '@mui/material';
 
 export const PanelRow: React.FC<BoxProps> = props => (
   <Box

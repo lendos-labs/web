@@ -1,11 +1,14 @@
-import { Box, Paper } from '@mui/material';
 import { useState } from 'react';
+
+import { Box, Paper } from '@mui/material';
+
 import { Vote } from '@lendos/types/governance';
 
+import { useCreateEmployee } from '@lendos/constants/hooks/useGovernance';
+
+import { NoSearchResults } from '../../components/NoSearchResults';
 import { ProposalListHeader } from './ProposalListHeader';
 import { ProposalV3ListItem } from './ProposalV3ListItem';
-import { NoSearchResults } from '../../components/NoSearchResults';
-import { useCreateEmployee } from '@lendos/constants/hooks/useGovernance';
 
 export const ProposalsV3List = () => {
   const [proposalFilter, setProposalFilter] = useState<string>('all');

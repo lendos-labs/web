@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
-import { UserNameText, UserNameTextProps } from './UserName';
+
 import { useAccountContext } from '../../providers/AccountProvider';
+import { UserNameText, UserNameTextProps } from './UserName';
 
 interface UserDisplayProps {
   titleProps?: Omit<UserNameTextProps, 'address' | 'domainName'>;

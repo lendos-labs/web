@@ -1,12 +1,14 @@
 'use client';
 
+import { ReactNode, createContext, useEffect, useMemo, useState } from 'react';
+
 import { useMediaQuery } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';
-import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
-import { getDesignTokens, getThemedComponents } from '../../theme/theme';
 import { getCookie } from 'cookies-next';
+
+import { getDesignTokens, getThemedComponents } from '../../theme/theme';
 
 export const ColorModeContext = createContext({
   toggleColorMode: () => {

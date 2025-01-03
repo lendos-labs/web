@@ -1,8 +1,9 @@
-import { ModalType, useModalContext } from '../../providers/ModalProvider';
 import { useState } from 'react';
+
 import { BasicModal } from '../../components/BasicModal';
 import { ModalWrapper } from '../../components/ModalWrapper';
 import { UserAuthenticated } from '../../components/UserAuthenticated';
+import { ModalType, useModalContext } from '../../providers/ModalProvider';
 import { BorrowModalContent } from './BorrowModalContent.tsx';
 
 export const BorrowModal = () => {

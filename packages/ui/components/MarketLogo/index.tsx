@@ -1,5 +1,6 @@
-import { Box, BoxProps, SxProps, Theme, Tooltip } from '@mui/material';
 import Image from 'next/image';
+
+import { Box, BoxProps, SxProps, Theme, Tooltip } from '@mui/material';
 
 interface MarketLogoProps {
   logo: string;

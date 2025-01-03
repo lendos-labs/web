@@ -1,27 +1,31 @@
+import { useEffect, useRef, useState } from 'react';
+
 import {
   BigNumberValue,
-  calculateHealthFactorFromBalancesBigUnits,
   USD_DECIMALS,
+  calculateHealthFactorFromBalancesBigUnits,
   valueToBigNumber,
 } from '@aave/math-utils';
 import { BigNumber } from 'bignumber.js';
-import { useEffect, useRef, useState } from 'react';
-import { ModalWrapperProps } from '../../components/ModalWrapper';
+
 import { InterestRate } from '@lendos/types/reserves';
 import { ExtendedFormattedUser } from '@lendos/types/user';
-import { Asset, AssetInput } from '../../components/AssetInput';
-import { useModalContext } from '../../providers/ModalProvider';
-import { useReservesContext } from '../../providers/ReservesProvider';
-import { useStateContext } from '../../providers/StateProvider';
+
 import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
-import { TxSuccessView } from '../../components/TxSuccessView';
+
+import { Asset, AssetInput } from '../../components/AssetInput';
+import { GasEstimationError } from '../../components/GasEstimationError';
+import { ModalWrapperProps } from '../../components/ModalWrapper';
 import {
   DetailsHFLine,
   DetailsNumberLineWithSub,
   TxModalDetails,
 } from '../../components/TxModalDetails';
+import { TxSuccessView } from '../../components/TxSuccessView';
 import { Warning } from '../../components/Warning';
-import { GasEstimationError } from '../../components/GasEstimationError';
+import { useModalContext } from '../../providers/ModalProvider';
+import { useReservesContext } from '../../providers/ReservesProvider';
+import { useStateContext } from '../../providers/StateProvider';
 
 interface RepayAsset extends Asset {
   balance: string;

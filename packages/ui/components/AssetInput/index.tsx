@@ -1,3 +1,5 @@
+import React, { ElementType, ReactNode } from 'react';
+
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import {
   Box,
@@ -15,11 +17,12 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import React, { ElementType, ReactNode } from 'react';
-import { TokenIcon } from '../TokenIcon';
-import { FormattedNumber } from '../FormattedNumber';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
+
 import { CapType } from '@lendos/types/cap';
+
+import { FormattedNumber } from '../FormattedNumber';
+import { TokenIcon } from '../TokenIcon';
 import { AvailableTooltip } from '../infoTooltips/AvailableTooltip';
 
 interface CustomProps {

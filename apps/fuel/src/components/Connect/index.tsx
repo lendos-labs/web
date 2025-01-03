@@ -1,6 +1,8 @@
 'use client';
-import { useAccount, useConnectUI } from '@fuels/react';
+
 import React from 'react';
+
+import { useAccount, useConnectUI } from '@fuels/react';
 
 export const Connect = () => {
   const { connect } = useConnectUI();

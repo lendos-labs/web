@@ -1,15 +1,18 @@
 'use client';
 
-import { MarketDataType } from '@lendos/types/market';
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+import { useState } from 'react';
+
 import { Box, Button, CircularProgress, Typography, useTheme } from '@mui/material';
 import { ParentSize } from '@visx/responsive';
-import { useState } from 'react';
-import { ApyGraphContainerKey, ESupportedTimeRanges, Fields, ReserveRateTimeRange } from './types';
+
+import { MarketDataType } from '@lendos/types/market';
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+
+import { ApyGraph } from './ApyGraph';
 import { GraphLegend } from './GraphLegend';
 import { GraphTimeRangeSelector } from './GraphTimeRangeSelector';
-import { ApyGraph } from './ApyGraph';
 import { useReserveRatesHistory } from './hooks/useReserveRatesHistory';
+import { ApyGraphContainerKey, ESupportedTimeRanges, Fields, ReserveRateTimeRange } from './types';
 
 interface ApyGraphContainerProps {
   graphKey: ApyGraphContainerKey;

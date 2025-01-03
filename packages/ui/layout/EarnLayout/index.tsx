@@ -1,17 +1,22 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { TopInfoPanel } from '../../components/TopInfoPanel';
-import { Box, Container } from '@mui/material';
-import { TopInfoPanelItem } from '../../components/TopInfoPanelItem';
+
 import { usePathname } from 'next/navigation';
-import { Link } from '../../components/Link';
+
+import { Box, Container } from '@mui/material';
+
+import { MarketDataType } from '@lendos/types/market';
+
+import { isFeatureEnabled } from '@lendos/constants/markets';
+import { Routes } from '@lendos/constants/routes';
+
 import { FormattedNumber } from '../../components/FormattedNumber';
+import { Link } from '../../components/Link';
 import { StyledToggleTabGroup } from '../../components/StyledToggleButtonGroup';
 import { StyledToggleTabButton } from '../../components/StyledToggleTabButton';
-import { MarketDataType } from '@lendos/types/market';
-import { Routes } from '@lendos/constants/routes';
-import { isFeatureEnabled } from '@lendos/constants/markets';
+import { TopInfoPanel } from '../../components/TopInfoPanel';
+import { TopInfoPanelItem } from '../../components/TopInfoPanelItem';
 import { useStateContext } from '../../providers/StateProvider';
 
 const marketDexTabs: {

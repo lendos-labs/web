@@ -1,6 +1,7 @@
 import { Divider, Skeleton } from '@mui/material';
-import { Row } from '../../components/Row';
+
 import { ListMobileItemWrapper } from '../../components/ListMobileItemWrapper';
+import { Row } from '../../components/Row';
 
 export const MarketAssetsListMobileItemLoader = () => {
   return (

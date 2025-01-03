@@ -1,7 +1,9 @@
-import LaunchIcon from '@mui/icons-material/Launch';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import * as React from 'react';
+
 import CheckIcon from '@mui/icons-material/Check';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import LaunchIcon from '@mui/icons-material/Launch';
 import {
   Box,
   Button,
@@ -13,12 +15,14 @@ import {
   SvgIcon,
   Typography,
 } from '@mui/material';
-import * as React from 'react';
+
 import { CustomMarket } from '@lendos/types/market';
 import { InterestRate } from '@lendos/types/reserves';
+
+import { Routes } from '@lendos/constants/routes';
+
 import { FormattedNumber } from '../../components/FormattedNumber';
 import { Link } from '../../components/Link';
-import { Routes } from '@lendos/constants/routes';
 
 interface ListItemAPYButtonProps {
   stableBorrowRateEnabled: boolean;

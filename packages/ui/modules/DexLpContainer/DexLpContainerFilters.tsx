@@ -1,8 +1,11 @@
-import { SearchInput } from '../../components/SearchInput';
 import { Box, MenuItem, Select, Typography } from '@mui/material';
-import { useReservesContext } from '../../providers/ReservesProvider';
+
 import { Filters } from '@lendos/types/dexLp';
+
 import { poolTypes } from '@lendos/constants/dexLp';
+
+import { SearchInput } from '../../components/SearchInput';
+import { useReservesContext } from '../../providers/ReservesProvider';
 
 interface DexLpContainerFiltersProps {
   filters: Record<Filters, string>;

@@ -1,4 +1,19 @@
+import { Fragment, ReactNode, useCallback, useMemo } from 'react';
+
 import { Box, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Annotation, HtmlLabel } from '@visx/annotation';
+import { AxisBottom, AxisLeft } from '@visx/axis';
+import { curveMonotoneX } from '@visx/curve';
+import { localPoint } from '@visx/event';
+import { GridRows } from '@visx/grid';
+import { Group } from '@visx/group';
+import { scaleLinear, scaleTime } from '@visx/scale';
+import { Bar, Line, LinePath } from '@visx/shape';
+import { TooltipWithBounds, defaultStyles, withTooltip } from '@visx/tooltip';
+import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip';
+import { bisector, extent, max } from 'd3-array';
+import { timeFormat } from 'd3-time-format';
+
 import {
   ESupportedTimeRanges,
   Field,
@@ -6,19 +21,6 @@ import {
   FormattedReserveHistoryItem,
   ReserveRateTimeRange,
 } from './types';
-import { Annotation, HtmlLabel } from '@visx/annotation';
-import { AxisBottom, AxisLeft } from '@visx/axis';
-import { curveMonotoneX } from '@visx/curve';
-import { GridRows } from '@visx/grid';
-import { Group } from '@visx/group';
-import { scaleLinear, scaleTime } from '@visx/scale';
-import { Bar, Line, LinePath } from '@visx/shape';
-import { defaultStyles, TooltipWithBounds, withTooltip } from '@visx/tooltip';
-import { bisector, extent, max } from 'd3-array';
-import { timeFormat } from 'd3-time-format';
-import { WithTooltipProvidedProps } from '@visx/tooltip/lib/enhancers/withTooltip';
-import { Fragment, ReactNode, useCallback, useMemo } from 'react';
-import { localPoint } from '@visx/event';
 
 const formatDate = (d: Date, timeRange: ReserveRateTimeRange) => {
   if (timeRange === ESupportedTimeRanges.OneMonth) {

@@ -1,4 +1,5 @@
 import { Box, Checkbox, Typography } from '@mui/material';
+
 import { Warning } from '../../components/Warning';
 
 interface BorrowAmountWarningProps {

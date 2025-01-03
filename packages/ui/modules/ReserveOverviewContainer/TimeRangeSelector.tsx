@@ -1,4 +1,5 @@
 import { Box, Button, SxProps, Theme, Typography } from '@mui/material';
+
 import { ESupportedTimeRanges } from './types';
 
 export const supportedTimeRangeOptions = ['1m', '3m', '6m', '1y'] as const;

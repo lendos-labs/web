@@ -1,7 +1,7 @@
-import { ModalType, useModalContext } from '../../providers/ModalProvider';
 import { BasicModal } from '../../components/BasicModal';
 import { ModalWrapper } from '../../components/ModalWrapper';
 import { UserAuthenticated } from '../../components/UserAuthenticated';
+import { ModalType, useModalContext } from '../../providers/ModalProvider';
 import { SupplyModalContentWrapper } from './SupplyModalContentWrapper';
 
 export const SupplyModal = () => {

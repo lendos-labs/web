@@ -1,6 +1,7 @@
+import { ReactNode } from 'react';
+
 import { ReserveIncentiveResponse } from '@aave/math-utils/dist/esm/formatters/incentive/calculate-reserve-incentives';
 import { Box } from '@mui/material';
-import { ReactNode } from 'react';
 
 import { IncentivesCard } from '../../components/IncentivesCard';
 

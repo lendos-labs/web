@@ -1,6 +1,7 @@
-import { Warning } from '../Warning';
 import { Button, Typography } from '@mui/material';
+
 import { useAccountContext } from '../../providers/AccountProvider';
+import { Warning } from '../Warning';
 
 export interface ChangeNetworkWarningProps {
   networkName: string;

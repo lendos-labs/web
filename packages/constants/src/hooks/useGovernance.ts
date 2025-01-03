@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { governanceServices } from '../services/governance.services';
-import { queryClient } from '../queryClient';
+
 import { queryKeys } from '../queries';
+import { queryClient } from '../queryClient';
+import { governanceServices } from '../services/governance.services';
 
 export const useVoting = ({ networkQuery }: { networkQuery: string }) => {
   return useQuery({

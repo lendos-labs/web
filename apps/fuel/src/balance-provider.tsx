@@ -1,7 +1,10 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { BalanceContext } from '@lendos/ui/providers/BalanceProvider';
+
 import { useAccount, useChain, useProvider } from '@fuels/react';
 import { Fuel, NetworkFuel } from 'fuels';
+
+import { BalanceContext } from '@lendos/ui/providers/BalanceProvider';
+
 import { fuelConfig } from './fuel-providers';
 
 export const BalanceProvider = ({ children }: { children: ReactNode }) => {

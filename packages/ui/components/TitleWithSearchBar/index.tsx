@@ -1,5 +1,7 @@
 'use client';
 
+import { ReactNode, useState } from 'react';
+
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import {
@@ -12,7 +14,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { ReactNode, useState } from 'react';
+
 import { SearchInput } from '../SearchInput';
 
 interface TitleWithSearchBarProps<C extends React.ElementType> {

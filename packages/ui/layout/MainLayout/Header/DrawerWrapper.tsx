@@ -1,5 +1,6 @@
-import { Drawer, useTheme } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { Drawer, useTheme } from '@mui/material';
 
 interface DrawerWrapperProps {
   open: boolean;

@@ -1,19 +1,23 @@
 'use client';
 
-import { Badge, Box, Button, styled, SvgIcon, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { HideOnScroll } from './HideOnScroll';
-import { Routes } from '@lendos/constants/routes';
+
 import Image from 'next/image';
-import { Link } from '../../../components/Link';
+
 import { ArrowsRightLeftIcon } from '@heroicons/react/16/solid';
-import { WalletWidget } from './WalletWidget';
-import { useModalContext } from '../../../providers/ModalProvider';
+import { Badge, Box, Button, SvgIcon, styled, useMediaQuery, useTheme } from '@mui/material';
+
 import { isFeatureEnabled } from '@lendos/constants/markets';
+import { Routes } from '@lendos/constants/routes';
+
+import { Link } from '../../../components/Link';
+import { useModalContext } from '../../../providers/ModalProvider';
 import { useStateContext } from '../../../providers/StateProvider';
+import { HideOnScroll } from './HideOnScroll';
+import { MobileMenu } from './MobileMenu';
 import { NavItems } from './NavItems';
 import { SettingsMenu } from './SettingsMenu';
-import { MobileMenu } from './MobileMenu';
+import { WalletWidget } from './WalletWidget';
 
 const SWITCH_VISITED_KEY = 'switchVisited';
 const headerHeight = 48;

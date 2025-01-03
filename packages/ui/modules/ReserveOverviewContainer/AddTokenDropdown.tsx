@@ -1,11 +1,14 @@
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+import { useEffect, useState } from 'react';
+
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { TokenIcon } from '../../components/TokenIcon';
-import { useStateContext } from '../../providers/StateProvider';
-import { useAccountContext } from '../../providers/AccountProvider';
+
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+
 import { Base64Token } from '../../components/Base64Token';
+import { TokenIcon } from '../../components/TokenIcon';
+import { useAccountContext } from '../../providers/AccountProvider';
+import { useStateContext } from '../../providers/StateProvider';
 
 interface AddTokenDropdownProps {
   poolReserve: FormattedReservesAndIncentives;

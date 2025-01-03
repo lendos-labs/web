@@ -1,6 +1,8 @@
-import { Box, Icon, IconProps } from '@mui/material';
-import Image from 'next/image';
 import { forwardRef } from 'react';
+
+import Image from 'next/image';
+
+import { Box, Icon, IconProps } from '@mui/material';
 
 interface ATokenIconProps {
   symbol?: string;

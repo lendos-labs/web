@@ -1,6 +1,7 @@
-import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { Box, Button, Link, SvgIcon, Typography } from '@mui/material';
+
 import { TxErrorType, useModalContext } from '../../providers/ModalProvider';
 
 export const TxErrorView = ({ txError }: { txError: TxErrorType }) => {

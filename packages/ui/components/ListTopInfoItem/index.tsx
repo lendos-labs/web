@@ -1,5 +1,7 @@
-import { Paper, Typography } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { Paper, Typography } from '@mui/material';
+
 import { FormattedNumber } from '../FormattedNumber';
 
 interface ListTopInfoItemProps {

@@ -1,4 +1,5 @@
 import { Switch } from '@mui/material';
+
 import { ListItemIsolationBadge } from './ListItemIsolationBadge.tsx';
 
 interface ListItemUsedAsCollateralProps {

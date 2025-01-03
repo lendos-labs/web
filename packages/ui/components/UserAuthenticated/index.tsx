@@ -1,8 +1,11 @@
-import { Box, CircularProgress } from '@mui/material';
 import { ReactNode } from 'react';
-import { useReservesContext } from '../../providers/ReservesProvider';
-import { ExtendedFormattedUser } from '@lendos/types/user';
+
+import { Box, CircularProgress } from '@mui/material';
 import invariant from 'tiny-invariant';
+
+import { ExtendedFormattedUser } from '@lendos/types/user';
+
+import { useReservesContext } from '../../providers/ReservesProvider';
 
 interface UserAuthenticatedProps {
   children: (user: ExtendedFormattedUser) => ReactNode;

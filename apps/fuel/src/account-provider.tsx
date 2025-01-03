@@ -1,7 +1,9 @@
 import React, { ReactNode, useMemo, useState } from 'react';
-import { AccountContext } from '@lendos/ui/providers/AccountProvider';
+
 import { useAccount, useConnectUI, useDisconnect, useIsConnected } from '@fuels/react';
 import { useChainId } from 'wagmi';
+
+import { AccountContext } from '@lendos/ui/providers/AccountProvider';
 
 export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const [switchNetworkError, setSwitchNetworkError] = useState<Error>();

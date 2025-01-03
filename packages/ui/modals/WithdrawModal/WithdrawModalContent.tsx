@@ -1,26 +1,30 @@
+import { useRef, useState } from 'react';
+
 import { valueToBigNumber } from '@aave/math-utils';
 import { Box, Checkbox, Typography } from '@mui/material';
-import { useRef, useState } from 'react';
-import { ModalWrapperProps } from '../../components/ModalWrapper';
-import { ExtendedFormattedUser } from '@lendos/types/user';
-import { useModalContext } from '../../providers/ModalProvider';
-import { useStateContext } from '../../providers/StateProvider';
-import { calculateMaxWithdrawAmount } from './utils.ts';
-import { zeroLTVBlockingWithdraw } from '../utils.ts';
-import { calculateHFAfterWithdraw } from '@lendos/constants/utils/hfUtils';
-import { useWithdrawError } from './WithdrawError.tsx';
+
+import { ChainId } from '@lendos/types/chain';
 import { Reserves } from '@lendos/types/reserves';
-import { TxSuccessView } from '../../components/TxSuccessView';
+import { ExtendedFormattedUser } from '@lendos/types/user';
+
+import { calculateHFAfterWithdraw } from '@lendos/constants/utils/hfUtils';
+
 import { AssetInput } from '../../components/AssetInput';
+import { GasEstimationError } from '../../components/GasEstimationError';
+import { ModalWrapperProps } from '../../components/ModalWrapper';
 import {
   DetailsHFLine,
   DetailsNumberLine,
   DetailsUnwrapSwitch,
   TxModalDetails,
 } from '../../components/TxModalDetails';
-import { ChainId } from '@lendos/types/chain';
-import { GasEstimationError } from '../../components/GasEstimationError';
+import { TxSuccessView } from '../../components/TxSuccessView';
 import { Warning } from '../../components/Warning';
+import { useModalContext } from '../../providers/ModalProvider';
+import { useStateContext } from '../../providers/StateProvider';
+import { zeroLTVBlockingWithdraw } from '../utils.ts';
+import { useWithdrawError } from './WithdrawError.tsx';
+import { calculateMaxWithdrawAmount } from './utils.ts';
 
 export const WithdrawModalContent = ({
   poolReserve,

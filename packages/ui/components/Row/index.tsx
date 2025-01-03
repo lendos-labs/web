@@ -1,5 +1,6 @@
-import { Box, BoxProps, Typography } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { Box, BoxProps, Typography } from '@mui/material';
 
 interface RowProps extends BoxProps {
   caption?: ReactNode;

@@ -1,8 +1,11 @@
 'use client';
 
-import { EarnLayout } from '@lendos/ui/layout/EarnLayout';
 import { ReactNode } from 'react';
+
 import { usePathname } from 'next/navigation';
+
+import { EarnLayout } from '@lendos/ui/layout/EarnLayout';
+
 import { Routes } from '@lendos/constants/routes';
 
 export default function AppLayout({

@@ -1,9 +1,11 @@
 'use client';
 
-import { Box, BoxProps, Paper, Typography } from '@mui/material';
 import { ReactNode, useState } from 'react';
-import { toggleCookieStorageClick } from '../../helpers/toggle-cookie-storage-click.ts';
+
+import { Box, BoxProps, Paper, Typography } from '@mui/material';
 import { getCookie } from 'cookies-next';
+
+import { toggleCookieStorageClick } from '../../helpers/toggle-cookie-storage-click.ts';
 
 interface ListWrapperProps {
   titleComponent: ReactNode;

@@ -1,3 +1,6 @@
+import { ReactNode } from 'react';
+
+import MenuIcon from '@mui/icons-material/Menu';
 import {
   Box,
   Button,
@@ -9,15 +12,15 @@ import {
   SvgIcon,
   Typography,
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { ReactNode } from 'react';
-import { MobileCloseButton } from './MobileCloseButton';
-import { DrawerWrapper } from './DrawerWrapper';
-import { NavItems } from './NavItems';
+
 import { earnsNavigation } from '@lendos/constants/routes';
+
 import { Link } from '../../../components/Link';
-import { earnIcons } from './constants';
 import { DarkModeSwitcher } from './DarkModeSwitcher';
+import { DrawerWrapper } from './DrawerWrapper';
+import { MobileCloseButton } from './MobileCloseButton';
+import { NavItems } from './NavItems';
+import { earnIcons } from './constants';
 
 interface MobileMenuProps {
   open: boolean;

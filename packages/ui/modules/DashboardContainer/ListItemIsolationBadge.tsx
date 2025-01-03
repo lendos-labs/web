@@ -1,5 +1,7 @@
-import { Box } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { Box } from '@mui/material';
+
 import { IsolatedEnabledBadge } from '../../components/IsolatedBadge';
 
 interface ListItemIsolationBadgeProps {

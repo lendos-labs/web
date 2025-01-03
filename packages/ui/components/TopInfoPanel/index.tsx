@@ -1,5 +1,7 @@
-import { Box, Container, ContainerProps, Paper } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { Box, Container, ContainerProps, Paper } from '@mui/material';
+
 import { PageTitle } from '../PageTitle';
 
 interface TopInfoPanelProps {

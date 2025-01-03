@@ -1,15 +1,18 @@
 'use client';
 
+import { ReactNode, createContext, useContext } from 'react';
+
 import { valueToBigNumber } from '@aave/math-utils';
+
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
-import { createContext, ReactNode, useContext } from 'react';
-import { AssetCapUsageData } from './types';
-import { SupplyCapWarning } from './SupplyCapWarning';
-import { SupplyCapMaxedTooltip } from './SupplyCapMaxedTooltip';
-import { BorrowCapWarning } from './BorrowCapWarning';
+
 import { BorrowCapMaxedTooltip } from './BorrowCapMaxedTooltip';
-import { DebtCeilingWarning } from './DebtCeilingWarning';
+import { BorrowCapWarning } from './BorrowCapWarning';
 import { DebtCeilingMaxedTooltip } from './DebtCeilingMaxedTooltip';
+import { DebtCeilingWarning } from './DebtCeilingWarning';
+import { SupplyCapMaxedTooltip } from './SupplyCapMaxedTooltip';
+import { SupplyCapWarning } from './SupplyCapWarning';
+import { AssetCapUsageData } from './types';
 
 const getAssetCapData = (asset: FormattedReservesAndIncentives): AssetCapUsageData => {
   const { supplyCapUsage, supplyCapReached } = getSupplyCapData(asset);

@@ -1,5 +1,6 @@
-import { Box, Tooltip } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { Box, Tooltip } from '@mui/material';
 
 import { FormattedNumber } from '../../components/FormattedNumber';
 
