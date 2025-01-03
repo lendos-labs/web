@@ -9,4 +9,4 @@ export const strategiesTab: { label: string }[] = [
   },
 ];
 
-export const strategiesPairs: AvailablePair[] = [{ lend: 'DAI', borrow: 'USDC' }];
+export const strategiesPairs: AvailablePair[] = [{ lend: 'FUEL', borrow: 'USDC' }];

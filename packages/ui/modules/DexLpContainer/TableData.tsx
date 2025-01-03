@@ -195,6 +195,7 @@ export const getAllPoolsCells = ({
                 width: { xs: '100%', md: '82px' },
               }}
               onClick={() => openSupply(d.underlyingAsset)}
+              disabled
             >
               Supply
             </Button>
@@ -209,6 +210,7 @@ export const getAllPoolsCells = ({
               onClick={() => {
                 openWithdraw(d.underlyingAsset);
               }}
+              disabled
             >
               Withdraw
             </Button>
@@ -308,6 +310,7 @@ export const getCollateralCells = ({
               width: { xs: '100%', md: '82px' },
             }}
             onClick={() => openSupply(d.underlyingAsset)}
+            disabled
           >
             Supply
           </Button>
@@ -320,6 +323,7 @@ export const getCollateralCells = ({
             onClick={() => {
               openWithdraw(d.underlyingAsset);
             }}
+            disabled
           >
             Withdraw
           </Button>

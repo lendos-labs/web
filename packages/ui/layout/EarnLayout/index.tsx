@@ -45,6 +45,7 @@ export const EarnLayout = ({
   };
 }) => {
   const pathname = usePathname();
+
   const { currentMarketData } = useStateContext();
 
   return (

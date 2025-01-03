@@ -15,32 +15,18 @@
       "cache": false
     },
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "dist/**",
-        "build/**"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "build/**"]
     },
     "lint": {
-      "dependsOn": [
-        "//#lint:prettier"
-      ],
-      "inputs": [
-        "components",
-        "lib",
-        "src",
-        "package.json"
-      ]
+      "dependsOn": ["//#lint:prettier"],
+      "inputs": ["components", "lib", "src", "package.json"]
     },
     "lint:fix": {
       "cache": false
     },
     "format": {
-      "dependsOn": [
-        "//#format:prettier"
-      ]
+      "dependsOn": ["//#format:prettier"]
     },
     "dev": {
       "cache": false

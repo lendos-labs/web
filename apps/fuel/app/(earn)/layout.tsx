@@ -1,8 +1,11 @@
+'use client';
+
 import { EarnLayout } from '@lendos/ui/layout/EarnLayout';
 import { ReactNode } from 'react';
-import { headers } from 'next/headers';
+import { usePathname } from 'next/navigation';
+import { Routes } from '@lendos/constants/routes';
 
-export default async function AppLayout({
+export default function AppLayout({
   children,
 }: Readonly<{
   children: ReactNode;
@@ -12,12 +15,10 @@ export default async function AppLayout({
     totalLiquidity: BigInt(0),
     totalDebt: BigInt(0),
   };
-  const headersList = await headers();
-  const activePath = headersList.get('referer');
-  const path = activePath?.split('/').pop();
+  const pathname = usePathname() as Routes;
 
   return (
-    <EarnLayout loading={loading} data={data} showTab={path !== 'strategies'}>
+    <EarnLayout loading={loading} data={data} showTab={pathname !== Routes.strategies}>
       {children}
     </EarnLayout>
   );
