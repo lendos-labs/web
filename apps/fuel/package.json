@@ -1,5 +1,5 @@
 {
-  "name": "@lendos/web-fuel",
+  "name": "fuel",
   "version": "0.0.0",
   "type": "module",
   "engine": {

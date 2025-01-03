@@ -89,6 +89,8 @@ export const IncentivesButton = ({ incentives, symbol, displayBlank }: Incentive
           ∞
         </Typography>
       );
+    } else {
+      return '';
     }
   };
 

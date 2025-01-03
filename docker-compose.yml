@@ -1,20 +1,21 @@
 version: '3'
 
 services:
-  fuel-dev-lendos:
-    container_name: fuel-dev-lendos
-    image: fuel-dev-lendos:latest
+  web:
+    container_name: web
     build:
-      context: ./
-      dockerfile: ./apps/web/Dockerfile
+      context: .
+      dockerfile: ./apps/fuel/Dockerfile
       args:
-        NODE: development
+        NODE: production
     restart: always
     ports:
       - 9000:3000
     networks:
-      - coplilot_network
-  
+      - app_network
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
 networks:
-  coplilot_network:
+  app_network:
     external: true

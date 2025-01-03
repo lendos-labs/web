@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars -- TODO fix it when add action */
 import { ExtendedFormattedUser } from '@lendos/types/user';
 import { ModalWrapperProps } from '../../components/ModalWrapper';
 import { ReactNode, useState } from 'react';
-import { useBalanceContext } from '../../providers/BalanceProvider';
 import { useAssetCaps } from '../../providers/AssetCapsProvider';
 import { useReservesContext } from '../../providers/ReservesProvider';
 import { useStateContext } from '../../providers/StateProvider';
@@ -40,7 +38,7 @@ export const SupplyModalContentWrapper = (
   params: ModalWrapperProps & { user: ExtendedFormattedUser },
 ) => {
   const user = params.user;
-  const { walletBalances } = useBalanceContext();
+  // const { walletBalances } = useBalanceContext();
   // const wrappedTokenReserves = useWrappedTokens();
   const { supplyCap: supplyCapUsage, debtCeiling: debtCeilingUsage } = useAssetCaps();
 
@@ -144,7 +142,7 @@ export const calculateHFAfterSupply = (
 export const SupplyModalContent = ({
   underlyingAsset,
   poolReserve,
-  isWrongNetwork,
+  // isWrongNetwork,
   nativeBalance,
   tokenBalance,
   isolationModeWarning,
@@ -210,15 +208,15 @@ export const SupplyModalContent = ({
     iconSymbol = `${poolReserve.token0.symbol}_${poolReserve.token1.symbol}`;
   }
 
-  const supplyActionsProps = {
-    amountToSupply: amount,
-    isWrongNetwork,
-    poolAddress: supplyUnWrapped ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset,
-    symbol,
-    blocked: false,
-    decimals: poolReserve.decimals,
-    isWrappedBaseAsset: poolReserve.isWrappedBaseAsset,
-  };
+  // const supplyActionsProps = {
+  //   amountToSupply: amount,
+  //   isWrongNetwork,
+  //   poolAddress: supplyUnWrapped ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset,
+  //   symbol,
+  //   blocked: false,
+  //   decimals: poolReserve.decimals,
+  //   isWrappedBaseAsset: poolReserve.isWrappedBaseAsset,
+  // };
 
   if (supplyTxState.success) {
     return (
