@@ -1,11 +1,10 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 
 import { useAccount, useChain, useProvider } from '@fuels/react';
-import { Fuel, NetworkFuel } from 'fuels';
 
 import { BalanceContext } from '@lendos/ui/providers/BalanceProvider';
 
-import { fuelConfig } from './fuel-providers';
+import { assets } from './temporary';
 
 export const BalanceProvider = ({ children }: { children: ReactNode }) => {
   const { provider } = useProvider();
@@ -23,28 +22,9 @@ export const BalanceProvider = ({ children }: { children: ReactNode }) => {
 
     void (async () => {
       setLoading(true);
-      const fuel = new Fuel(fuelConfig);
-      const chainId = chain?.consensusParameters.chainId.toNumber();
-      const allAssets = await fuel.assets();
-
-      const selectedChainAssets = [];
-
-      for (const asset of allAssets) {
-        const network = asset.networks.find(n => n.chainId === chainId) as NetworkFuel | undefined;
-        if (!network) {
-          continue;
-        }
-
-        selectedChainAssets.push({
-          icon: asset.icon,
-          name: asset.name,
-          symbol: asset.symbol,
-          ...network,
-        });
-      }
 
       await Promise.all(
-        selectedChainAssets.map(async i => {
+        assets.map(async i => {
           const balance = (await provider.getBalance(account, i.assetId)).format();
 
           setWalletBalances(state => ({

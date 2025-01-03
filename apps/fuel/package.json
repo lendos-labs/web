@@ -18,6 +18,7 @@
     "@emotion/styled": "^11.14.0",
     "@fuels/connectors": "^0.36.1",
     "@fuels/react": "^0.36.1",
+    "@lendos/constants": "workspace:*",
     "@lendos/ui": "workspace:*",
     "@mui/icons-material": "^6.2.1",
     "@mui/material": "^6.2.1",
@@ -31,13 +32,13 @@
     "react-dom": "^19.0.0",
     "viem": "2.20.1",
     "wagmi": "2.13.4",
-    "@lendos/constants": "workspace:*"
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
+    "@lendos/types": "workspace:*",
     "@types/node": "^20",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.0",
-    "@lendos/types": "workspace:*",
     "typescript": "5.5.3"
   }
 }
