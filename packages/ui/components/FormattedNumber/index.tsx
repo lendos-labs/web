@@ -1,12 +1,14 @@
-import { compactNumber } from '@lendos/constants/compactNumber';
+import type { ElementType } from 'react';
+
 import { Typography } from '@mui/material';
-import { Variant } from '@mui/material/styles/createTypography';
 import type {
   TypographyProps,
   TypographyPropsVariantOverrides,
 } from '@mui/material/Typography/Typography';
+import { Variant } from '@mui/material/styles/createTypography';
 import { OverridableStringUnion } from '@mui/types';
-import type { ElementType } from 'react';
+
+import { compactNumber } from '@lendos/constants/compactNumber';
 
 interface CompactNumberProps {
   value: string | number;

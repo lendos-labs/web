@@ -1,3 +1,7 @@
+import { MouseEvent } from 'react';
+
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   Box,
   Button,
@@ -8,41 +12,41 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { MouseEvent } from 'react';
-import { TableHeadProperties } from '../../components/Table';
+
+import { CapType } from '@lendos/types/cap';
+import { MarketDataType } from '@lendos/types/market';
 import {
   DashboardReserve,
   FormattedReservesAndIncentives,
   InterestRate,
   ReserveLpToken,
-  Reserves,
   ReserveToken,
+  Reserves,
 } from '@lendos/types/reserves';
-import { TokenIcon } from '../../components/TokenIcon';
-import { CollateralSwitchTooltip } from '../../components/infoTooltips/CollateralSwitchTooltip.tsx';
-import { ListButtonsColumn } from './ListButtonsColumn.tsx';
-import { ModalArgsType, ModalContextType } from '../../providers/ModalProvider';
-import { ListValueColumn } from './ListValueColumn.tsx';
-import { ListItemUsedAsCollateral } from './ListItemUsedAsCollateral.tsx';
-import { Link } from '../../components/Link';
-import { Routes } from '@lendos/constants/routes';
-import { MarketDataType } from '@lendos/types/market';
-import StarCircle from '../../components/StarCircle';
-import { FormattedNumber } from '../../components/FormattedNumber';
-import { RewardAPYTooltip } from '../../components/RewardAPYTooltip';
-import { IncentivesCard } from '../../components/IncentivesCard';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+
 import { isFeatureEnabled } from '@lendos/constants/markets';
-import { ListItemCanBeCollateral } from './ListItemCanBeCollateral.tsx';
-import { APYTypeTooltip } from '../../components/infoTooltips/APYTypeTooltip.tsx';
-import { ListItemAPYButton } from './ListItemAPYButton.tsx';
-import { ListAPRColumn } from './ListAPRColumn.tsx';
-import { AvailableTooltip } from '../../components/infoTooltips/AvailableTooltip.tsx';
-import { CapType } from '@lendos/types/cap';
-import { VariableAPYTooltip } from '../../components/VariableAPYTooltip';
+import { Routes } from '@lendos/constants/routes';
+
 import { CapsHint } from '../../components/CapsHint';
+import { FormattedNumber } from '../../components/FormattedNumber';
+import { IncentivesCard } from '../../components/IncentivesCard';
+import { Link } from '../../components/Link';
 import { ReserveSubheader } from '../../components/ReserveSubheader';
+import { RewardAPYTooltip } from '../../components/RewardAPYTooltip';
+import StarCircle from '../../components/StarCircle';
+import { TableHeadProperties } from '../../components/Table';
+import { TokenIcon } from '../../components/TokenIcon';
+import { VariableAPYTooltip } from '../../components/VariableAPYTooltip';
+import { APYTypeTooltip } from '../../components/infoTooltips/APYTypeTooltip.tsx';
+import { AvailableTooltip } from '../../components/infoTooltips/AvailableTooltip.tsx';
+import { CollateralSwitchTooltip } from '../../components/infoTooltips/CollateralSwitchTooltip.tsx';
+import { ModalArgsType, ModalContextType } from '../../providers/ModalProvider';
+import { ListAPRColumn } from './ListAPRColumn.tsx';
+import { ListButtonsColumn } from './ListButtonsColumn.tsx';
+import { ListItemAPYButton } from './ListItemAPYButton.tsx';
+import { ListItemCanBeCollateral } from './ListItemCanBeCollateral.tsx';
+import { ListItemUsedAsCollateral } from './ListItemUsedAsCollateral.tsx';
+import { ListValueColumn } from './ListValueColumn.tsx';
 
 export const suppliedPositionsHead: TableHeadProperties[] = [
   {

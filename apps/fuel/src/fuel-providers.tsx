@@ -1,15 +1,16 @@
 'use client';
 
 import {
-  createConfig,
   FuelWalletConnector,
   SolanaConnector,
   WalletConnectConnector,
+  createConfig,
 } from '@fuels/connectors';
 import { FuelProvider } from '@fuels/react';
-import { Provider } from 'fuels';
-import { supportedFuelNetwork, wagmiConfig } from './config/connectors.ts';
 import { Config } from '@wagmi/core';
+import { Provider } from 'fuels';
+
+import { supportedFuelNetwork, wagmiConfig } from './config/connectors.ts';
 import { ChildrenProps } from './types/common.ts';
 
 const WALLETCONNECT_PROJECT_ID = process.env['NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID'];

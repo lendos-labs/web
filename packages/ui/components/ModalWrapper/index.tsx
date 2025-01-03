@@ -1,15 +1,17 @@
 import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
 import { ExtendedFormattedUser } from '@lendos/types/user';
-import { useStateContext } from '../../providers/StateProvider';
-import { useBalanceContext } from '../../providers/BalanceProvider';
-import { useReservesContext } from '../../providers/ReservesProvider';
-import { useModalContext } from '../../providers/ModalProvider';
+
 import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
-import { AssetCapsProvider } from '../../providers/AssetCapsProvider';
-import { TxModalTitle } from '../TxModalTitle';
-import { ChangeNetworkWarning } from '../ChangeNetworkWarning';
+
 import { useAccountContext } from '../../providers/AccountProvider';
+import { AssetCapsProvider } from '../../providers/AssetCapsProvider';
+import { useBalanceContext } from '../../providers/BalanceProvider';
+import { useModalContext } from '../../providers/ModalProvider';
+import { useReservesContext } from '../../providers/ReservesProvider';
+import { useStateContext } from '../../providers/StateProvider';
+import { ChangeNetworkWarning } from '../ChangeNetworkWarning';
 import { TxErrorView } from '../TxErrorView';
+import { TxModalTitle } from '../TxModalTitle';
 
 export interface ModalWrapperProps {
   underlyingAsset: string;

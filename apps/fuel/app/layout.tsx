@@ -1,12 +1,15 @@
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
+
+import { Box } from '@mui/material';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { cookieToInitialState } from 'wagmi';
+
 import { aldrich, montserrat } from '@lendos/ui/fonts';
+
 import { wagmiConfig } from '../src/config/connectors';
 import { Providers } from '../src/providers.tsx';
 import { ChildrenProps } from '../src/types/common';
-import { Box } from '@mui/material';
 
 export const metadata: Metadata = {
   title: 'lendOS',

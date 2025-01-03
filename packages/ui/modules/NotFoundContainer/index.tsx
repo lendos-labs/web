@@ -1,5 +1,6 @@
-import { ContentContainer } from '../../components/ContentContainer';
 import { Button, Paper, Typography } from '@mui/material';
+
+import { ContentContainer } from '../../components/ContentContainer';
 import { Link } from '../../components/Link';
 
 function NotFoundContainer() {

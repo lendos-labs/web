@@ -1,13 +1,16 @@
 'use client';
 
-import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
-import { useMediaQuery } from '@mui/material';
-import { MarketAssetsListMobileItemLoader } from './MarketAssetsListMobileItemLoader';
-import { MarketAssetsListItemLoader } from './MarketAssetsListItemLoader';
-import { CustomTable, TableData } from '../../components/Table';
-import { getMarketsCells, marketHeader } from './TableData';
 import { useMemo } from 'react';
+
+import { useMediaQuery } from '@mui/material';
+
+import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
+
+import { CustomTable, TableData } from '../../components/Table';
 import { useStateContext } from '../../providers/StateProvider';
+import { MarketAssetsListItemLoader } from './MarketAssetsListItemLoader';
+import { MarketAssetsListMobileItemLoader } from './MarketAssetsListMobileItemLoader';
+import { getMarketsCells, marketHeader } from './TableData';
 
 interface MarketAssetsListProps {
   reserves: FormattedReservesAndIncentives<ReserveToken>[];

@@ -1,6 +1,7 @@
-import { Box, Link, SvgIcon, TypographyProps } from '@mui/material';
 import OpenInNewOffIcon from '@mui/icons-material/OpenInNewOff';
-import { CompactableTypography, CompactMode } from '../CompactableTypography';
+import { Box, Link, SvgIcon, TypographyProps } from '@mui/material';
+
+import { CompactMode, CompactableTypography } from '../CompactableTypography';
 import { DarkTooltip } from '../DarkTooltip';
 
 export interface UserNameTextProps extends TypographyProps {

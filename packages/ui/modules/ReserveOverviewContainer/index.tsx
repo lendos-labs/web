@@ -1,14 +1,17 @@
 'use client';
 
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
-import { AssetCapsProvider } from '../../providers/AssetCapsProvider';
-import { ReserveTopDetailsWrapper } from './ReserveTopDetailsWrapper';
-import { ContentContainer } from '../../components/ContentContainer';
-import { Box } from '@mui/material';
-import { Mode, OverviewTab } from './OverviewTab';
 import { useState } from 'react';
-import { ReserveConfigurationWrapper } from './ReserveConfigurationWrapper';
+
+import { Box } from '@mui/material';
+
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+
+import { ContentContainer } from '../../components/ContentContainer';
+import { AssetCapsProvider } from '../../providers/AssetCapsProvider';
+import { Mode, OverviewTab } from './OverviewTab';
 import { ReserveActions } from './ReserveActions';
+import { ReserveConfigurationWrapper } from './ReserveConfigurationWrapper';
+import { ReserveTopDetailsWrapper } from './ReserveTopDetailsWrapper';
 
 export const ReserveOverviewContainer = ({
   reserve,

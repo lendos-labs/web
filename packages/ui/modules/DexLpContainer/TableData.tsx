@@ -1,10 +1,12 @@
-import { TableHeadProperties } from '../../components/Table';
-import { PoolData, UserPoolData } from '@lendos/types/dexLp';
-import { ModalArgsType, ModalContextType } from '../../providers/ModalProvider';
 import { Box, Button } from '@mui/material';
-import { TokenIcon } from '../../components/TokenIcon';
 import Typography from '@mui/material/Typography';
+
+import { PoolData, UserPoolData } from '@lendos/types/dexLp';
+
 import { ReserveSubheader } from '../../components/ReserveSubheader';
+import { TableHeadProperties } from '../../components/Table';
+import { TokenIcon } from '../../components/TokenIcon';
+import { ModalArgsType, ModalContextType } from '../../providers/ModalProvider';
 
 export const allPoolHeader: TableHeadProperties[] = [
   {

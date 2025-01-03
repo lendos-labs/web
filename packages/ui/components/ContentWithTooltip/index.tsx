@@ -1,10 +1,11 @@
 'use client';
 
+import { ReactNode, useState } from 'react';
+
 import { StyledComponent } from '@emotion/styled';
 import { Box, ClickAwayListener, Popper, Tooltip } from '@mui/material';
 import { PopperProps } from '@mui/material/Popper/BasePopper.types';
 import { styled } from '@mui/material/styles';
-import { ReactNode, useState } from 'react';
 
 interface ContentWithTooltipProps {
   children: ReactNode;

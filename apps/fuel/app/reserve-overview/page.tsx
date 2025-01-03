@@ -1,10 +1,13 @@
 'use client';
 
 import React from 'react';
-import { ReserveOverviewContainer } from '@lendos/ui/modules/ReserveOverviewContainer';
-import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
-import { useReservesContext } from '@lendos/ui/providers/ReservesProvider';
+
 import { useSearchParams } from 'next/navigation';
+
+import { ReserveOverviewContainer } from '@lendos/ui/modules/ReserveOverviewContainer';
+import { useReservesContext } from '@lendos/ui/providers/ReservesProvider';
+
+import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
 
 const ReserveOverview = () => {
   const paramas = useSearchParams();

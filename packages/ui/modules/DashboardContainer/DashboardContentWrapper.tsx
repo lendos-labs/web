@@ -1,11 +1,14 @@
 import { Box, useMediaQuery, useTheme } from '@mui/material';
+
 import { Reserves } from '@lendos/types/reserves';
-import { SupplyAssetsList } from './SupplyAssetsList.tsx';
-import { SuppliedPositionsList } from './SuppliedPositionsList.tsx';
-import { BorrowedPositionsList } from './BorrowedPositionsList.tsx';
-import { BorrowAssetsList } from './BorrowAssetsList.tsx';
+
 import { isFeatureEnabled } from '@lendos/constants/markets';
+
 import { useStateContext } from '../../providers/StateProvider';
+import { BorrowAssetsList } from './BorrowAssetsList.tsx';
+import { BorrowedPositionsList } from './BorrowedPositionsList.tsx';
+import { SuppliedPositionsList } from './SuppliedPositionsList.tsx';
+import { SupplyAssetsList } from './SupplyAssetsList.tsx';
 
 interface DashboardContentWrapperProps {
   isBorrow: boolean;

@@ -1,7 +1,9 @@
-import dayjs from 'dayjs';
 import { useCallback, useEffect, useState } from 'react';
-import { ESupportedTimeRanges, FormattedReserveHistoryItem, ReserveRateTimeRange } from '../types';
+
+import dayjs from 'dayjs';
+
 import { useStateContext } from '../../../providers/StateProvider';
+import { ESupportedTimeRanges, FormattedReserveHistoryItem, ReserveRateTimeRange } from '../types';
 
 interface APIResponse {
   liquidityRate_avg: number;

@@ -1,7 +1,8 @@
+import Image from 'next/image';
+
 import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 
 import { Vote } from '@lendos/types/governance';
-import Image from 'next/image';
 
 export const ProposalV3ListItem = ({
   proposal,

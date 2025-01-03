@@ -1,5 +1,6 @@
-import { AlertColor, Box, Typography } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { AlertColor, Box, Typography } from '@mui/material';
 
 interface InfoWrapperProps {
   topValue: ReactNode;

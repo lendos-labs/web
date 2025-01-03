@@ -1,22 +1,25 @@
+import { useMemo, useState } from 'react';
+
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { Typography } from '@mui/material';
-import { useMemo, useState } from 'react';
+
 import { Reserves } from '@lendos/types/reserves';
+
+import { ListTopInfoItem } from '../../components/ListTopInfoItem';
 import { ListWrapper } from '../../components/ListWrapper';
 import { NoContent } from '../../components/NoContent';
-import { ListTopInfoItem } from '../../components/ListTopInfoItem';
-import { TotalSupplyAPYTooltip } from '../../components/infoTooltips/TotalSupplyAPYTooltip.tsx';
-import { CollateralTooltip } from '../../components/infoTooltips/CollateralTooltip.tsx';
 import { CustomTable, TableData } from '../../components/Table';
+import { CollateralTooltip } from '../../components/infoTooltips/CollateralTooltip.tsx';
+import { TotalSupplyAPYTooltip } from '../../components/infoTooltips/TotalSupplyAPYTooltip.tsx';
+import { useModalContext } from '../../providers/ModalProvider';
+import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
+import { useStateContext } from '../../providers/StateProvider';
 import {
   getDexLpSuppliedPositionsCells,
   getSuppliedPositionsCells,
   lpHead,
   suppliedPositionsHead,
 } from './TableData.tsx';
-import { useStateContext } from '../../providers/StateProvider';
-import { useModalContext } from '../../providers/ModalProvider';
-import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
 
 interface SuppliedPositionsListProps {
   type: Reserves;

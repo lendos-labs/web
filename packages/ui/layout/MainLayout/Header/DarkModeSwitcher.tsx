@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+
 import {
   Box,
   FormControlLabel,
@@ -9,7 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { useContext } from 'react';
+
 import { ColorModeContext } from '../../MuiLayout';
 
 interface DarkModeSwitcherProps {

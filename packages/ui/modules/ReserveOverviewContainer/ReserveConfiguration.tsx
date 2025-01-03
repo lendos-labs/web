@@ -1,11 +1,13 @@
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 import { Box, Divider } from '@mui/material';
+
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+
 import { Warning } from '../../components/Warning';
-import { PanelRow } from './ReservesPanel';
-import { SupplyInfo } from './SupplyInfo';
 import { useAssetCaps } from '../../providers/AssetCapsProvider';
 import { useStateContext } from '../../providers/StateProvider';
 import { BorrowInfo } from './BorrowInfo';
+import { PanelRow } from './ReservesPanel';
+import { SupplyInfo } from './SupplyInfo';
 
 interface ReserveConfigurationProps {
   reserve: FormattedReservesAndIncentives;

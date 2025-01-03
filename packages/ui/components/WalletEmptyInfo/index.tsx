@@ -1,5 +1,7 @@
-import { NetworkConfig } from '@lendos/types/chain';
 import { SxProps, Theme } from '@mui/material';
+
+import { NetworkConfig } from '@lendos/types/chain';
+
 import { Warning } from '../Warning';
 
 type WalletEmptyInfoProps = Pick<NetworkConfig, 'name'> & {

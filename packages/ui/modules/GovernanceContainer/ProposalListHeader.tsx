@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import {
   Box,
@@ -11,7 +13,6 @@ import {
 
 import { SearchInput } from '../../components/SearchInput';
 import { TitleWithSearchBar } from '../../components/TitleWithSearchBar';
-import { FC } from 'react';
 
 interface ProposalListHeaderProps {
   proposalFilter: string;

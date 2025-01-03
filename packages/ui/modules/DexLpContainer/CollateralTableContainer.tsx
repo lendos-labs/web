@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
+
 import { Filters, UserPoolData } from '@lendos/types/dexLp';
-import { useModalContext } from '../../providers/ModalProvider';
 import { EXPOSURE } from '@lendos/types/reserves';
+
 import { CustomTable, TableData } from '../../components/Table';
+import { useModalContext } from '../../providers/ModalProvider';
 import { collateralCollapsibleHeader, collateralHeader, getCollateralCells } from './TableData.tsx';
 
 interface CollateralTableContainerProps {

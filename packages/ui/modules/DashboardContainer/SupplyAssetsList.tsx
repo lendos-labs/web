@@ -1,14 +1,18 @@
-import { ListWrapper } from '@lendos/ui/components/ListWrapper';
-import { Typography } from '@mui/material';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import { CustomTable, TableData } from '@lendos/ui/components/Table';
-import { DashboardReserve, FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
-import { dexLpSupplyAssetsHead, getSupplyAssetsCells, supplyAssetsHead } from './TableData.tsx';
 import { useCallback, useMemo, useState } from 'react';
-import { useStateContext } from '../../providers/StateProvider';
-import { useModalContext } from '../../providers/ModalProvider';
+
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import { Typography } from '@mui/material';
+
+import { ListWrapper } from '@lendos/ui/components/ListWrapper';
+import { CustomTable, TableData } from '@lendos/ui/components/Table';
+
+import { DashboardReserve, FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
+
 import { useBalanceContext } from '../../providers/BalanceProvider';
-import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
+import { useModalContext } from '../../providers/ModalProvider';
+import { useReservesContext } from '../../providers/ReservesProvider';
+import { useStateContext } from '../../providers/StateProvider';
+import { dexLpSupplyAssetsHead, getSupplyAssetsCells, supplyAssetsHead } from './TableData.tsx';
 
 interface SupplyAssetsListProps {
   type: Reserves;

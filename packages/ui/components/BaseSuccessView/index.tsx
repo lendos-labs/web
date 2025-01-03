@@ -1,7 +1,9 @@
-import OpenInNewOffOutlinedIcon from '@mui/icons-material/OpenInNewOffOutlined';
-import CheckIcon from '@mui/icons-material/Check';
-import { Box, Button, Link, SvgIcon, Typography } from '@mui/material';
 import { ReactNode } from 'react';
+
+import CheckIcon from '@mui/icons-material/Check';
+import OpenInNewOffOutlinedIcon from '@mui/icons-material/OpenInNewOffOutlined';
+import { Box, Button, Link, SvgIcon, Typography } from '@mui/material';
+
 import { useModalContext } from '../../providers/ModalProvider';
 import { useStateContext } from '../../providers/StateProvider';
 

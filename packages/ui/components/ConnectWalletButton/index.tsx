@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+
 import { useAccountContext } from '../../providers/AccountProvider';
 
 export const ConnectWalletButton = () => {

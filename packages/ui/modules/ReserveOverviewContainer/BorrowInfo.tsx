@@ -1,20 +1,22 @@
 import { valueToBigNumber } from '@aave/math-utils';
+import { Box, Typography } from '@mui/material';
+import { BigNumber } from 'bignumber.js';
+
 import { NetworkConfig } from '@lendos/types/chain';
 import { MarketDataType } from '@lendos/types/market';
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
-import { Box, Typography } from '@mui/material';
-import { BigNumber } from 'bignumber.js';
-import { AssetCapHookData } from '../../providers/AssetCapsProvider/types';
-import { PanelItem, PanelTitle } from './ReservesPanel';
+
 import { CapsCircularStatus } from '../../components/CapsCircularStatus';
 import { FormattedNumber } from '../../components/FormattedNumber';
-import { TextWithTooltip } from '../../components/TextWithTooltip';
-import { ReserveSubheader } from '../../components/ReserveSubheader';
-import { VariableAPYTooltip } from '../../components/VariableAPYTooltip';
 import { IncentivesButton } from '../../components/IncentivesButton';
+import { ReserveSubheader } from '../../components/ReserveSubheader';
+import { TextWithTooltip } from '../../components/TextWithTooltip';
+import { VariableAPYTooltip } from '../../components/VariableAPYTooltip';
+import { AssetCapHookData } from '../../providers/AssetCapsProvider/types';
 import { ApyGraphContainer } from './ApyGraphContainer';
-import { ApyGraphContainerKey } from './types';
 import { ReserveFactorOverview } from './ReserveFactorOverview';
+import { PanelItem, PanelTitle } from './ReservesPanel';
+import { ApyGraphContainerKey } from './types';
 
 interface BorrowInfoProps {
   reserve: FormattedReservesAndIncentives;

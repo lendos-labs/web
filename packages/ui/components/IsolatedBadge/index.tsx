@@ -1,6 +1,7 @@
+import { ReactNode } from 'react';
+
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Box, SvgIcon, Typography, TypographyProps, useTheme } from '@mui/material';
-import { ReactNode } from 'react';
 
 import { ContentWithTooltip } from '../ContentWithTooltip';
 

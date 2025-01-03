@@ -1,7 +1,9 @@
 import { valueToBigNumber } from '@aave/math-utils';
 import { BigNumber } from 'bignumber.js';
+
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 import { ExtendedFormattedUser } from '@lendos/types/user';
+
 import { useModalContext } from '../../providers/ModalProvider';
 
 enum ErrorType {

@@ -1,7 +1,9 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import { Typography } from '@mui/material';
+
 import StyledToggleGroup from '../../components/StyledToggleButtonGroup';
 import StyledToggleButton from '../../components/StyledToggleTabButton';
-import { Dispatch, SetStateAction } from 'react';
 
 export enum Mode {
   'overview',

@@ -1,11 +1,13 @@
 'use client';
 
-import { Box } from '@mui/material';
-import { TransactionBlock } from './TransactionBlock';
-import { GeneralInfo } from './GeneralInfo';
 import { useState } from 'react';
-import { Pair } from './types.ts';
+
+import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+
+import { GeneralInfo } from './GeneralInfo';
+import { TransactionBlock } from './TransactionBlock';
+import { Pair } from './types.ts';
 
 export const DetailStrategy = ({ pair }: { pair: Pair }) => {
   const maxLeverage = Number(1 / (1 - Number(pair.lend.formattedBaseLTVasCollateral)));

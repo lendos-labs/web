@@ -1,5 +1,6 @@
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Box } from '@mui/material';
+
 import { TextWithTooltip, TextWithTooltipProps } from '../../components/TextWithTooltip';
 import { AssetCapData } from './types';
 

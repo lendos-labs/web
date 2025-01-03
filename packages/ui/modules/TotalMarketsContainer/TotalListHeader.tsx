@@ -1,12 +1,14 @@
 'use client';
 
+import { FC } from 'react';
+
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { Box, MenuItem, Select, Typography, useMediaQuery, useTheme } from '@mui/material';
 
+import { MarketDataType } from '@lendos/types/market';
+
 import { SearchInput } from '../../components/SearchInput';
 import { TitleWithSearchBar } from '../../components/TitleWithSearchBar';
-import { MarketDataType } from '@lendos/types/market';
-import { FC } from 'react';
 
 interface TotalListHeaderProps {
   filterNetwork: string;

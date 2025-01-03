@@ -1,7 +1,9 @@
-import { Box, Button, Paper, Typography } from '@mui/material';
-import { Pair } from './types';
 import { Dispatch, SetStateAction } from 'react';
+
+import { Box, Button, Paper, Typography } from '@mui/material';
+
 import { StategyHeader } from './StategyHeader';
+import { Pair } from './types';
 
 export const StarategyCard = ({
   pair,

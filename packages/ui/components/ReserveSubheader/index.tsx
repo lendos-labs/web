@@ -1,7 +1,9 @@
+import type { ElementType } from 'react';
+
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import type { TypographyProps } from '@mui/material/Typography/Typography';
-import type { ElementType } from 'react';
+
 import { FormattedNumber } from '../FormattedNumber';
 
 type ReserveSubheaderProps = TypographyProps<ElementType, { component?: ElementType }> & {

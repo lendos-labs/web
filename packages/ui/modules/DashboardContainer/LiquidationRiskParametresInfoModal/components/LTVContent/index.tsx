@@ -1,6 +1,7 @@
 import { valueToBigNumber } from '@aave/math-utils';
 import { AlertColor, Box, Typography, useTheme } from '@mui/material';
 import { BigNumber } from 'bignumber.js';
+
 import { FormattedNumber } from '../../../../../components/FormattedNumber';
 
 interface LTVContentProps {

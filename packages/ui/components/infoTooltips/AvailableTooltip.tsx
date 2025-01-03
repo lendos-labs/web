@@ -1,5 +1,6 @@
-import { TextWithTooltip, TextWithTooltipProps } from '../TextWithTooltip';
 import { CapType } from '@lendos/types/cap';
+
+import { TextWithTooltip, TextWithTooltipProps } from '../TextWithTooltip';
 
 interface AvailableTooltipProps extends TextWithTooltipProps {
   capType: CapType;

@@ -1,13 +1,16 @@
-import { Box, Button, Paper, Slider, Typography } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
-import { Pair } from './types.ts';
-import { useBalanceContext } from '../../providers/BalanceProvider';
-import { BigNumber } from 'bignumber.js';
-import { useReservesContext } from '../../providers/ReservesProvider';
+
 import { USD_DECIMALS } from '@aave/math-utils';
-import { StategyHeader } from './StategyHeader.tsx';
-import { AssetInput } from '../../components/AssetInput';
+import { Box, Button, Paper, Slider, Typography } from '@mui/material';
+import { BigNumber } from 'bignumber.js';
+
 import { roundToTokenDecimals } from '@lendos/constants/round';
+
+import { AssetInput } from '../../components/AssetInput';
+import { useBalanceContext } from '../../providers/BalanceProvider';
+import { useReservesContext } from '../../providers/ReservesProvider';
+import { StategyHeader } from './StategyHeader.tsx';
+import { Pair } from './types.ts';
 
 export const TransactionBlock = ({
   margin,

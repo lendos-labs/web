@@ -1,6 +1,8 @@
-import { Routes } from '@lendos/constants/routes';
-import { MonetizationOnOutlined, ShowChart } from '@mui/icons-material';
 import { ReactNode } from 'react';
+
+import { MonetizationOnOutlined, ShowChart } from '@mui/icons-material';
+
+import { Routes } from '@lendos/constants/routes';
 
 export const earnIcons: Record<string, ReactNode> = {
   [Routes.markets]: <MonetizationOnOutlined />,

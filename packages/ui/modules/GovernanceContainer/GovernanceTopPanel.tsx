@@ -1,4 +1,5 @@
 import { Box, Typography, useTheme } from '@mui/material';
+
 import { TopInfoPanel } from '../../components/TopInfoPanel';
 
 export const GovernanceTopPanel = () => {

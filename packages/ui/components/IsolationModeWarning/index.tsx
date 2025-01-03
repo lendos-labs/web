@@ -1,4 +1,5 @@
 import { AlertColor, Typography } from '@mui/material';
+
 import { Warning } from '../Warning';
 
 interface IsolationModeWarningProps {

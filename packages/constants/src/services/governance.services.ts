@@ -1,4 +1,5 @@
 import { Vote } from '@lendos/types/governance';
+
 import { API, apiAuth } from '../utils/api';
 
 export const governanceServices = {

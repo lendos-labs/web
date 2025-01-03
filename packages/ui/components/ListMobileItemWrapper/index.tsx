@@ -1,5 +1,7 @@
-import { CustomMarket } from '@lendos/types/market';
 import { ReactNode } from 'react';
+
+import { CustomMarket } from '@lendos/types/market';
+
 import { ListMobileItem } from '../ListMobileItem';
 
 interface ListMobileItemWrapperProps {

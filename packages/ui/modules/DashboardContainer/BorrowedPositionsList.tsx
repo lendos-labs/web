@@ -1,18 +1,22 @@
+import { useMemo, useState } from 'react';
+
 import { valueToBigNumber } from '@aave/math-utils';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { Typography } from '@mui/material';
-import { useMemo, useState } from 'react';
+
+import { reservesDashboard } from '@lendos/constants/reserves';
+
 import { ListTopInfoItem } from '../../components/ListTopInfoItem';
-import { TotalBorrowAPYTooltip } from '../../components/infoTooltips/TotalBorrowAPYTooltip.tsx';
 import { ListWrapper } from '../../components/ListWrapper';
 import { NoContent } from '../../components/NoContent';
 import { CustomTable, TableData } from '../../components/Table';
 import { BorrowPowerTooltip } from '../../components/infoTooltips/BorrowPowerTooltip.tsx';
-import { reservesDashboard } from '@lendos/constants/reserves';
-import { borrowedPositionsHead, getBorrowedPositionsCells } from './TableData.tsx';
-import { useStateContext } from '../../providers/StateProvider';
+import { TotalBorrowAPYTooltip } from '../../components/infoTooltips/TotalBorrowAPYTooltip.tsx';
 import { useModalContext } from '../../providers/ModalProvider';
 import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
+import { useStateContext } from '../../providers/StateProvider';
+import { borrowedPositionsHead, getBorrowedPositionsCells } from './TableData.tsx';
+
 const hide = true;
 
 export const BorrowedPositionsList = () => {

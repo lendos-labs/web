@@ -1,9 +1,12 @@
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+import { useState } from 'react';
+
 import IosShareIcon from '@mui/icons-material/IosShare';
 import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
-import { useState } from 'react';
-import { useStateContext } from '../../providers/StateProvider';
+
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+
 import { TokenIcon } from '../../components/TokenIcon';
+import { useStateContext } from '../../providers/StateProvider';
 
 interface TokenLinkDropdownProps {
   poolReserve: FormattedReservesAndIncentives;

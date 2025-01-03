@@ -1,8 +1,8 @@
 import CheckIcon from '@mui/icons-material/Check';
 import { Box, SvgIcon } from '@mui/material';
 
-import { ListItemIsolationBadge } from './ListItemIsolationBadge';
 import { NoData } from '../../components/NoData';
+import { ListItemIsolationBadge } from './ListItemIsolationBadge';
 
 interface ListItemCanBeCollateralProps {
   isIsolated: boolean;

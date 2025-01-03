@@ -1,7 +1,9 @@
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+import dynamic from 'next/dynamic';
+
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { Box, Paper, Typography } from '@mui/material';
-import dynamic from 'next/dynamic';
+
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 
 interface ReserveConfigurationProps {
   reserve: FormattedReservesAndIncentives;

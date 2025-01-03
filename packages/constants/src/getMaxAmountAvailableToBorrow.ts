@@ -1,8 +1,10 @@
 import { FormatUserSummaryAndIncentivesResponse, valueToBigNumber } from '@aave/math-utils';
-import { FormattedReservesAndIncentives, InterestRate } from '@lendos/types/reserves';
 import BigNumber from 'bignumber.js';
-import { roundToTokenDecimals } from './round';
+
+import { FormattedReservesAndIncentives, InterestRate } from '@lendos/types/reserves';
 import { ExtendedFormattedUser } from '@lendos/types/user';
+
+import { roundToTokenDecimals } from './round';
 
 interface PoolReserveBorrowSubset {
   borrowCap: string;

@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
 export interface AccountContextType {
   account: string | null;

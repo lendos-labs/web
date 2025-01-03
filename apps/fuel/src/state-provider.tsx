@@ -1,7 +1,9 @@
 import React, { ReactNode, useState } from 'react';
+
 import { StateContext } from '@lendos/ui/providers/StateProvider';
-import { CustomMarket, MarketDataType } from '@lendos/types/market';
+
 import { ChainId, NetworkConfig } from '@lendos/types/chain';
+import { CustomMarket, MarketDataType } from '@lendos/types/market';
 
 const mockMarket = {
   marketTitle: 'Fuel',

@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
+
 import { Filters, PoolData } from '@lendos/types/dexLp';
-import { useModalContext } from '../../providers/ModalProvider';
+import { EXPOSURE } from '@lendos/types/reserves';
+
 import { CustomTable, TableData } from '../../components/Table';
 import { useAccountContext } from '../../providers/AccountProvider';
+import { useModalContext } from '../../providers/ModalProvider';
 import { allPoolCollapsibleHeader, allPoolHeader, getAllPoolsCells } from './TableData.tsx';
-import { EXPOSURE } from '@lendos/types/reserves';
 
 interface AllPoolsTableContainerProps {
   lpReserves: PoolData[];

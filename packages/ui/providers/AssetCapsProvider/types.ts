@@ -1,6 +1,8 @@
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
-import { SxProps, Theme } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { SxProps, Theme } from '@mui/material';
+
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 
 export interface WarningDisplayProps {
   supplyCap?: AssetCapData;

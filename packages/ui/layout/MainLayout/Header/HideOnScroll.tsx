@@ -1,5 +1,6 @@
-import { Slide, useMediaQuery, useScrollTrigger, useTheme } from '@mui/material';
 import { ReactElement, ReactNode } from 'react';
+
+import { Slide, useMediaQuery, useScrollTrigger, useTheme } from '@mui/material';
 
 interface ChildProps {
   children: ReactNode;

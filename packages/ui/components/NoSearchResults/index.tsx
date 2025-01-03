@@ -1,5 +1,6 @@
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { FC, ReactNode } from 'react';
+
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 
 interface NoSearchResultsProps {
   searchTerm?: string;

@@ -1,14 +1,15 @@
 import {
   Box,
   LinearProgress,
-  linearProgressClasses,
   LinearProgressProps,
   Theme,
   Typography,
+  linearProgressClasses,
 } from '@mui/material';
-import { AssetCapHookData } from '../../providers/AssetCapsProvider/types';
-import { TextWithTooltip } from '../../components/TextWithTooltip';
+
 import { FormattedNumber } from '../../components/FormattedNumber';
+import { TextWithTooltip } from '../../components/TextWithTooltip';
+import { AssetCapHookData } from '../../providers/AssetCapsProvider/types';
 
 interface DebtCeilingTooltipProps {
   debt: string;

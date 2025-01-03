@@ -1,10 +1,12 @@
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import { Box, IconButton, Skeleton, useMediaQuery, useTheme } from '@mui/material';
-import { useStateContext } from '../../providers/StateProvider';
-import { TopInfoPanelItem } from '../../components/TopInfoPanelItem';
+
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+
 import { FormattedNumber } from '../../components/FormattedNumber';
 import { Link } from '../../components/Link';
+import { TopInfoPanelItem } from '../../components/TopInfoPanelItem';
+import { useStateContext } from '../../providers/StateProvider';
 
 interface ReserveTopDetailsProps {
   reserve: FormattedReservesAndIncentives;

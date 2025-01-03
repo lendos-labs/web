@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { Box, Button, MenuItem, MenuList, Popover } from '@mui/material';
+
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useStateContext } from '../../providers/StateProvider';
-import { MarketLogo } from '../MarketLogo';
-import { Link } from '../Link';
+import { Box, Button, MenuItem, MenuList, Popover } from '@mui/material';
+
 import { Routes } from '@lendos/constants/routes';
+
+import { useStateContext } from '../../providers/StateProvider';
+import { Link } from '../Link';
+import { MarketLogo } from '../MarketLogo';
 
 export const NetworkSwitcher = () => {
   const { availableMarkets, availableNetworks, currentMarketData, setCurrentMarket } =

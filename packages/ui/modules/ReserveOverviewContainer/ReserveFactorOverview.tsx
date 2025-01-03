@@ -1,10 +1,12 @@
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
-import { ExplorerLinkBuilderProps } from '@lendos/types/chain';
 import { Box, SvgIcon, Typography } from '@mui/material';
-import { ReserveOverviewBox } from './ReserveOverviewBox';
-import { ReserveFactorTooltip } from './ReserveFactorTooltip';
+
+import { ExplorerLinkBuilderProps } from '@lendos/types/chain';
+
 import { FormattedNumber } from '../../components/FormattedNumber';
 import { Link } from '../../components/Link';
+import { ReserveFactorTooltip } from './ReserveFactorTooltip';
+import { ReserveOverviewBox } from './ReserveOverviewBox';
 
 interface ReserveFactorOverviewProps {
   collectorContract: string;

@@ -1,19 +1,22 @@
 import { Box, Button, Typography } from '@mui/material';
-import { TableHeadProperties } from '../../components/Table';
-import { VariableAPYTooltip } from '../../components/VariableAPYTooltip';
+
+import { CustomPoints } from '@lendos/types/chain';
+import { MarketDataType } from '@lendos/types/market';
 import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
-import { TokenIcon } from '../../components/TokenIcon';
-import { IsolatedEnabledBadge } from '../../components/IsolatedEnabledBadge';
+
+import { isFeatureEnabled } from '@lendos/constants/markets';
+import { Routes } from '@lendos/constants/routes';
+
 import { FormattedNumber } from '../../components/FormattedNumber';
+import { IncentivesCard } from '../../components/IncentivesCard';
+import { IsolatedEnabledBadge } from '../../components/IsolatedEnabledBadge';
+import { Link } from '../../components/Link';
 import { ReserveSubheader } from '../../components/ReserveSubheader';
 import { RewardAPYTooltip } from '../../components/RewardAPYTooltip';
 import StarCircle from '../../components/StarCircle';
-import { IncentivesCard } from '../../components/IncentivesCard';
-import { isFeatureEnabled } from '@lendos/constants/markets';
-import { MarketDataType } from '@lendos/types/market';
-import { CustomPoints } from '@lendos/types/chain';
-import { Link } from '../../components/Link';
-import { Routes } from '@lendos/constants/routes';
+import { TableHeadProperties } from '../../components/Table';
+import { TokenIcon } from '../../components/TokenIcon';
+import { VariableAPYTooltip } from '../../components/VariableAPYTooltip';
 
 const styleCustomPoints: Record<
   CustomPoints,

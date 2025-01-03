@@ -1,3 +1,5 @@
+import { createContext, useContext } from 'react';
+
 import {
   EmodeCategory,
   FormattedReservesAndIncentives,
@@ -10,7 +12,6 @@ import {
   FormattedUserReserves,
   UserReservesDataHumanized,
 } from '@lendos/types/user';
-import { createContext, useContext } from 'react';
 
 export interface ReservesContextType {
   loading: boolean;

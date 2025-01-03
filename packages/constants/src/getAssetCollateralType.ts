@@ -1,5 +1,5 @@
-import { ExtendedFormattedUser } from '@lendos/types/user';
 import { CollateralType } from '@lendos/types/collateral';
+import { ExtendedFormattedUser } from '@lendos/types/user';
 
 export const getAssetCollateralType = (
   userReserve: ExtendedFormattedUser['userReservesData'][0],

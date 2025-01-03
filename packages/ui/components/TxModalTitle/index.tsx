@@ -1,5 +1,6 @@
-import { Typography } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { Typography } from '@mui/material';
 
 export interface TxModalTitleProps {
   title: ReactNode;

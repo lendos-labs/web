@@ -1,13 +1,16 @@
-import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 import { Stack } from '@mui/material';
-import { useReservesContext } from '../../../providers/ReservesProvider';
-import { useAssetCaps } from '../../../providers/AssetCapsProvider';
-import { useStateContext } from '../../../providers/StateProvider';
+
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+
 import { assetCanBeBorrowedByUser } from '@lendos/constants/getMaxAmountAvailableToBorrow';
+import { Routes } from '@lendos/constants/routes';
+
+import { Link } from '../../../components/Link';
 import { WalletEmptyInfo } from '../../../components/WalletEmptyInfo';
 import { Warning } from '../../../components/Warning';
-import { Link } from '../../../components/Link';
-import { Routes } from '@lendos/constants/routes';
+import { useAssetCaps } from '../../../providers/AssetCapsProvider';
+import { useReservesContext } from '../../../providers/ReservesProvider';
+import { useStateContext } from '../../../providers/StateProvider';
 
 interface ReserveActionStateProps {
   balance: string;

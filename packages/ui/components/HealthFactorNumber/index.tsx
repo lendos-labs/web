@@ -1,9 +1,11 @@
+import { ReactNode } from 'react';
+
+import { valueToBigNumber } from '@aave/math-utils';
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import { TypographyProps } from '@mui/material/Typography';
 import { BigNumber } from 'bignumber.js';
+
 import { FormattedNumber } from '../FormattedNumber';
-import { valueToBigNumber } from '@aave/math-utils';
-import { ReactNode } from 'react';
 
 interface HealthFactorNumberProps extends TypographyProps {
   value: string;

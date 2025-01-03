@@ -1,12 +1,14 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { TotalFormatReserveWithMarkets } from '@lendos/types/reserves';
+
 import { MarketDataType } from '@lendos/types/market';
+import { TotalFormatReserveWithMarkets } from '@lendos/types/reserves';
+
 import { ListWrapper } from '../../components/ListWrapper';
-import { TotalListHeader } from './TotalListHeader.tsx';
 import { CustomTable, TableData } from '../../components/Table';
 import { getAllTotalAssetsList, listHeaders, listHeadersCollapsibleHeader } from './TableData.tsx';
+import { TotalListHeader } from './TotalListHeader.tsx';
 
 interface TotalAssetsListContainerProps {
   reserves: TotalFormatReserveWithMarkets[];

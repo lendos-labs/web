@@ -1,6 +1,7 @@
 import { AlertProps } from '@mui/material';
-import { AssetCapData } from './types';
+
 import { Warning } from '../../components/Warning';
+import { AssetCapData } from './types';
 
 type SupplyCapWarningProps = AlertProps & {
   supplyCap: AssetCapData;

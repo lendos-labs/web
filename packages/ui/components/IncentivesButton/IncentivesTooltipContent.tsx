@@ -1,8 +1,10 @@
-import { ReserveIncentiveResponse } from '@lendos/types/reserves';
 import { Box, Typography } from '@mui/material';
+
+import { ReserveIncentiveResponse } from '@lendos/types/reserves';
+
 import { FormattedNumber } from '../FormattedNumber';
-import { TokenIcon } from '../TokenIcon';
 import { Row } from '../Row';
+import { TokenIcon } from '../TokenIcon';
 
 interface IncentivesTooltipContentProps {
   incentives: ReserveIncentiveResponse[];

@@ -1,19 +1,22 @@
+import { ReactNode } from 'react';
+
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined';
 import { Box, FormControlLabel, Skeleton, SvgIcon, Switch, Typography } from '@mui/material';
-import { ReactNode } from 'react';
-import { FormattedNumber, FormattedNumberProps } from '../FormattedNumber';
-import { Row } from '../Row';
-import { TokenIcon } from '../TokenIcon';
+
 import { CollateralType } from '@lendos/types/collateral';
+import { ReserveIncentiveResponse } from '@lendos/types/reserves';
+
+import { FormattedNumber, FormattedNumberProps } from '../FormattedNumber';
+import { HealthFactorNumber } from '../HealthFactorNumber';
+import { IncentivesButton } from '../IncentivesButton';
 import {
   IsolatedDisabledBadge,
   IsolatedEnabledBadge,
   UnavailableDueToIsolationBadge,
 } from '../IsolatedBadge';
-import { ReserveIncentiveResponse } from '@lendos/types/reserves';
-import { IncentivesButton } from '../IncentivesButton';
-import { HealthFactorNumber } from '../HealthFactorNumber';
+import { Row } from '../Row';
 import { TextWithTooltip } from '../TextWithTooltip';
+import { TokenIcon } from '../TokenIcon';
 
 export interface TxModalDetailsProps {
   gasLimit?: string;

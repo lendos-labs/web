@@ -1,8 +1,9 @@
-import { Button, SvgIcon } from '@mui/material';
+import { useRouter } from 'next/navigation';
+
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackOutlined';
+import { Button, SvgIcon } from '@mui/material';
 
 import { Routes } from '@lendos/constants/routes';
-import { useRouter } from 'next/navigation';
 
 export const BackButton = () => {
   const router = useRouter();

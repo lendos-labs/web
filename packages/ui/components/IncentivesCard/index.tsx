@@ -1,6 +1,9 @@
-import { ReserveIncentiveResponse } from '@lendos/types/reserves';
-import { Box, Typography } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { Box, Typography } from '@mui/material';
+
+import { ReserveIncentiveResponse } from '@lendos/types/reserves';
+
 import { FormattedNumber } from '../FormattedNumber';
 import { IncentivesButton } from '../IncentivesButton';
 

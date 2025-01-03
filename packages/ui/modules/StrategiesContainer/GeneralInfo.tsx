@@ -1,4 +1,5 @@
 import { Box, Paper, Typography } from '@mui/material';
+
 import { Pair } from './types.ts';
 
 export const GeneralInfo = ({

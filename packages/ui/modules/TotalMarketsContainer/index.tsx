@@ -1,11 +1,13 @@
 'use client';
 
-import { TotalContainer } from './TotalContainer.tsx';
 import { Box } from '@mui/material';
-import { TotalTopPanel } from './TotalTopPanel.tsx';
-import TotalAssetsListContainer from './TotalAssetsListContainer.tsx';
-import { useStateContext } from '../../providers/StateProvider';
+
 import { TotalFormatReserveWithMarkets } from '@lendos/types/reserves';
+
+import { useStateContext } from '../../providers/StateProvider';
+import TotalAssetsListContainer from './TotalAssetsListContainer.tsx';
+import { TotalContainer } from './TotalContainer.tsx';
+import { TotalTopPanel } from './TotalTopPanel.tsx';
 
 const TotalMarketsContainer = () => {
   const data = [] as TotalFormatReserveWithMarkets[];

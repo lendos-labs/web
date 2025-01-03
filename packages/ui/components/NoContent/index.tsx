@@ -1,5 +1,6 @@
-import { Box, Typography } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { Box, Typography } from '@mui/material';
 
 interface NoDataProps {
   text: ReactNode;

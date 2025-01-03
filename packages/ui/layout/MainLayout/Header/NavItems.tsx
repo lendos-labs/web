@@ -1,11 +1,14 @@
 'use client';
 
-import { Button, List, ListItem, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useStateContext } from '../../../providers/StateProvider';
-import { navigation } from '@lendos/constants/routes';
-import { Link } from '../../../components/Link';
-import { MoreMenu } from './MoreMenu';
 import { usePathname } from 'next/navigation';
+
+import { Button, List, ListItem, Typography, useMediaQuery, useTheme } from '@mui/material';
+
+import { navigation } from '@lendos/constants/routes';
+
+import { Link } from '../../../components/Link';
+import { useStateContext } from '../../../providers/StateProvider';
+import { MoreMenu } from './MoreMenu';
 
 interface NavItemsProps {
   setOpen?: (value: boolean) => void;

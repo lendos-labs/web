@@ -1,4 +1,4 @@
-import { styled, ToggleButton, ToggleButtonProps } from '@mui/material';
+import { ToggleButton, ToggleButtonProps, styled } from '@mui/material';
 
 const CustomToggleButton = styled(ToggleButton)<ToggleButtonProps>(({ theme }) => ({
   border: '1px solid transparent',

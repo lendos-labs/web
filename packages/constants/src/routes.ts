@@ -1,4 +1,5 @@
 import { Navigation, NavigationWithSubmenu } from '@lendos/types/menu';
+
 import { isFeatureEnabled } from './markets';
 
 export enum Routes {

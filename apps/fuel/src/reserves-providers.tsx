@@ -1,15 +1,20 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { ReservesContext } from '@lendos/ui/providers/ReservesProvider';
-import { baseCurrency } from '@lendos/constants/reserves';
+
 import { useAccount, useChain } from '@fuels/react';
 import { Fuel, NetworkFuel } from 'fuels';
+
+import { ReservesContext } from '@lendos/ui/providers/ReservesProvider';
+
 import {
   EXPOSURE,
   FormattedReservesAndIncentives,
-  Reserves,
   ReserveToken,
+  Reserves,
 } from '@lendos/types/reserves';
 import { ExtendedFormattedUser } from '@lendos/types/user';
+
+import { baseCurrency } from '@lendos/constants/reserves';
+
 import { fuelConfig } from './fuel-providers';
 
 export const ReservesProvider = ({ children }: { children: ReactNode }) => {

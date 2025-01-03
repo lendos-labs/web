@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
-import { TokenIcon } from '../../components/TokenIcon';
+
 import { MarketLogo } from '../../components/MarketLogo';
+import { TokenIcon } from '../../components/TokenIcon';
 import { useStateContext } from '../../providers/StateProvider';
 import { Pair } from './types.ts';
 

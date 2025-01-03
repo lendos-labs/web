@@ -1,7 +1,8 @@
 import { valueToBigNumber } from '@aave/math-utils';
 import { BigNumber } from 'bignumber.js';
-import { ExtendedFormattedUser } from '@lendos/types/user';
+
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
+import { ExtendedFormattedUser } from '@lendos/types/user';
 
 export const calculateMaxWithdrawAmount = (
   user: ExtendedFormattedUser,

@@ -2,6 +2,7 @@ import { valueToBigNumber } from '@aave/math-utils';
 import { Box, Typography } from '@mui/material';
 
 import { CapType } from '@lendos/types/cap';
+
 import { CapsTooltip } from '../CapsTooltip';
 import { FormattedNumber } from '../FormattedNumber';
 

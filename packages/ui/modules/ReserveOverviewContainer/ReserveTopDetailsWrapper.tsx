@@ -1,17 +1,19 @@
 'use client';
 
-import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
 import { Box, Skeleton, Typography } from '@mui/material';
-import { useStateContext } from '../../providers/StateProvider';
+
+import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
+
 import { MarketLogo } from '../../components/MarketLogo';
 import { TokenIcon } from '../../components/TokenIcon';
-import { TopInfoPanelItem } from '../../components/TopInfoPanelItem';
 import { TopInfoPanel } from '../../components/TopInfoPanel';
-import { BackButton } from './BackButton';
-import { TokenLinkDropdown } from './TokenLinkDropdown';
-import { AddTokenDropdown } from './AddTokenDropdown';
+import { TopInfoPanelItem } from '../../components/TopInfoPanelItem';
 import { useAccountContext } from '../../providers/AccountProvider';
+import { useStateContext } from '../../providers/StateProvider';
+import { AddTokenDropdown } from './AddTokenDropdown';
+import { BackButton } from './BackButton';
 import { ReserveTopDetails } from './ReserveTopDetails';
+import { TokenLinkDropdown } from './TokenLinkDropdown';
 
 interface ReserveTopDetailsProps {
   reserve: FormattedReservesAndIncentives;

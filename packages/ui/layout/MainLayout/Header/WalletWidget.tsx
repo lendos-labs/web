@@ -1,3 +1,7 @@
+import { useState } from 'react';
+
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import OpenInNewOffIcon from '@mui/icons-material/OpenInNewOff';
 import {
   Box,
   Button,
@@ -15,16 +19,14 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import OpenInNewOffIcon from '@mui/icons-material/OpenInNewOff';
+
 import { CompactMode } from '../../../components/CompactableTypography';
-import { UserDisplay } from '../../../components/UserDisplay';
 import { Link } from '../../../components/Link';
-import { DrawerWrapper } from './DrawerWrapper';
-import { MobileCloseButton } from './MobileCloseButton';
+import { UserDisplay } from '../../../components/UserDisplay';
 import { useAccountContext } from '../../../providers/AccountProvider';
 import { useStateContext } from '../../../providers/StateProvider';
-import { useState } from 'react';
+import { DrawerWrapper } from './DrawerWrapper';
+import { MobileCloseButton } from './MobileCloseButton';
 
 interface WalletWidgetProps {
   open: boolean;

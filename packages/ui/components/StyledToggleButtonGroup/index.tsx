@@ -1,4 +1,4 @@
-import { styled, ToggleButtonGroup, ToggleButtonGroupProps } from '@mui/material';
+import { ToggleButtonGroup, ToggleButtonGroupProps, styled } from '@mui/material';
 
 const CustomToggleGroup = styled(ToggleButtonGroup)<ToggleButtonGroupProps>({
   gap: '8px',

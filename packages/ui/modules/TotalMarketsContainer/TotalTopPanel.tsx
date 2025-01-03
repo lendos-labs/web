@@ -1,12 +1,13 @@
 'use client';
 
 import { valueToBigNumber } from '@aave/math-utils';
-
 import { Box, Typography } from '@mui/material';
-import { TotalContainer } from './TotalContainer.tsx';
-import { TopInfoPanelItem } from '../../components/TopInfoPanelItem';
-import { FormattedNumber } from '../../components/FormattedNumber';
+
 import { TotalFormatReserveWithMarkets } from '@lendos/types/reserves';
+
+import { FormattedNumber } from '../../components/FormattedNumber';
+import { TopInfoPanelItem } from '../../components/TopInfoPanelItem';
+import { TotalContainer } from './TotalContainer.tsx';
 
 interface TotalTopPanelProps {
   reserves: TotalFormatReserveWithMarkets[];

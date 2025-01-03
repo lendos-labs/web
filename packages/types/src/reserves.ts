@@ -1,6 +1,7 @@
 import { ReserveDataHumanized as ReserveDataHumanizedType } from '@aave/contract-helpers';
-import { ExtendedFormattedUser, FormatReserveUSDResponse } from './user';
+
 import { CustomMarket } from './market';
+import { ExtendedFormattedUser, FormatReserveUSDResponse } from './user';
 
 export interface ReserveIncentiveResponse {
   incentiveAPR: string;
