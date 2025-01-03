@@ -1,4 +1,4 @@
-import { MarketDataType } from './market.js';
+import { MarketDataType } from './market';
 
 export interface Navigation {
   link: string;

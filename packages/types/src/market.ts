@@ -1,4 +1,4 @@
-import { ChainId, CustomPoints } from './chain.js';
+import { ChainId, CustomPoints } from './chain';
 
 export enum CustomMarket {
   proto_neon = 'proto_neon',

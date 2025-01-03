@@ -174,7 +174,7 @@ export const WithdrawModalContent = ({
         />
         <DetailsHFLine
           visibleHfChange={!!_amount}
-          healthFactor={user.healthFactor ?? '-1'}
+          healthFactor={user.healthFactor || '-1'}
           futureHealthFactor={healthFactorAfterWithdraw.toString(10)}
         />
       </TxModalDetails>

@@ -1,5 +1,5 @@
-import { FormattedReservesAndIncentives, ReserveLpToken } from './reserves.js';
-import { FormattedUserReserves } from './user.js';
+import { FormattedReservesAndIncentives, ReserveLpToken } from './reserves';
+import { FormattedUserReserves } from './user';
 
 export enum PoolCategories {
   ALL_POOLS = 'All Pools',

@@ -1,12 +1,11 @@
 import { UserReserveDataHumanized } from '@aave/contract-helpers';
-
+import { BigNumber } from 'bignumber.js';
 import {
   FormattedReservesAndIncentives,
   ReserveData,
   ReserveLpToken,
   ReserveToken,
-} from './reserves.js';
-import { BigNumber } from 'bignumber.js';
+} from './reserves';
 
 export interface FormatReserveResponse extends ReserveData {
   formattedBaseLTVasCollateral: string;
