@@ -1,5 +1,5 @@
 {
-  "name": "fuel",
+  "name": "evm",
   "version": "0.0.0",
   "type": "module",
   "engine": {
@@ -16,8 +16,6 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@fuels/connectors": "^0.36.1",
-    "@fuels/react": "^0.36.1",
     "@lendos/constants": "workspace:*",
     "@lendos/ui": "workspace:*",
     "@mui/material": "^6.2.1",
@@ -26,7 +24,6 @@
     "@tanstack/react-query": "^5.62.8",
     "@wagmi/core": "2.13.4",
     "connectkit": "^1.8.2",
-    "fuels": "^0.97.2",
     "viem": "2.20.1",
     "wagmi": "2.13.4",
     "zustand": "^5.0.2"

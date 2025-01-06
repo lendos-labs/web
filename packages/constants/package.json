@@ -8,7 +8,6 @@
     "./services/*": "./src/services/*.ts"
   },
   "dependencies": {
-    "@aave/math-utils": "1.25.0",
     "@lendos/types": "workspace:*",
     "@tanstack/react-query": "^5.62.8",
     "axios": "^1.7.9",
