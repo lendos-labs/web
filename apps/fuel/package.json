@@ -29,9 +29,14 @@
     "fuels": "^0.97.2",
     "viem": "2.20.1",
     "wagmi": "2.13.4",
-    "zustand": "^5.0.2"
+    "zustand": "^5.0.2",
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@lendos/types": "workspace:*"
+    "@lendos/types": "workspace:*",
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.0"
   }
 }

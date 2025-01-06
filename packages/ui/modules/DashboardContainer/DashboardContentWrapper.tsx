@@ -1,42 +1,45 @@
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { Reserves } from '@lendos/types/reserves';
 
 import { isFeatureEnabled } from '@lendos/constants/markets';
 
 import { useStateContext } from '../../providers/StateProvider';
-import { BorrowAssetsList } from './BorrowAssetsList.tsx';
-import { BorrowedPositionsList } from './BorrowedPositionsList.tsx';
-import { SuppliedPositionsList } from './SuppliedPositionsList.tsx';
-import { SupplyAssetsList } from './SupplyAssetsList.tsx';
+import { BorrowAssetsList } from './BorrowAssetsList';
+import { BorrowedPositionsList } from './BorrowedPositionsList';
+import { SuppliedPositionsList } from './SuppliedPositionsList';
+import { SupplyAssetsList } from './SupplyAssetsList';
 
 interface DashboardContentWrapperProps {
   isBorrow: boolean;
 }
 
 export const DashboardContentWrapper = ({ isBorrow }: DashboardContentWrapperProps) => {
-  const { breakpoints } = useTheme();
   const { currentMarketData } = useStateContext();
 
-  const isDesktop = useMediaQuery(breakpoints.up('lg'));
-  const paperWidth = isDesktop ? 'calc(50% - 8px)' : '100%';
   const isDexLp = isFeatureEnabled.dexLp(currentMarketData);
 
   return (
     <Box
-      sx={{
-        display: isDesktop ? 'flex' : 'block',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-      }}
+      sx={theme => ({
+        [theme.breakpoints.up('lg')]: {
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+        },
+        display: 'block',
+      })}
     >
       <Box
-        sx={{
+        sx={theme => ({
           position: 'relative',
 
           display: { xs: isBorrow ? 'none' : 'block', lg: 'block' },
-          width: paperWidth,
-        }}
+          width: 'calc(50% - 8px)',
+          [theme.breakpoints.down('lg')]: {
+            width: '100%',
+          },
+        })}
       >
         <SuppliedPositionsList type={Reserves.ASSET} />
         {isDexLp && (
@@ -49,11 +52,14 @@ export const DashboardContentWrapper = ({ isBorrow }: DashboardContentWrapperPro
       </Box>
 
       <Box
-        sx={{
+        sx={theme => ({
           position: 'relative',
           display: { xs: !isBorrow ? 'none' : 'block', lg: 'block' },
-          width: paperWidth,
-        }}
+          width: 'calc(50% - 8px)',
+          [theme.breakpoints.down('lg')]: {
+            width: '100%',
+          },
+        })}
       >
         <BorrowedPositionsList />
         <BorrowAssetsList />
