@@ -56,10 +56,14 @@ export const NavItems = ({ setOpen }: NavItemsProps) => {
                 {md ? (
                   <Typography
                     component={Link}
-                    href={item.link}
+                    href={item.link(currentMarketData.market)}
                     variant='buttonL'
                     color={'text.dark'}
-                    sx={{ width: '100%', p: 4, opacity: pathname === item.link ? 1 : 0.4 }}
+                    sx={{
+                      width: '100%',
+                      p: 4,
+                      opacity: pathname === item.link(currentMarketData.market) ? 1 : 0.4,
+                    }}
                     onClick={() => handleClick(true)}
                   >
                     {item.title}
@@ -68,7 +72,7 @@ export const NavItems = ({ setOpen }: NavItemsProps) => {
                   <Button
                     component={Link}
                     onClick={() => handleClick(false)}
-                    href={item.link}
+                    href={item.link(currentMarketData.market)}
                     sx={theme => ({
                       color: '#F1F1F3',
                       p: '10px',
@@ -77,12 +81,14 @@ export const NavItems = ({ setOpen }: NavItemsProps) => {
                       borderLeft: `1px solid`,
                       borderRight: `1px solid`,
                       borderColor:
-                        pathname === item.link
+                        pathname === item.link(currentMarketData.market)
                           ? theme => theme.palette.border.white
                           : 'transparent',
                       borderRadius: 0,
                       background:
-                        pathname === item.link ? theme.palette.gradients.menuHover : 'transparent',
+                        pathname === item.link(currentMarketData.market)
+                          ? theme.palette.gradients.menuHover
+                          : 'transparent',
 
                       '&:hover': {
                         background: theme.palette.gradients.menuHover,

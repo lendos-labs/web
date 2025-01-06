@@ -16,6 +16,7 @@ import {
 import { earnsNavigation } from '@lendos/constants/routes';
 
 import { Link } from '../../../components/Link';
+import { useStateContext } from '../../../providers/StateProvider';
 import { DarkModeSwitcher } from './DarkModeSwitcher';
 import { DrawerWrapper } from './DrawerWrapper';
 import { MobileCloseButton } from './MobileCloseButton';
@@ -43,6 +44,7 @@ const MenuItemsWrapper = ({ children, title }: { children: ReactNode; title: Rea
 );
 
 export const MobileMenu = ({ open, setOpen, headerHeight }: MobileMenuProps) => {
+  const { currentMarketData } = useStateContext();
   return (
     <>
       {open ? (
@@ -67,10 +69,15 @@ export const MobileMenu = ({ open, setOpen, headerHeight }: MobileMenuProps) => 
         <MenuItemsWrapper title='Earn'>
           <List>
             {earnsNavigation.map((item, index) => (
-              <ListItem component={Link} href={item.link} sx={{ color: '#F1F1F3' }} key={index}>
+              <ListItem
+                component={Link}
+                href={item.link(currentMarketData.market)}
+                sx={{ color: '#F1F1F3' }}
+                key={index}
+              >
                 <ListItemIcon sx={{ minWidth: 'unset', mr: 3 }}>
                   <SvgIcon sx={{ fontSize: '20px', color: 'text.dark' }}>
-                    {earnIcons[item.link]}
+                    {earnIcons[item.dataCy ?? '']}
                   </SvgIcon>
                 </ListItemIcon>
                 <ListItemText>

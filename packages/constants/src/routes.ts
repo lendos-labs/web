@@ -21,18 +21,18 @@ export enum Routes {
 
 export const earnsNavigation: Navigation[] = [
   {
-    link: Routes.markets,
+    link: (market?: string) => `/${market}${Routes.markets}`,
     title: 'Markets',
     dataCy: 'menuMarkets',
   },
   {
-    link: Routes.dexLp,
+    link: (market?: string) => `/${market}${Routes.dexLp}`,
     title: 'DEX LP',
     dataCy: 'menuDexLp',
     isVisible: data => isFeatureEnabled.dexLp(data),
   },
   {
-    link: Routes.strategies,
+    link: (market?: string) => `/${market}${Routes.strategies}`,
     title: 'Strategies',
     dataCy: 'menuStrategies',
     isVisible: data => isFeatureEnabled.strategies(data),
@@ -41,7 +41,7 @@ export const earnsNavigation: Navigation[] = [
 
 export const navigation: (Navigation | NavigationWithSubmenu)[] = [
   {
-    link: Routes.dashboard,
+    link: (market?: string) => `/${market}${Routes.dashboard}`,
     title: 'Dashboard',
     dataCy: 'menuDashboard',
     isMobile: true,
@@ -53,14 +53,14 @@ export const navigation: (Navigation | NavigationWithSubmenu)[] = [
     isMobile: false,
   },
   {
-    link: Routes.points,
+    link: () => Routes.points,
     title: 'Points',
     dataCy: 'menuPoints',
     isVisible: data => isFeatureEnabled.points(data),
     isMobile: true,
   },
   {
-    link: Routes.governance,
+    link: () => Routes.governance,
     title: 'Governance',
     dataCy: 'menuGovernance',
     isMobile: true,

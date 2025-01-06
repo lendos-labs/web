@@ -1,7 +1,7 @@
 import { MarketDataType } from './market';
 
 export interface Navigation {
-  link: string;
+  link: (market?: string) => string;
   title: string;
   isVisible?: (data: MarketDataType) => boolean | undefined;
   dataCy?: string;

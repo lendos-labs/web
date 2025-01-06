@@ -4,7 +4,7 @@ export enum CustomPoints {
   neon = 'neon',
 }
 
-export interface ExplorerLinkBuilderProps {
+export interface ExplorerLinkBuilder {
   tx?: string;
   address?: string;
 }
@@ -16,5 +16,5 @@ export interface NetworkConfig {
   id: Chain['id'];
   networkLogoPath: string;
   wrappedAsset: { name: string; symbol: string; decimals: number };
-  explorerLinkBuilder: (args: ExplorerLinkBuilderProps) => string;
+  explorerLinkBuilder: (args: ExplorerLinkBuilder) => string;
 }

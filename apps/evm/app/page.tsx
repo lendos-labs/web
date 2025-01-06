@@ -1,7 +1,17 @@
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-const Home = () => {
-  redirect(`/neon`);
+import { CookieKey } from '@lendos/constants/cookie';
+
+import { marketsData } from '../src/config/supported-markets';
+
+const Home = async () => {
+  const cookieStore = await cookies();
+
+  const selectedMarket =
+    cookieStore.get(CookieKey.SELECTED_MARKET)?.value ?? marketsData[0]?.market;
+
+  redirect(`/${selectedMarket}`);
 };
 
 export default Home;

@@ -34,11 +34,11 @@ export function MoreMenu({ title, subMenu }: Readonly<NavigationWithSubmenu>) {
           borderLeft: `1px solid`,
           borderRight: `1px solid`,
           borderRadius: 0,
-          borderColor: subMenu.some(i => i.link === pathname)
+          borderColor: subMenu.some(i => i.link(currentMarketData.market) === pathname)
             ? theme => theme.palette.border.white
             : 'transparent',
 
-          background: subMenu.some(i => i.link === pathname)
+          background: subMenu.some(i => i.link(currentMarketData.market) === pathname)
             ? theme.palette.gradients.menuHover
             : 'transparent',
 
@@ -66,8 +66,8 @@ export function MoreMenu({ title, subMenu }: Readonly<NavigationWithSubmenu>) {
           .map(item => (
             <MenuItem
               component={Link}
-              href={item.link}
-              key={item.link}
+              href={item.link(currentMarketData.market)}
+              key={item.link(currentMarketData.market)}
               onClick={() => setAnchorEl(null)}
               sx={{
                 borderBottom: '1px solid',
@@ -80,7 +80,7 @@ export function MoreMenu({ title, subMenu }: Readonly<NavigationWithSubmenu>) {
             >
               <ListItemIcon>
                 <SvgIcon sx={{ fontSize: '20px', color: 'text.dark' }}>
-                  {earnIcons[item.link]}
+                  {earnIcons[item.dataCy ?? '']}
                 </SvgIcon>
               </ListItemIcon>
               <ListItemText>{item.title}</ListItemText>

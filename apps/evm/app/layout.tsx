@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { headers } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 
 import { Box } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
@@ -7,7 +7,10 @@ import { cookieToInitialState } from 'wagmi';
 
 import { aldrich, montserrat } from '@lendos/ui/fonts';
 
+import { CookieKey } from '@lendos/constants/cookie';
+
 import { wagmiConfig } from '../src/config/connectors.ts';
+import { marketsData } from '../src/config/supported-markets.ts';
 import { Providers } from '../src/providers.tsx';
 import { ChildrenProps } from '../src/types/common.ts';
 
@@ -22,7 +25,11 @@ export const metadata: Metadata = {
 
 async function RootLayout({ children }: ChildrenProps) {
   const head = await headers();
+  const cookieStore = await cookies();
   const wagmiInitialState = cookieToInitialState(wagmiConfig, head.get('cookie'));
+
+  const selectedMarket =
+    cookieStore.get(CookieKey.SELECTED_MARKET)?.value ?? marketsData[0]?.market;
 
   return (
     <html lang='en'>
@@ -34,7 +41,9 @@ async function RootLayout({ children }: ChildrenProps) {
         minHeight={'100dvh'}
       >
         <AppRouterCacheProvider>
-          <Providers initialState={wagmiInitialState}>{children}</Providers>
+          <Providers initialState={wagmiInitialState} selectedMarket={selectedMarket ?? ''}>
+            {children}
+          </Providers>
         </AppRouterCacheProvider>
       </Box>
     </html>

@@ -19,11 +19,15 @@ import { ReservesProvider } from './reserves-providers';
 import { StateProvider } from './state-provider';
 import { ChildrenProps } from './types/common';
 
-export const Providers = ({ children, initialState }: ChildrenProps & { initialState?: State }) => {
+export const Providers = ({
+  children,
+  initialState,
+  selectedMarket,
+}: ChildrenProps & { initialState?: State; selectedMarket: string }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <MuiLayout>
-        <StateProvider>
+        <StateProvider selectedMarket={selectedMarket}>
           <WagmiProvider config={wagmiConfig} initialState={initialState}>
             <ConnectKitProvider>
               <AccountProvider>

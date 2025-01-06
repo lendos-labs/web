@@ -21,16 +21,16 @@ import { useStateContext } from '../../providers/StateProvider';
 
 const marketDexTabs: {
   label: string;
-  href?: string;
+  href: (market: string) => string;
   isVisible?: (data: MarketDataType) => boolean | undefined;
 }[] = [
   {
     label: 'Markets',
-    href: Routes.markets,
+    href: market => `/${market}${Routes.markets}`,
   },
   {
     label: 'DEX LP',
-    href: Routes.dexLp,
+    href: market => `/${market}${Routes.dexLp}`,
     isVisible: data => isFeatureEnabled.dexLp(data),
   },
 ];
@@ -100,11 +100,11 @@ export const EarnLayout = ({
                 .filter(item => !item.isVisible || item.isVisible(currentMarketData))
                 .map(i => (
                   <StyledToggleTabButton
-                    key={i.href}
+                    key={i.href(currentMarketData.market)}
                     value={i.label}
-                    selected={pathname === i.href}
+                    selected={pathname === i.href(currentMarketData.market)}
                     component={Link}
-                    href={i.href}
+                    href={i.href(currentMarketData.market)}
                     sx={{ flexGrow: 1, width: '117px' }}
                   >
                     {i.label}
