@@ -1,9 +1,7 @@
-import React from 'react';
-
-import DashboardContainer from '@lendos/ui/modules/DashboardContainer';
+import { redirect } from 'next/navigation';
 
 const Home = () => {
-  return <DashboardContainer />;
+  redirect(`/neon`);
 };
 
 export default Home;

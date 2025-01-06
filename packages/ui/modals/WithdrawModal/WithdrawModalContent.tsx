@@ -3,7 +3,6 @@ import { useRef, useState } from 'react';
 import { valueToBigNumber } from '@aave/math-utils';
 import { Box, Checkbox, Typography } from '@mui/material';
 
-import { ChainId } from '@lendos/types/chain';
 import { Reserves } from '@lendos/types/reserves';
 import { ExtendedFormattedUser } from '@lendos/types/user';
 
@@ -40,8 +39,8 @@ export const WithdrawModalContent = ({
   user: ExtendedFormattedUser;
 }) => {
   const { gasLimit, mainTxState: withdrawTxState, txError } = useModalContext();
-  const { currentNetworkData, currentMarketData } = useStateContext();
-  const currentChainId = currentMarketData.chainId;
+  const { currentMarketData } = useStateContext();
+  const currentChainId = currentMarketData.chain.id;
 
   const [_amount, setAmount] = useState('');
   // const [withdrawMax, setWithdrawMax] = useState('');
@@ -104,7 +103,7 @@ export const WithdrawModalContent = ({
         amount={amountRef.current}
         symbol={
           withdrawUnWrapped && poolReserve.isWrappedBaseAsset
-            ? currentNetworkData.baseAssetSymbol
+            ? currentMarketData.chain.nativeCurrency.symbol
             : showedSymbol
         }
       />
@@ -123,7 +122,7 @@ export const WithdrawModalContent = ({
             symbol: showedSymbol,
             iconSymbol:
               withdrawUnWrapped && poolReserve.isWrappedBaseAsset
-                ? currentNetworkData.baseAssetSymbol
+                ? currentMarketData.chain.nativeCurrency.symbol
                 : poolReserve.type === Reserves.ASSET
                   ? poolReserve.iconSymbol
                   : `${poolReserve.token0.symbol}_${poolReserve.token1.symbol}`,
@@ -148,20 +147,20 @@ export const WithdrawModalContent = ({
         <DetailsUnwrapSwitch
           unwrapped={withdrawUnWrapped}
           setUnWrapped={setWithdrawUnWrapped}
-          disabled={currentChainId === ChainId.neon || currentChainId === ChainId.neon_devnet}
+          disabled={currentChainId === 245022934 || currentChainId === 245022926}
           label={
             <Typography>
               <>
                 Unwrap {poolReserve.symbol} (
                 <span
                   onClick={() =>
-                    (currentChainId === ChainId.neon || currentChainId === ChainId.neon_devnet) &&
+                    (currentChainId === 245022934 || currentChainId === 245022926) &&
                     setWithdrawUnWrapped(!withdrawUnWrapped)
                   }
                 >
                   to
                 </span>{' '}
-                withdraw {currentNetworkData.baseAssetSymbol})
+                withdraw {currentMarketData.chain.nativeCurrency.symbol})
               </>
             </Typography>
           }
@@ -173,7 +172,9 @@ export const WithdrawModalContent = ({
           description={<>Remaining supply</>}
           value={underlyingBalance.minus(withdrawAmount || '0').toString(10)}
           symbol={
-            poolReserve.isWrappedBaseAsset ? currentNetworkData.baseAssetSymbol : showedSymbol
+            poolReserve.isWrappedBaseAsset
+              ? currentMarketData.chain.nativeCurrency.symbol
+              : showedSymbol
           }
         />
         <DetailsHFLine

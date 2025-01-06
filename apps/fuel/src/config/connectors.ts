@@ -10,10 +10,11 @@ import {
 import { Chain, mainnet, sepolia } from 'wagmi/chains';
 import { injected, walletConnect } from 'wagmi/connectors';
 
+// eslint-disable-next-line turbo/no-undeclared-env-vars -- TODO fix it
 const WALLETCONNECT_PROJECT_ID = process.env['NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID'];
-
+// eslint-disable-next-line turbo/no-undeclared-env-vars -- TODO fix it
 const ALCHEMY_ID = process.env['NEXT_PUBLIC_ALCHEMY_ID'];
-
+// eslint-disable-next-line turbo/no-undeclared-env-vars -- TODO fix it
 const isTestnet = process.env['NEXT_PUBLIC_ENV'] === 'testnet';
 
 const METADATA = {

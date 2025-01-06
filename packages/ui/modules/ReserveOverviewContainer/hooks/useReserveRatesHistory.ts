@@ -85,12 +85,12 @@ const makeCancelable = <T>(promise: Promise<T>) => {
   };
 };
 export function useReserveRatesHistory(reserveAddress: string, timeRange: ReserveRateTimeRange) {
-  const { currentNetworkData } = useStateContext();
+  const { currentMarketData } = useStateContext();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [data, setData] = useState<FormattedReserveHistoryItem[]>([]);
 
-  const ratesHistoryApiUrl = currentNetworkData.ratesHistoryApiUrl;
+  const ratesHistoryApiUrl = currentMarketData.ratesHistoryApiUrl;
 
   const refetchData = useCallback<() => () => void>(() => {
     // reset

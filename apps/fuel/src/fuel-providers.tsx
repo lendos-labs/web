@@ -13,6 +13,7 @@ import { Provider } from 'fuels';
 import { supportedFuelNetwork, wagmiConfig } from './config/connectors.ts';
 import { ChildrenProps } from './types/common.ts';
 
+// eslint-disable-next-line turbo/no-undeclared-env-vars -- TODO fix it
 const WALLETCONNECT_PROJECT_ID = process.env['NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID'];
 // For SSR application we need to use
 // createConfig to avoid errors related to window

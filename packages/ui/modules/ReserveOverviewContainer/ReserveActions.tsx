@@ -59,12 +59,12 @@ export const ReserveActions = ({ reserve }: ReserveActionsProps) => {
 
   const { loading: loadingWeb3, account } = useAccountContext();
   const { accountSummary, loading: loadingReserves, baseCurrencyData } = useReservesContext();
-  const { currentNetworkData, currentMarketData, minRemainingBaseTokenBalance } = useStateContext();
+  const { currentMarketData, minRemainingBaseTokenBalance } = useStateContext();
   const { openBorrow, openSupply } = useModalContext();
 
   const { walletBalances, loading: loadingWalletBalance } = useBalanceContext();
 
-  const { baseAssetSymbol } = currentNetworkData;
+  const baseAssetSymbol = currentMarketData.chain.nativeCurrency.symbol;
 
   let balance = walletBalances[reserve.underlyingAsset];
   if (reserve.isWrappedBaseAsset && selectedAsset === baseAssetSymbol) {

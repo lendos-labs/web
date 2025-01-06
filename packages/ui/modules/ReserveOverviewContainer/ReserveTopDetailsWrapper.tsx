@@ -21,7 +21,7 @@ interface ReserveTopDetailsProps {
 }
 
 export const ReserveTopDetailsWrapper = ({ reserve, loading }: ReserveTopDetailsProps) => {
-  const { currentNetworkData, currentMarketData } = useStateContext();
+  const { currentMarketData } = useStateContext();
   const { connected } = useAccountContext();
 
   const ReserveIcon = () => {
@@ -72,7 +72,7 @@ export const ReserveTopDetailsWrapper = ({ reserve, loading }: ReserveTopDetails
               sx={{
                 mr: 3,
               }}
-              logo={currentNetworkData.networkLogoPath}
+              logo={currentMarketData.chain.networkLogoPath}
             />
             <Box sx={{ display: 'inline-flex', alignItems: 'flex-start' }}>
               <Typography

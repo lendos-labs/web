@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
 
-import { CustomMarket } from '@lendos/types/market';
-
 import { ListMobileItem } from '../ListMobileItem';
 
 interface ListMobileItemWrapperProps {
@@ -11,7 +9,7 @@ interface ListMobileItemWrapperProps {
   underlyingAsset?: string;
   children: ReactNode;
   loading?: boolean;
-  currentMarket?: CustomMarket;
+  currentMarket?: string;
 }
 
 export const ListMobileItemWrapper = ({

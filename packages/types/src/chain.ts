@@ -1,11 +1,4 @@
-export enum ChainId {
-  neon = 245022934,
-  neon_devnet = 245022926,
-  hemi = 43111,
-  hemi_testnet = 743111,
-  sepolia = 11155111,
-  fuel = 99,
-}
+import { Chain } from 'viem';
 
 export enum CustomPoints {
   neon = 'neon',
@@ -17,17 +10,11 @@ export interface ExplorerLinkBuilderProps {
 }
 
 export interface NetworkConfig {
-  name: string;
-  displayName?: string;
-  publicJsonRPCUrl: readonly string[];
-  publicJsonRPCWSUrl?: string;
-  ratesHistoryApiUrl?: string;
-  wrappedBaseAssetSymbol: string;
-  baseAssetSymbol: string;
-  baseAssetDecimals: number;
-  explorerLink: string;
-  explorerLinkBuilder: (props: ExplorerLinkBuilderProps) => string;
-  isTestnet?: boolean;
+  nativeCurrency: Chain['nativeCurrency'];
+  name: Chain['name'];
+  testnet: Chain['testnet'];
+  id: Chain['id'];
   networkLogoPath: string;
-  underlyingChainId?: number;
+  wrappedAsset: { name: string; symbol: string; decimals: number };
+  explorerLinkBuilder: (args: ExplorerLinkBuilderProps) => string;
 }

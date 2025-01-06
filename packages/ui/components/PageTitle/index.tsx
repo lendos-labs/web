@@ -13,7 +13,7 @@ export interface PageTitleProps {
 }
 
 export const PageTitle = ({ pageTitle, withMarketSwitcher }: PageTitleProps) => {
-  const { currentMarketData, currentNetworkData } = useStateContext();
+  const { currentMarketData } = useStateContext();
 
   return (
     <Box
@@ -39,7 +39,7 @@ export const PageTitle = ({ pageTitle, withMarketSwitcher }: PageTitleProps) => 
               sx={{
                 mr: 0,
               }}
-              logo={currentNetworkData.networkLogoPath}
+              logo={currentMarketData.chain.networkLogoPath}
             />
             <Box sx={{ display: 'inline-flex', alignItems: 'flex-start' }}>
               <Typography
@@ -53,7 +53,7 @@ export const PageTitle = ({ pageTitle, withMarketSwitcher }: PageTitleProps) => 
               </Typography>
             </Box>
             <NetworkSwitcher />
-            {currentMarketData.isTestnet && (
+            {currentMarketData.chain.testnet && (
               <Typography
                 variant='buttonS'
                 sx={theme => ({

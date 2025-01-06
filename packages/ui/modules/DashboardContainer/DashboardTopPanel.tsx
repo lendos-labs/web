@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { UserIncentiveData, normalize, valueToBigNumber } from '@aave/math-utils';
 import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
 
-import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
-
 import { FormattedNumber } from '../../components/FormattedNumber';
 import { HealthFactorNumber } from '../../components/HealthFactorNumber';
 import { NoData } from '../../components/NoData';
@@ -15,15 +13,11 @@ import { NetAPYTooltip } from '../../components/infoTooltips';
 import { useAccountContext } from '../../providers/AccountProvider';
 import { useModalContext } from '../../providers/ModalProvider';
 import { useReservesContext } from '../../providers/ReservesProvider';
-import { useStateContext } from '../../providers/StateProvider';
 import { LiquidationRiskParametresInfoModal } from './LiquidationRiskParametresInfoModal';
 
 const DashboardTopPanel = () => {
-  const reserves: FormattedReservesAndIncentives<ReserveToken>[] = [];
-
   const [open, setOpen] = useState(false);
 
-  const { currentMarketData, currentNetworkData } = useStateContext();
   const { account } = useAccountContext();
   const { accountSummary, loading } = useReservesContext();
   const { openClaimRewards } = useModalContext();
@@ -47,18 +41,8 @@ const DashboardTopPanel = () => {
             incentive.rewardTokenDecimals,
           );
 
-          let tokenPrice = 0;
+          const tokenPrice = Number(incentive.rewardPriceFeed);
           // getting price from reserves for the native rewards for v2 markets
-          if (!currentMarketData.v3 && Number(rewardBalance) > 0) {
-            // TODO Check this
-            reserves.forEach(reserve => {
-              if (reserve.symbol === currentNetworkData.wrappedBaseAssetSymbol) {
-                tokenPrice = Number(reserve.priceInUSD);
-              }
-            });
-          } else {
-            tokenPrice = Number(incentive.rewardPriceFeed);
-          }
 
           const rewardBalanceUsd = Number(rewardBalance) * tokenPrice;
 

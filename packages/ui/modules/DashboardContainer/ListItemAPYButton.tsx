@@ -16,7 +16,6 @@ import {
   Typography,
 } from '@mui/material';
 
-import { CustomMarket } from '@lendos/types/market';
 import { InterestRate } from '@lendos/types/reserves';
 
 import { Routes } from '@lendos/constants/routes';
@@ -32,7 +31,7 @@ interface ListItemAPYButtonProps {
   stableBorrowAPY: string;
   variableBorrowAPY: string;
   underlyingAsset: string;
-  currentMarket: CustomMarket;
+  currentMarket: string;
 }
 
 export const ListItemAPYButton = ({

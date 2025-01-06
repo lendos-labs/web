@@ -27,9 +27,9 @@ export const useReserveActionState = ({
 }: ReserveActionStateProps) => {
   const { accountSummary, eModes } = useReservesContext();
   const { supplyCap, borrowCap, debtCeiling } = useAssetCaps();
-  const { currentNetworkData } = useStateContext();
+  const { currentMarketData } = useStateContext();
 
-  const { name: networkName } = currentNetworkData;
+  const networkName = currentMarketData.chain.name;
 
   const assetCanBeBorrowedFromPool = accountSummary
     ? assetCanBeBorrowedByUser(reserve, accountSummary)

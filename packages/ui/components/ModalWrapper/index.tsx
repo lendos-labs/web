@@ -39,14 +39,14 @@ export const ModalWrapper = ({
   children: (props: ModalWrapperProps) => React.ReactNode;
   action?: string;
 }) => {
-  const { currentNetworkData, currentMarketData } = useStateContext();
+  const { currentMarketData } = useStateContext();
   const { walletBalances } = useBalanceContext();
   const { chainId } = useAccountContext();
 
   const { accountSummary, reserves, lpReserves } = useReservesContext();
   const { txError, mainTxState } = useModalContext();
 
-  const isWrongNetwork = Number(currentMarketData.chainId) !== chainId;
+  const isWrongNetwork = Number(currentMarketData.chain.id) !== chainId;
 
   if (txError?.blocking) {
     return <TxErrorView txError={txError} />;
@@ -74,7 +74,7 @@ export const ModalWrapper = ({
   if (poolReserve.type === Reserves.ASSET) {
     symbol =
       poolReserve.isWrappedBaseAsset && !keepWrappedSymbol
-        ? currentNetworkData.baseAssetSymbol
+        ? currentMarketData.chain.nativeCurrency.symbol
         : poolReserve.symbol;
   } else {
     symbol = `${poolReserve.token0.symbol}/${poolReserve.token1.symbol}`;
@@ -85,7 +85,7 @@ export const ModalWrapper = ({
       {!mainTxState.success && (
         <TxModalTitle title={title} symbol={hideTitleSymbol ? undefined : symbol} />
       )}
-      {isWrongNetwork && <ChangeNetworkWarning networkName={currentNetworkData.name} />}
+      {isWrongNetwork && <ChangeNetworkWarning networkName={currentMarketData.chain.name} />}
       {children({
         isWrongNetwork,
         nativeBalance: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount ?? '0',

@@ -14,9 +14,9 @@ interface ReserveConfigurationProps {
 }
 
 export const ReserveConfiguration = ({ reserve }: ReserveConfigurationProps) => {
-  const { currentNetworkData, currentMarketData } = useStateContext();
+  const { currentMarketData } = useStateContext();
 
-  const renderCharts = !!currentNetworkData.ratesHistoryApiUrl && !currentMarketData.disableCharts;
+  const renderCharts = !!currentMarketData.ratesHistoryApiUrl;
   const { supplyCap, borrowCap, debtCeiling } = useAssetCaps();
   const showSupplyCapStatus: boolean = reserve.supplyCap !== '0';
   const showBorrowCapStatus: boolean = reserve.borrowCap !== '0';
@@ -52,7 +52,7 @@ export const ReserveConfiguration = ({ reserve }: ReserveConfigurationProps) => 
               <BorrowInfo
                 reserve={reserve}
                 currentMarketData={currentMarketData}
-                currentNetworkConfig={currentNetworkData}
+                currentNetworkConfig={currentMarketData.chain}
                 renderCharts={renderCharts}
                 showBorrowCapStatus={showBorrowCapStatus}
                 borrowCap={borrowCap}

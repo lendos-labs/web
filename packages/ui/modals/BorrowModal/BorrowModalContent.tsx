@@ -101,7 +101,7 @@ export const BorrowModalContent = ({
 }) => {
   const { mainTxState: borrowTxState, gasLimit, txError } = useModalContext();
   const { baseCurrencyData } = useReservesContext();
-  const { currentNetworkData } = useStateContext();
+  const { currentMarketData } = useStateContext();
   const { borrowCap } = useAssetCaps();
 
   const [interestRateMode, setInterestRateMode] = useState<InterestRate>(InterestRate.Variable);
@@ -198,7 +198,7 @@ export const BorrowModalContent = ({
 
   const iconSymbol =
     borrowUnWrapped && poolReserve.isWrappedBaseAsset
-      ? currentNetworkData.baseAssetSymbol
+      ? currentMarketData.chain.nativeCurrency.symbol
       : poolReserve.iconSymbol;
 
   if (borrowTxState.success) {
@@ -259,7 +259,7 @@ export const BorrowModalContent = ({
           setUnWrapped={setBorrowUnWrapped}
           disabled={false}
           label={
-            <Typography>{`Unwrap ${poolReserve.symbol} (to borrow ${currentNetworkData.baseAssetSymbol})`}</Typography>
+            <Typography>{`Unwrap ${poolReserve.symbol} (to borrow ${currentMarketData.chain.nativeCurrency.symbol})`}</Typography>
           }
         />
       )}

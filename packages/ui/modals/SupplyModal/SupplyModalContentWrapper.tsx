@@ -158,7 +158,7 @@ export const SupplyModalContent = ({
   user,
 }: SupplyModalContentProps) => {
   const { baseCurrencyData } = useReservesContext();
-  const { currentNetworkData, minRemainingBaseTokenBalance } = useStateContext();
+  const { currentMarketData, minRemainingBaseTokenBalance } = useStateContext();
   const { mainTxState: supplyTxState, gasLimit, txError } = useModalContext();
 
   // states
@@ -203,8 +203,8 @@ export const SupplyModalContent = ({
   let symbol = undefined;
   let iconSymbol = undefined;
   if (supplyUnWrapped) {
-    symbol = currentNetworkData.baseAssetSymbol;
-    iconSymbol = currentNetworkData.baseAssetSymbol;
+    symbol = currentMarketData.chain.nativeCurrency.symbol;
+    iconSymbol = currentMarketData.chain.nativeCurrency.symbol;
   } else if (poolReserve.type === Reserves.ASSET) {
     symbol = poolReserve.symbol;
     iconSymbol = poolReserve.iconSymbol;
@@ -228,7 +228,7 @@ export const SupplyModalContent = ({
       <TxSuccessView
         action='Supplied'
         amount={amount}
-        symbol={supplyUnWrapped ? currentNetworkData.baseAssetSymbol : symbol}
+        symbol={supplyUnWrapped ? currentMarketData.chain.nativeCurrency.symbol : symbol}
         // addToken={addTokenProps}
       />
     );

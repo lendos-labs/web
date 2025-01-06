@@ -2,8 +2,6 @@ import { ReactNode } from 'react';
 
 import { Box, Divider, Skeleton, Typography } from '@mui/material';
 
-import { CustomMarket } from '@lendos/types/market';
-
 import { Routes } from '@lendos/constants/routes';
 
 import { Link } from '../Link';
@@ -16,7 +14,7 @@ interface ListMobileItemProps {
   name?: string;
   underlyingAsset?: string;
   loading?: boolean;
-  currentMarket?: CustomMarket;
+  currentMarket?: string;
 }
 
 export const ListMobileItem = ({

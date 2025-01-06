@@ -16,7 +16,7 @@ interface TokenLinkDropdownProps {
 export const TokenLinkDropdown = ({ poolReserve, hideAToken }: TokenLinkDropdownProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const { currentNetworkData } = useStateContext();
+  const { currentMarketData } = useStateContext();
 
   const showVariableDebtToken =
     poolReserve.borrowingEnabled || Number(poolReserve.totalVariableDebt) > 0;
@@ -53,7 +53,7 @@ export const TokenLinkDropdown = ({ poolReserve, hideAToken }: TokenLinkDropdown
 
         <MenuItem
           component='a'
-          href={currentNetworkData.explorerLinkBuilder({
+          href={currentMarketData.chain.explorerLinkBuilder({
             address: poolReserve.underlyingAsset,
           })}
           target='_blank'
@@ -75,7 +75,7 @@ export const TokenLinkDropdown = ({ poolReserve, hideAToken }: TokenLinkDropdown
 
             <MenuItem
               component='a'
-              href={currentNetworkData.explorerLinkBuilder({
+              href={currentMarketData.chain.explorerLinkBuilder({
                 address: poolReserve.aTokenAddress,
               })}
               target='_blank'
@@ -99,7 +99,7 @@ export const TokenLinkDropdown = ({ poolReserve, hideAToken }: TokenLinkDropdown
         {showVariableDebtToken && (
           <MenuItem
             component='a'
-            href={currentNetworkData.explorerLinkBuilder({
+            href={currentMarketData.chain.explorerLinkBuilder({
               address: poolReserve.variableDebtTokenAddress,
             })}
             target='_blank'
@@ -113,7 +113,7 @@ export const TokenLinkDropdown = ({ poolReserve, hideAToken }: TokenLinkDropdown
         {showStableDebtToken && (
           <MenuItem
             component='a'
-            href={currentNetworkData.explorerLinkBuilder({
+            href={currentMarketData.chain.explorerLinkBuilder({
               address: poolReserve.stableDebtTokenAddress,
             })}
             target='_blank'

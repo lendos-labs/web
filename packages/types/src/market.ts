@@ -1,21 +1,12 @@
-import { ChainId, CustomPoints } from './chain';
+import { CustomPoints, NetworkConfig } from './chain';
 
-export enum CustomMarket {
-  proto_neon = 'proto_neon',
-  proto_hemi = 'proto_hemi',
-  proto_neon_devnet = 'proto_neon_devnet',
-  proto_hemi_testnet = 'proto_hemi_testnet',
-  proto_sepolia = 'proto_sepolia',
-  proto_fuel = 'proto_fuel',
-}
+export type Markets = Record<string, MarketDataType>;
 
 export interface MarketDataType {
-  v3?: boolean;
-  isTestnet?: boolean;
   marketTitle: string;
-  market: CustomMarket;
+  market: string;
   // the network the market operates on
-  chainId: ChainId;
+  chain: NetworkConfig;
   enabledFeatures?: {
     liquiditySwap?: boolean;
     staking?: boolean;
@@ -33,6 +24,7 @@ export interface MarketDataType {
     addLiquidity?: boolean;
   };
   disableCharts?: boolean;
+  ratesHistoryApiUrl?: string;
   subgraphUrl?: string;
   addresses: {
     LENDING_POOL_ADDRESS_PROVIDER: string;

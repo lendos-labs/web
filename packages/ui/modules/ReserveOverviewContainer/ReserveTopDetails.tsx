@@ -14,7 +14,7 @@ interface ReserveTopDetailsProps {
 }
 
 export const ReserveTopDetails = ({ reserve, loading }: ReserveTopDetailsProps) => {
-  const { currentNetworkData } = useStateContext();
+  const { currentMarketData } = useStateContext();
 
   const theme = useTheme();
   const downToSM = useMediaQuery(theme.breakpoints.down('sm'));
@@ -68,7 +68,7 @@ export const ReserveTopDetails = ({ reserve, loading }: ReserveTopDetailsProps) 
             <Skeleton width={16} height={16} sx={{ ml: 1, background: '#383D51' }} />
           ) : (
             <Link
-              href={currentNetworkData.explorerLinkBuilder({
+              href={currentMarketData.chain.explorerLinkBuilder({
                 address: reserve.priceOracle,
               })}
               sx={iconStyling}

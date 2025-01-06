@@ -15,7 +15,7 @@ export interface BaseSuccessTxViewProps {
 
 export const BaseSuccessView = ({ txHash, children, hideTx }: BaseSuccessTxViewProps) => {
   const { close, mainTxState } = useModalContext();
-  const { currentNetworkData } = useStateContext();
+  const { currentMarketData } = useStateContext();
 
   return (
     <>
@@ -52,7 +52,7 @@ export const BaseSuccessView = ({ txHash, children, hideTx }: BaseSuccessTxViewP
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Link
             variant='helperText'
-            href={currentNetworkData.explorerLinkBuilder({
+            href={currentMarketData.chain.explorerLinkBuilder({
               tx: txHash ? txHash : mainTxState.txHash,
             })}
             sx={{

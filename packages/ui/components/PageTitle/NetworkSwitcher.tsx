@@ -10,8 +10,7 @@ import { Link } from '../Link';
 import { MarketLogo } from '../MarketLogo';
 
 export const NetworkSwitcher = () => {
-  const { availableMarkets, availableNetworks, currentMarketData, setCurrentMarket } =
-    useStateContext();
+  const { availableMarkets, currentMarketData, setCurrentMarket } = useStateContext();
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -48,8 +47,7 @@ export const NetworkSwitcher = () => {
       >
         <Box sx={{ p: 2, width: '257px' }}>
           <MenuList>
-            {availableMarkets.map(m => {
-              const logoNetwork = availableNetworks[m.chainId]?.networkLogoPath;
+            {Object.values(availableMarkets).map(m => {
               return (
                 <MenuItem
                   key={m.market}
@@ -66,14 +64,14 @@ export const NetworkSwitcher = () => {
                     setAnchorEl(null);
                   }}
                 >
-                  {logoNetwork && (
+                  {m.chain.networkLogoPath && (
                     <MarketLogo
                       sx={{
                         width: '20px',
                         height: '20px',
                       }}
                       size='20px'
-                      logo={logoNetwork}
+                      logo={m.chain.networkLogoPath}
                     />
                   )}
                   {m.marketTitle}

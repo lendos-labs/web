@@ -1,6 +1,5 @@
 import { ReserveDataHumanized as ReserveDataHumanizedType } from '@aave/contract-helpers';
 
-import { CustomMarket } from './market';
 import { ExtendedFormattedUser, FormatReserveUSDResponse } from './user';
 
 export interface ReserveIncentiveResponse {
@@ -216,7 +215,7 @@ export interface PoolBaseCurrencyHumanized {
 }
 
 export interface TotalFormatReserve extends FormatReserveUSDResponse {
-  market: CustomMarket;
+  market: string;
   marketTitle: string;
   chainId: number;
   iconSymbol?: string;

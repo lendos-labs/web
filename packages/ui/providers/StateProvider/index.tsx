@@ -1,15 +1,12 @@
 import { createContext, useContext } from 'react';
 
-import { NetworkConfig } from '@lendos/types/chain';
-import { CustomMarket, MarketDataType } from '@lendos/types/market';
+import { MarketDataType, Markets } from '@lendos/types/market';
 
 export interface StateContextType {
-  availableMarkets: MarketDataType[];
-  availableNetworks: Record<number, NetworkConfig>;
+  availableMarkets: Markets;
   currentMarketData: MarketDataType;
-  currentNetworkData: NetworkConfig;
   minRemainingBaseTokenBalance: string;
-  setCurrentMarket: (market: CustomMarket, omitQueryParameterUpdate?: boolean) => void;
+  setCurrentMarket: (market: string) => void;
 }
 
 export const StateContext = createContext<StateContextType>({} as StateContextType);

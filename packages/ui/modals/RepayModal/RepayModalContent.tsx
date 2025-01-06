@@ -43,7 +43,7 @@ export const RepayModalContent = ({
 }: ModalWrapperProps & { debtType: InterestRate; user: ExtendedFormattedUser }) => {
   const { gasLimit, mainTxState: repayTxState, txError } = useModalContext();
   const { baseCurrencyData } = useReservesContext();
-  const { currentMarketData, currentNetworkData, minRemainingBaseTokenBalance } = useStateContext();
+  const { currentMarketData, minRemainingBaseTokenBalance } = useStateContext();
 
   // states
   const [tokenToRepayWith, setTokenToRepayWith] = useState<RepayAsset>({
@@ -83,7 +83,7 @@ export const RepayModalContent = ({
     // balance = underlyingBalance;
   } else {
     const normalizedWalletBalance = valueToBigNumber(tokenToRepayWith.balance).minus(
-      userReserve.reserve.symbol.toUpperCase() === currentNetworkData.baseAssetSymbol
+      userReserve.reserve.symbol.toUpperCase() === currentMarketData.chain.nativeCurrency.symbol
         ? minRemainingBaseTokenBalance
         : '0',
     );
@@ -125,7 +125,7 @@ export const RepayModalContent = ({
     const repayTokens: RepayAsset[] = [];
     // set possible repay tokens
     // if wrapped reserve push both wrapped / native
-    if (poolReserve.symbol === currentNetworkData.wrappedBaseAssetSymbol) {
+    if (poolReserve.symbol === currentMarketData.chain.wrappedAsset.symbol) {
       const nativeTokenWalletBalance = valueToBigNumber(nativeBalance);
       const maxNativeToken = BigNumber.max(
         nativeTokenWalletBalance,
@@ -133,7 +133,7 @@ export const RepayModalContent = ({
       );
       repayTokens.push({
         address: API_ETH_MOCK_ADDRESS.toLowerCase(),
-        symbol: currentNetworkData.baseAssetSymbol,
+        symbol: currentMarketData.chain.nativeCurrency.symbol,
         balance: maxNativeToken.toString(10),
       });
     }
@@ -147,20 +147,20 @@ export const RepayModalContent = ({
       balance: maxReserveTokenForRepay.toString(10),
     });
     // push reserve aToken
-    if (currentMarketData.v3) {
-      const aTokenBalance = valueToBigNumber(underlyingBalance);
-      const maxBalance = BigNumber.max(
-        aTokenBalance,
-        BigNumber.min(aTokenBalance, debt).toString(10),
-      );
-      repayTokens.push({
-        address: poolReserve.aTokenAddress,
-        symbol: `a${poolReserve.symbol}`,
-        iconSymbol: poolReserve.iconSymbol,
-        aToken: true,
-        balance: maxBalance.toString(10),
-      });
-    }
+
+    const aTokenBalance = valueToBigNumber(underlyingBalance);
+    const maxBalance = BigNumber.max(
+      aTokenBalance,
+      BigNumber.min(aTokenBalance, debt).toString(10),
+    );
+    repayTokens.push({
+      address: poolReserve.aTokenAddress,
+      symbol: `a${poolReserve.symbol}`,
+      iconSymbol: poolReserve.iconSymbol,
+      aToken: true,
+      balance: maxBalance.toString(10),
+    });
+
     setAssets(repayTokens);
 
     if (repayTokens[0]) {
@@ -243,8 +243,8 @@ export const RepayModalContent = ({
           value={debt}
           valueUSD={debtUSD.toString()}
           symbol={
-            poolReserve.iconSymbol === currentNetworkData.wrappedBaseAssetSymbol
-              ? currentNetworkData.baseAssetSymbol
+            poolReserve.iconSymbol === currentMarketData.chain.wrappedAsset.symbol
+              ? currentMarketData.chain.nativeCurrency.symbol
               : poolReserve.iconSymbol
           }
         />

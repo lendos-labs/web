@@ -36,7 +36,7 @@ interface WalletWidgetProps {
 
 export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps) => {
   const { account, connected, loading, connect, disconnect } = useAccountContext();
-  const { currentNetworkData } = useStateContext();
+  const { currentMarketData } = useStateContext();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
   const { breakpoints, palette } = useTheme();
@@ -116,7 +116,7 @@ export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps)
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box
               sx={{
-                bgcolor: currentNetworkData.isTestnet ? '#7157ff' : '#65c970',
+                bgcolor: currentMarketData.chain.testnet ? '#7157ff' : '#65c970',
                 width: 12,
                 height: 12,
                 mr: 2,
@@ -124,7 +124,7 @@ export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps)
                 borderRadius: '50%',
               }}
             />
-            <Typography variant='h3'>{currentNetworkData.name}</Typography>
+            <Typography variant='h3'>{currentMarketData.chain.name}</Typography>
           </Box>
         </Box>
       </Box>
@@ -165,7 +165,7 @@ export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps)
         </ListItemText>
       </Box>
 
-      <Link href={currentNetworkData.explorerLinkBuilder({ address: account ?? '' })}>
+      <Link href={currentMarketData.chain.explorerLinkBuilder({ address: account ?? '' })}>
         <Box component={component} sx={{ color: 'text.dark' }} onClick={() => setOpen(false)}>
           <ListItemIcon
             sx={{
@@ -277,9 +277,6 @@ export const WalletWidget = ({ open, setOpen, headerHeight }: WalletWidgetProps)
           </MenuList>
         </Menu>
       )}
-
-      {/* TODO this logic go to webapp only for EVM */}
-      {/* <WalletModal /> */}
     </>
   );
 };
