@@ -23,13 +23,24 @@ export const metadata: Metadata = {
   },
 };
 
-async function RootLayout({ children }: ChildrenProps) {
+async function RootLayout({
+  children,
+}: ChildrenProps & {
+  params: unknown;
+}) {
   const head = await headers();
   const cookieStore = await cookies();
   const wagmiInitialState = cookieToInitialState(wagmiConfig, head.get('cookie'));
+  const pathname = head.get('x-pathname');
+
+  const markets = Object.values(marketsData);
+
+  const marketFromPath = markets.find(i => i.market === pathname?.split('/')[1]);
 
   const selectedMarket =
-    cookieStore.get(CookieKey.SELECTED_MARKET)?.value ?? marketsData[0]?.market;
+    marketFromPath?.market ??
+    cookieStore.get(CookieKey.SELECTED_MARKET)?.value ??
+    markets[0]?.market;
 
   return (
     <html lang='en'>

@@ -31,7 +31,7 @@ export const Header = () => {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [visitedSwitch, setVisitedSwitch] = useState<boolean>(() => {
-    return typeof window === 'undefined' ? true : Boolean(localStorage.getItem(SWITCH_VISITED_KEY));
+    return Boolean(localStorage.getItem(SWITCH_VISITED_KEY));
   });
 
   const { openSwitch } = useModalContext();
@@ -104,7 +104,7 @@ export const Header = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             <Image
-              src='./lendosLogo.svg'
+              src='/lendosLogo.svg'
               alt='lendOS'
               width={72}
               height={20}

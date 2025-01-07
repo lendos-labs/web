@@ -9,7 +9,7 @@ const Home = async () => {
   const cookieStore = await cookies();
 
   const selectedMarket =
-    cookieStore.get(CookieKey.SELECTED_MARKET)?.value ?? marketsData[0]?.market;
+    cookieStore.get(CookieKey.SELECTED_MARKET)?.value ?? Object.values(marketsData)[0]?.market;
 
   redirect(`/${selectedMarket}`);
 };
