@@ -1,12 +1,13 @@
+import { Config } from '@wagmi/core';
+import { Chain, neonDevnet, neonMainnet, sepolia } from '@wagmi/core/chains';
 import {
   CreateConnectorFn,
   cookieStorage,
-  createConfig as createConfigWagmiConfig,
   createStorage,
+  createConfig as createWagmiConfig,
   fallback,
   http,
 } from 'wagmi';
-import { Chain, mainnet, neonMainnet, sepolia } from 'wagmi/chains';
 import { injected, walletConnect } from 'wagmi/connectors';
 
 const WALLETCONNECT_PROJECT_ID = process.env['NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID'];
@@ -38,17 +39,21 @@ export function generateETHConnectors(): CreateConnectorFn[] {
   return connectors;
 }
 
-const supportedChains = (isTestnet ? [sepolia] : [neonMainnet]) as readonly [Chain, ...Chain[]];
+const supportedChains = (isTestnet ? [sepolia, neonDevnet] : [neonMainnet]) as readonly [
+  Chain,
+  ...Chain[],
+];
 
-export const wagmiConfig = createConfigWagmiConfig({
+export const wagmiConfig = createWagmiConfig({
   chains: supportedChains,
   connectors: generateETHConnectors(),
   transports: {
-    [mainnet.id]: fallback([http(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_ID}`)]),
+    [neonMainnet.id]: fallback([http(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_ID}`)]),
+    [neonDevnet.id]: fallback([http('https://245022926.rpc.thirdweb.com')]),
     [sepolia.id]: fallback([http(`https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_ID}`)]),
   },
   storage: createStorage({
     storage: cookieStorage,
   }),
   ssr: true,
-});
+}) as Config;

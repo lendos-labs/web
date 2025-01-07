@@ -16,7 +16,7 @@ export enum SupportedMarkets {
   hemi_testnet = 'hemi_testnet',
 }
 
-// eslint-disable-next-line turbo/no-undeclared-env-vars -- fix it
+ 
 const isTestnet = process.env['NEXT_PUBLIC_ENV'] === 'testnet';
 
 export const marketsData: Markets = isTestnet

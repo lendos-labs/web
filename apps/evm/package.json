@@ -9,8 +9,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint app",
-    "lint:fix": "eslint app --fix"
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",

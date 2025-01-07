@@ -2,7 +2,6 @@ import { valueToBigNumber } from '@aave/math-utils';
 import { Box, Typography } from '@mui/material';
 import { BigNumber } from 'bignumber.js';
 
-import { NetworkConfig } from '@lendos/types/chain';
 import { MarketDataType } from '@lendos/types/market';
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 
@@ -14,14 +13,12 @@ import { TextWithTooltip } from '../../components/TextWithTooltip';
 import { VariableAPYTooltip } from '../../components/VariableAPYTooltip';
 import { AssetCapHookData } from '../../providers/AssetCapsProvider/types';
 import { ApyGraphContainer } from './ApyGraphContainer';
-import { ReserveFactorOverview } from './ReserveFactorOverview';
 import { PanelItem, PanelTitle } from './ReservesPanel';
 import { ApyGraphContainerKey } from './types';
 
 interface BorrowInfoProps {
   reserve: FormattedReservesAndIncentives;
   currentMarketData: MarketDataType;
-  currentNetworkConfig: NetworkConfig;
   renderCharts: boolean;
   showBorrowCapStatus: boolean;
   borrowCap: AssetCapHookData;
@@ -30,7 +27,6 @@ interface BorrowInfoProps {
 export const BorrowInfo = ({
   reserve,
   currentMarketData,
-  currentNetworkConfig,
   renderCharts,
   showBorrowCapStatus,
   borrowCap,
@@ -159,24 +155,6 @@ export const BorrowInfo = ({
           reserve={reserve}
           currentMarketData={currentMarketData}
         />
-      )}
-      {currentMarketData.addresses.COLLECTOR && (
-        <>
-          <Box
-            sx={{ display: 'inline-flex', alignItems: 'center', pt: '42px', pb: '12px' }}
-            paddingTop={'42px'}
-          >
-            <Typography variant='subheader1' color='text.main'>
-              Collector Info
-            </Typography>
-          </Box>
-
-          <ReserveFactorOverview
-            collectorContract={currentMarketData.addresses.COLLECTOR}
-            explorerLinkBuilder={currentNetworkConfig.explorerLinkBuilder}
-            reserveFactor={reserve.reserveFactor}
-          />
-        </>
       )}
     </Box>
   );

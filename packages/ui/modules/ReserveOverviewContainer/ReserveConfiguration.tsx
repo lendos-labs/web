@@ -52,7 +52,6 @@ export const ReserveConfiguration = ({ reserve }: ReserveConfigurationProps) => 
               <BorrowInfo
                 reserve={reserve}
                 currentMarketData={currentMarketData}
-                currentNetworkConfig={currentMarketData.chain}
                 renderCharts={renderCharts}
                 showBorrowCapStatus={showBorrowCapStatus}
                 borrowCap={borrowCap}

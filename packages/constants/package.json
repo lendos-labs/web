@@ -8,6 +8,7 @@
     "./services/*": "./src/services/*.ts"
   },
   "dependencies": {
+    "@aave/contract-helpers": "1.25.0",
     "@lendos/types": "workspace:*",
     "@tanstack/react-query": "^5.62.8",
     "axios": "^1.7.9",

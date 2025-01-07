@@ -24,7 +24,7 @@ export const StateProvider = ({
   const availableMarkets = marketsData;
 
   const [currentMarketData, setMarket] = useState<MarketDataType>(
-    marketsData[selectedMarket] as unknown as MarketDataType,
+    marketsData[selectedMarket] ?? ({} as MarketDataType),
   );
 
   const setCurrentMarket = (market: string) => {

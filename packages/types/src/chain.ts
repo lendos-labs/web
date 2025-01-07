@@ -9,11 +9,7 @@ export interface ExplorerLinkBuilder {
   address?: string;
 }
 
-export interface NetworkConfig {
-  nativeCurrency: Chain['nativeCurrency'];
-  name: Chain['name'];
-  testnet: Chain['testnet'];
-  id: Chain['id'];
+export interface NetworkConfig extends Chain {
   networkLogoPath: string;
   wrappedAsset: { name: string; symbol: string; decimals: number };
   explorerLinkBuilder: (args: ExplorerLinkBuilder) => string;

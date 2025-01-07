@@ -9,10 +9,10 @@ import { aldrich, montserrat } from '@lendos/ui/fonts';
 
 import { CookieKey } from '@lendos/constants/cookie';
 
-import { wagmiConfig } from '../src/config/connectors.ts';
-import { marketsData } from '../src/config/supported-markets.ts';
-import { Providers } from '../src/providers.tsx';
-import { ChildrenProps } from '../src/types/common.ts';
+import { wagmiConfig } from '../config/connectors';
+import { marketsData } from '../config/supported-markets';
+import { Providers } from '../providers';
+import { ChildrenProps } from '../types/common';
 
 export const metadata: Metadata = {
   title: 'lendOS',

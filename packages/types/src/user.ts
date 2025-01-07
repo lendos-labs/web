@@ -118,3 +118,16 @@ export type ExtendedFormattedUser<T = ReserveLpToken | ReserveToken> =
     isInEmode: boolean;
     userEmodeCategoryId: number;
   };
+
+export type UserReserveData = [
+  {
+    underlyingAsset: string;
+    scaledATokenBalance: bigint;
+    usageAsCollateralEnabledOnUser: boolean;
+    stableBorrowRate: bigint;
+    scaledVariableDebt: bigint;
+    principalStableDebt: bigint;
+    stableBorrowLastUpdateTimestamp: bigint;
+  }[],
+  number,
+];
