@@ -24,7 +24,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "global.d.ts",
-    "../../packages/ui/mui-theme.d.ts"
-, "middleware.ts"  ],
+    "../../packages/ui/mui-theme.d.ts",
+    "middleware.ts"
+  ],
   "exclude": ["node_modules"]
 }
