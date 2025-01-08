@@ -1,8 +1,7 @@
 'use client';
 
-import { ReactNode, createContext, useEffect, useMemo, useState } from 'react';
+import { ReactNode, createContext, useMemo, useState } from 'react';
 
-import { useMediaQuery } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';
@@ -19,8 +18,8 @@ export const ColorModeContext = createContext({
 type Mode = 'light' | 'dark';
 
 export const MuiLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const [mode, setMode] = useState<Mode>(prefersDarkMode ? 'dark' : 'light');
+  const cookieMode = getCookie('colorMode') as Mode | undefined;
+  const [mode, setMode] = useState<Mode>(cookieMode ?? 'light');
 
   const colorMode = useMemo(() => {
     return {
@@ -38,13 +37,6 @@ export const MuiLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
     const themeCreate = createTheme(getDesignTokens(mode));
     return deepmerge(themeCreate, getThemedComponents(themeCreate));
   }, [mode]);
-
-  useEffect(() => {
-    const cookieMode = getCookie('colorMode') as Mode | undefined;
-    const initialMode = cookieMode ?? (prefersDarkMode ? 'dark' : 'light');
-
-    setMode(initialMode);
-  }, [prefersDarkMode]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
