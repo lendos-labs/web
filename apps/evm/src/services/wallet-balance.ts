@@ -4,7 +4,7 @@ import { Address } from 'viem';
 import { MarketDataType } from '@lendos/types/market';
 
 import { walletBalanceAbi } from '../abi/wallet-balance.ts';
-import { wagmiConfig } from '../config/connectors.ts';
+import { wagmiConfigCore } from '../config/connectors.ts';
 
 export interface UserPoolTokensBalances {
   address: string;
@@ -19,7 +19,7 @@ export class WalletBalanceService {
   }
 
   async getPoolTokensBalances(user: string): Promise<UserPoolTokensBalances[]> {
-    const response = await readContract(wagmiConfig, {
+    const response = await readContract(wagmiConfigCore, {
       address: this.market.addresses.WALLET_BALANCE_PROVIDER,
       abi: walletBalanceAbi,
       functionName: 'getUserWalletBalances',

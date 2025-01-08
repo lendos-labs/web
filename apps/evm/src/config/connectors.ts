@@ -56,4 +56,6 @@ export const wagmiConfig = createWagmiConfig({
     storage: cookieStorage,
   }),
   ssr: true,
-}) as Config;
+});
+
+export const wagmiConfigCore = wagmiConfig as Config;

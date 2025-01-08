@@ -14,7 +14,7 @@ import { UserReserveData, UserReservesDataHumanized } from '@lendos/types/user';
 import { formatReserves, formatUserReserves } from '@lendos/constants/formatReserves';
 
 import { getUiPoolDataAbi } from '../abi/ui-pool-data';
-import { wagmiConfig } from '../config/connectors';
+import { wagmiConfigCore } from '../config/connectors';
 import { SupportedMarkets } from '../config/supported-markets';
 import { lpTokens } from '../constants/lp-tokens';
 
@@ -25,7 +25,7 @@ export class UiPoolService {
   }
 
   async getReservesHumanized(): Promise<ReservesDataHumanized> {
-    const response = await readContract(wagmiConfig, {
+    const response = await readContract(wagmiConfigCore, {
       abi: getUiPoolDataAbi(this.market.market as SupportedMarkets),
       address: this.market.addresses.UI_POOL_DATA_PROVIDER,
       functionName: 'getReservesData',
@@ -49,7 +49,7 @@ export class UiPoolService {
             chainId: this.market.chain.id,
           };
 
-          const lpTokensRes = await readContracts(wagmiConfig, {
+          const lpTokensRes = await readContracts(wagmiConfigCore, {
             contracts: [
               { ...lpContract, functionName: 'token0' },
               { ...lpContract, functionName: 'token1' },
@@ -63,7 +63,7 @@ export class UiPoolService {
           const totalSupply = lpTokensRes[2].result ?? 0n;
           const reserves = lpTokensRes[3].result ?? [0n, 0n, 0];
 
-          const symbols = await readContracts(wagmiConfig, {
+          const symbols = await readContracts(wagmiConfigCore, {
             contracts: [
               {
                 address: token0,
@@ -115,7 +115,7 @@ export class UiPoolService {
   }
 
   async getUserReservesHumanized(user: Address): Promise<UserReservesDataHumanized> {
-    const response = await readContract(wagmiConfig, {
+    const response = await readContract(wagmiConfigCore, {
       abi: getUiPoolDataAbi(this.market.market as SupportedMarkets),
       address: this.market.addresses.UI_POOL_DATA_PROVIDER,
       functionName: 'getUserReservesData',

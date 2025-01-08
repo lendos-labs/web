@@ -12,7 +12,7 @@ import {
 } from '@lendos/types/ui-incentives';
 
 import { uiIncentivesV3 } from '../abi/ui-incentives-v3.ts';
-import { wagmiConfig } from '../config/connectors.ts';
+import { wagmiConfigCore } from '../config/connectors.ts';
 
 export class UiIncentivesService {
   private readonly market: MarketDataType;
@@ -22,7 +22,7 @@ export class UiIncentivesService {
   }
 
   async getReservesIncentivesDataHumanized() {
-    const response = await readContract(wagmiConfig, {
+    const response = await readContract(wagmiConfigCore, {
       abi: uiIncentivesV3,
       address: this.market.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getReservesIncentivesData',
@@ -39,7 +39,7 @@ export class UiIncentivesService {
   }
 
   async getUserReservesIncentivesData(user: string) {
-    const response = await readContract(wagmiConfig, {
+    const response = await readContract(wagmiConfigCore, {
       abi: uiIncentivesV3,
       address: this.market.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getUserReservesIncentivesData',
