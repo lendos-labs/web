@@ -16,10 +16,8 @@ export const ReservesProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     // void (async () => {
-    //   const incentives = new UiIncentivesService(currentMarketData);
-    //   const reservesIncentives = await incentives.getReservesIncentivesDataHumanized();
-    //   const userReserves = await incentives.getUserReservesIncentivesData(account as Address);
-    //   console.log({ reservesIncentives, userReserves });
+    //   const walletBalance = new WalletBalanceService(currentMarketData);
+    //   const a = await walletBalance.getPoolTokensBalances(account ?? '');
     // })();
   }, [currentMarketData, account]);
 
