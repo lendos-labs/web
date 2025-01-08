@@ -1,4 +1,5 @@
 import { readContract } from '@wagmi/core';
+import { Address } from 'viem';
 
 import { MarketDataType } from '@lendos/types/market';
 import {
@@ -23,14 +24,14 @@ export class UiIncentivesService {
   }
 
   async getReservesIncentivesDataHumanized() {
-    const response = await readContract(wagmiConfig, {
+    const response = (await readContract(wagmiConfig, {
       abi: uiIncentivesV3,
       address: this.market.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getReservesIncentivesData',
       args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER],
-    });
+    })) as unknown as ReservesIncentiveData[];
 
-    return (response as ReservesIncentiveData[]).map(r => ({
+    return response.map(r => ({
       id: `${this.market.chain.id}-${r.underlyingAsset}-${this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER}`.toLowerCase(),
       underlyingAsset: r.underlyingAsset.toLowerCase(),
       aIncentiveData: this._formatIncentiveData(r.aIncentiveData),
@@ -40,14 +41,14 @@ export class UiIncentivesService {
   }
 
   async getUserReservesIncentivesData(user: string) {
-    const response = await readContract(wagmiConfig, {
+    const response = (await readContract(wagmiConfig, {
       abi: uiIncentivesV3,
       address: this.market.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getUserReservesIncentivesData',
-      args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER, user],
-    });
+      args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER, user as Address],
+    })) as unknown as UserReservesIncentivesData[];
 
-    return (response as UserReservesIncentivesData[]).map(r => ({
+    return response.map(r => ({
       id: `${this.market.chain.id}-${user}-${r.underlyingAsset}-${this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER}`.toLowerCase(),
       underlyingAsset: r.underlyingAsset.toLowerCase(),
       aTokenIncentivesUserData: this._formatUserIncentiveData(r.aTokenIncentivesUserData),

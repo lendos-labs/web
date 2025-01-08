@@ -80,4 +80,4 @@ export const walletBalanceAbi = [
     stateMutability: 'payable',
     type: 'receive',
   },
-];
+] as const;

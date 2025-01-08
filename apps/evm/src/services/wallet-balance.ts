@@ -1,5 +1,5 @@
 import { readContract } from '@wagmi/core';
-import BigNumber from 'bignumber.js';
+import { Address } from 'viem';
 
 import { MarketDataType } from '@lendos/types/market';
 
@@ -23,14 +23,15 @@ export class WalletBalanceService {
       address: this.market.addresses.WALLET_BALANCE_PROVIDER,
       abi: walletBalanceAbi,
       functionName: 'getUserWalletBalances',
-      args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER, user],
+      args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER, user as Address],
+      chainId: this.market.chain.id,
     });
 
-    const { 0: tokenAddresses, 1: balances } = response as [string[], BigNumber[]];
+    const { 0: tokenAddresses, 1: balances } = response;
 
     return tokenAddresses.map((address, index) => ({
       address: address.toLowerCase(),
-      amount: BigNumber(balances[index] ?? 0).toString(),
+      amount: balances[index] ? balances[index].toString() : '0',
     }));
   }
 }

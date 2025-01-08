@@ -957,4 +957,4 @@ export const uiIncentivesV3 = [
     stateMutability: 'view',
     type: 'function',
   },
-];
+] as const;
