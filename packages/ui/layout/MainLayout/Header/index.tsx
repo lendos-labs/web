@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 import { ArrowsRightLeftIcon } from '@heroicons/react/16/solid';
 import { Badge, Box, Button, SvgIcon, styled, useMediaQuery, useTheme } from '@mui/material';
+import { getCookie, setCookie } from 'cookies-next';
 
 import { isFeatureEnabled } from '@lendos/constants/markets';
 import { Routes } from '@lendos/constants/routes';
@@ -31,7 +32,7 @@ export const Header = () => {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [visitedSwitch, setVisitedSwitch] = useState<boolean>(() => {
-    return Boolean(localStorage.getItem(SWITCH_VISITED_KEY));
+    return Boolean(getCookie(SWITCH_VISITED_KEY));
   });
 
   const { openSwitch } = useModalContext();
@@ -63,7 +64,7 @@ export const Header = () => {
   };
 
   const handleSwitchClick = () => {
-    localStorage.setItem(SWITCH_VISITED_KEY, 'true');
+    setCookie(SWITCH_VISITED_KEY, 'true');
     setVisitedSwitch(true);
     openSwitch();
   };

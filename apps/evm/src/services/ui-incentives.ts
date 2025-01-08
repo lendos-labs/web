@@ -25,7 +25,7 @@ export class UiIncentivesService {
   async getReservesIncentivesDataHumanized() {
     const response = await readContract(wagmiConfig, {
       abi: uiIncentivesV3,
-      address: this.market.addresses.UI_POOL_DATA_PROVIDER,
+      address: this.market.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getReservesIncentivesData',
       args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER],
     });
@@ -42,7 +42,7 @@ export class UiIncentivesService {
   async getUserReservesIncentivesData(user: string) {
     const response = await readContract(wagmiConfig, {
       abi: uiIncentivesV3,
-      address: this.market.addresses.UI_POOL_DATA_PROVIDER,
+      address: this.market.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getUserReservesIncentivesData',
       args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER, user],
     });

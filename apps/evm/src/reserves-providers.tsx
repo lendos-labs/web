@@ -1,7 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 
-import { Address } from 'viem';
-
 import { useAccountContext } from '@lendos/ui/providers/AccountProvider';
 import { ReservesContext } from '@lendos/ui/providers/ReservesProvider';
 import { useStateContext } from '@lendos/ui/providers/StateProvider';
@@ -11,20 +9,18 @@ import { ExtendedFormattedUser } from '@lendos/types/user';
 
 import { baseCurrency } from '@lendos/constants/reserves';
 
-import { UiPoolService } from './services/ui-pool';
-
 export const ReservesProvider = ({ children }: { children: ReactNode }) => {
   const { currentMarketData } = useStateContext();
   const { account } = useAccountContext();
   const [reserves, setReserves] = useState<FormattedReservesAndIncentives<ReserveToken>[]>([]);
 
   useEffect(() => {
-    void (async () => {
-      const uiPool = new UiPoolService(currentMarketData);
-      await uiPool.getReservesHumanized();
-      console.log(await uiPool.getReservesHumanized());
-      account && console.log(await uiPool.getUserReservesHumanized(account as Address));
-    })();
+    // void (async () => {
+    //   const incentives = new UiIncentivesService(currentMarketData);
+    //   const reservesIncentives = await incentives.getReservesIncentivesDataHumanized();
+    //   const userReserves = await incentives.getUserReservesIncentivesData(account as Address);
+    //   console.log({ reservesIncentives, userReserves });
+    // })();
   }, [currentMarketData, account]);
 
   return (
