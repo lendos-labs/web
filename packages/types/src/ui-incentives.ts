@@ -1,22 +1,22 @@
-import BigNumber from 'bignumber.js';
+import { Address } from 'viem';
 
 export interface RewardInfo {
   rewardTokenSymbol: string;
-  rewardTokenAddress: string;
-  rewardOracleAddress: string;
-  emissionPerSecond: BigNumber;
-  incentivesLastUpdateTimestamp: BigNumber;
-  tokenIncentivesIndex: BigNumber;
-  emissionEndTimestamp: BigNumber;
-  rewardPriceFeed: BigNumber;
+  rewardTokenAddress: Address;
+  rewardOracleAddress: Address;
+  emissionPerSecond: bigint;
+  incentivesLastUpdateTimestamp: bigint;
+  tokenIncentivesIndex: bigint;
+  emissionEndTimestamp: bigint;
+  rewardPriceFeed: bigint;
   rewardTokenDecimals: number;
   precision: number;
   priceFeedDecimals: number;
 }
 
 export interface IncentiveData {
-  tokenAddress: string;
-  incentiveControllerAddress: string;
+  tokenAddress: Address;
+  incentiveControllerAddress: Address;
   rewardsTokenInformation: RewardInfo[];
 }
 
@@ -43,11 +43,11 @@ export interface RewardInfoHumanized {
 
 export interface UserRewardInfo {
   rewardTokenSymbol: string;
-  rewardOracleAddress: string;
-  rewardTokenAddress: string;
-  userUnclaimedRewards: BigNumber;
-  tokenIncentivesUserIndex: BigNumber;
-  rewardPriceFeed: BigNumber;
+  rewardOracleAddress: Address;
+  rewardTokenAddress: Address;
+  userUnclaimedRewards: bigint;
+  tokenIncentivesUserIndex: bigint;
+  rewardPriceFeed: bigint;
   priceFeedDecimals: number;
   rewardTokenDecimals: number;
 }

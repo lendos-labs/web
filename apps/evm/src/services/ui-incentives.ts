@@ -5,11 +5,9 @@ import { MarketDataType } from '@lendos/types/market';
 import {
   IncentiveData,
   IncentiveDataHumanized,
-  ReservesIncentiveData,
   RewardInfo,
   UserIncentiveData,
   UserIncentiveDataHumanized,
-  UserReservesIncentivesData,
   UserRewardInfo,
 } from '@lendos/types/ui-incentives';
 
@@ -24,36 +22,42 @@ export class UiIncentivesService {
   }
 
   async getReservesIncentivesDataHumanized() {
-    const response = (await readContract(wagmiConfig, {
+    const response = await readContract(wagmiConfig, {
       abi: uiIncentivesV3,
       address: this.market.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getReservesIncentivesData',
       args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER],
-    })) as unknown as ReservesIncentiveData[];
+    });
 
     return response.map(r => ({
       id: `${this.market.chain.id}-${r.underlyingAsset}-${this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER}`.toLowerCase(),
       underlyingAsset: r.underlyingAsset.toLowerCase(),
-      aIncentiveData: this._formatIncentiveData(r.aIncentiveData),
-      vIncentiveData: this._formatIncentiveData(r.vIncentiveData),
-      sIncentiveData: this._formatIncentiveData(r.sIncentiveData),
+      aIncentiveData: this._formatIncentiveData(r.aIncentiveData as IncentiveData),
+      vIncentiveData: this._formatIncentiveData(r.vIncentiveData as IncentiveData),
+      sIncentiveData: this._formatIncentiveData(r.sIncentiveData as IncentiveData),
     }));
   }
 
   async getUserReservesIncentivesData(user: string) {
-    const response = (await readContract(wagmiConfig, {
+    const response = await readContract(wagmiConfig, {
       abi: uiIncentivesV3,
       address: this.market.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getUserReservesIncentivesData',
       args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER, user as Address],
-    })) as unknown as UserReservesIncentivesData[];
+    });
 
     return response.map(r => ({
       id: `${this.market.chain.id}-${user}-${r.underlyingAsset}-${this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER}`.toLowerCase(),
       underlyingAsset: r.underlyingAsset.toLowerCase(),
-      aTokenIncentivesUserData: this._formatUserIncentiveData(r.aTokenIncentivesUserData),
-      vTokenIncentivesUserData: this._formatUserIncentiveData(r.vTokenIncentivesUserData),
-      sTokenIncentivesUserData: this._formatUserIncentiveData(r.sTokenIncentivesUserData),
+      aTokenIncentivesUserData: this._formatUserIncentiveData(
+        r.aTokenIncentivesUserData as UserIncentiveData,
+      ),
+      vTokenIncentivesUserData: this._formatUserIncentiveData(
+        r.vTokenIncentivesUserData as UserIncentiveData,
+      ),
+      sTokenIncentivesUserData: this._formatUserIncentiveData(
+        r.sTokenIncentivesUserData as UserIncentiveData,
+      ),
     }));
   }
 
@@ -66,9 +70,11 @@ export class UiIncentivesService {
         rewardTokenAddress: rawRewardInfo.rewardTokenAddress,
         rewardTokenDecimals: rawRewardInfo.rewardTokenDecimals,
         emissionPerSecond: rawRewardInfo.emissionPerSecond.toString(),
-        incentivesLastUpdateTimestamp: rawRewardInfo.incentivesLastUpdateTimestamp.toNumber(),
+        incentivesLastUpdateTimestamp: Number(
+          rawRewardInfo.incentivesLastUpdateTimestamp.toString(),
+        ),
         tokenIncentivesIndex: rawRewardInfo.tokenIncentivesIndex.toString(),
-        emissionEndTimestamp: rawRewardInfo.emissionEndTimestamp.toNumber(),
+        emissionEndTimestamp: Number(rawRewardInfo.emissionEndTimestamp.toString()),
         rewardTokenSymbol: rawRewardInfo.rewardTokenSymbol,
         rewardOracleAddress: rawRewardInfo.rewardOracleAddress,
         rewardPriceFeed: rawRewardInfo.rewardPriceFeed.toString(),

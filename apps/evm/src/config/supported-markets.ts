@@ -16,7 +16,6 @@ export enum SupportedMarkets {
   hemi_testnet = 'hemi_testnet',
 }
 
- 
 const isTestnet = process.env['NEXT_PUBLIC_ENV'] === 'testnet';
 
 export const marketsData: Markets = isTestnet

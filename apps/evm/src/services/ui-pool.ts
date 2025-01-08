@@ -41,14 +41,15 @@ export class UiPoolService {
 
     const reservesData: ReserveDataHumanized[] = await Promise.all(
       data.reservesData.map(async i => {
-        if (lpTokens[i.name]) {
+        const dexLP = lpTokens[i.name];
+        if (dexLP) {
           const lpContract = {
             address: i.underlyingAsset as Address,
-            abi: lpTokens[i.name]?.abi ?? ([] as const),
+            abi: dexLP.abi,
             chainId: this.market.chain.id,
-          } as const;
+          };
 
-          const [token0, token1, totalSupply, reserves] = await readContracts(wagmiConfig, {
+          const lpTokensRes = await readContracts(wagmiConfig, {
             contracts: [
               { ...lpContract, functionName: 'token0' },
               { ...lpContract, functionName: 'token1' },
@@ -57,16 +58,21 @@ export class UiPoolService {
             ],
           });
 
-          const [symbol0, sumbol1] = await readContracts(wagmiConfig, {
+          const token0 = lpTokensRes[0].result ?? ('0x' as Address);
+          const token1 = lpTokensRes[1].result ?? ('0x' as Address);
+          const totalSupply = lpTokensRes[2].result ?? 0n;
+          const reserves = lpTokensRes[3].result ?? [0n, 0n, 0];
+
+          const symbols = await readContracts(wagmiConfig, {
             contracts: [
               {
-                address: token0.result as Address,
+                address: token0,
                 abi: erc20Abi,
                 functionName: 'symbol',
                 chainId: this.market.chain.id,
               },
               {
-                address: token1.result as Address,
+                address: token1,
                 abi: erc20Abi,
                 functionName: 'symbol',
                 chainId: this.market.chain.id,
@@ -74,23 +80,26 @@ export class UiPoolService {
             ],
           });
 
+          const symbol0 = symbols[0].result ?? '';
+          const symbol1 = symbols[1].result ?? '';
+
           return {
             ...i,
             type: Reserves.LP,
             token0: {
-              address: token0.result as Address,
-              symbol: symbol0.result ?? '',
+              address: token0,
+              symbol: symbol0,
             },
             token1: {
-              address: token1.result as Address,
-              symbol: sumbol1.result ?? '',
+              address: token1,
+              symbol: symbol1,
             },
             dex: {
-              name: lpTokens[i.name]?.name ?? '',
+              name: dexLP.name,
               APY: 0,
-              totalSupply: (totalSupply.result as bigint).toString(),
-              reserve0: (reserves.result as bigint[])[0]?.toString() ?? '',
-              reserve1: (reserves.result as bigint[])[1]?.toString() ?? '',
+              totalSupply: totalSupply.toString(),
+              reserve0: reserves[0].toString(),
+              reserve1: reserves[1].toString(),
             },
             exposure: EXPOSURE.SINGLE,
           };
