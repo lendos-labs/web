@@ -18,7 +18,8 @@
     "bignumber.js": "^9.1.2",
     "next": "^15.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tiny-invariant": "^1.3.3"
   },
   "devDependencies": {
     "@lendos/configs": "workspace:*",

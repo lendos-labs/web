@@ -37,7 +37,7 @@ export interface MarketDataType {
     WALLET_BALANCE_PROVIDER: Address;
 
     UI_POOL_DATA_PROVIDER: Address;
-    UI_INCENTIVE_DATA_PROVIDER?: Address;
+    UI_INCENTIVE_DATA_PROVIDER: Address;
     COLLECTOR?: string;
   };
   halIntegration?: {
