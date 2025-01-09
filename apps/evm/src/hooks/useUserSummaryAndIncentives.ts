@@ -1,4 +1,7 @@
+import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
+
 import { MarketDataType } from '@lendos/types/market';
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 import { UserSummaryAndIncentives } from '@lendos/types/user';
 
 import { formatUserSummaryAndIncentives } from '@lendos/constants/formatReserves';
@@ -27,6 +30,11 @@ export const useUserSummariesAndIncentives = (
       poolsReservesIncentivesQuery[index] ?? { data: null, error: null, isLoading: true },
       userPoolsReservesIncentiveQuery[index] ?? { data: null, error: null, isLoading: true },
     ];
-    return combineQueries([...queries] as const, formatUserSummaryAndIncentives);
+    return combineQueries(
+      [...queries] as const,
+      formatUserSummaryAndIncentives as (
+        ...data: unknown[]
+      ) => FormatUserSummaryAndIncentivesResponse<FormattedReservesAndIncentives>,
+    );
   });
 };

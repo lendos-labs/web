@@ -33,7 +33,12 @@ export const usePoolsFormattedReserves = (
 
     return poolReservesIncentivesQuery
       ? {
-          ...combineQueries([poolReservesQuery, poolReservesIncentivesQuery], selector),
+          ...combineQueries(
+            [poolReservesQuery, poolReservesIncentivesQuery],
+            selector as unknown as (
+              ...data: (ReservesDataHumanized | ReservesIncentiveDataHumanized[])[]
+            ) => FormattedReservesAndIncentives[],
+          ),
         }
       : {
           isLoading: poolReservesQuery.isLoading,

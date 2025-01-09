@@ -1,4 +1,3 @@
-import { UserReserveDataHumanized } from '@aave/contract-helpers';
 import { BigNumber } from 'bignumber.js';
 
 import {
@@ -59,6 +58,17 @@ export interface UserIncentiveData {
   rewardTokenDecimals: number;
   claimableRewards: BigNumber;
   assets: string[];
+}
+
+export interface UserReserveDataHumanized {
+  id: string;
+  underlyingAsset: string;
+  scaledATokenBalance: string;
+  usageAsCollateralEnabledOnUser: boolean;
+  stableBorrowRate: string;
+  scaledVariableDebt: string;
+  principalStableDebt: string;
+  stableBorrowLastUpdateTimestamp: number;
 }
 
 export interface UserReservesDataHumanized {
@@ -139,10 +149,59 @@ export interface UserYield {
   netAPY: number;
 }
 
+export interface CombinedReserveData<T extends FormatReserveUSDResponse = FormatReserveUSDResponse>
+  extends UserReserveData {
+  reserve: T;
+}
+
+export interface ComputedUserReserve<T extends FormatReserveUSDResponse = FormatReserveUSDResponse>
+  extends CombinedReserveData<T> {
+  underlyingBalance: string;
+  underlyingBalanceMarketReferenceCurrency: string;
+  underlyingBalanceUSD: string;
+  variableBorrows: string;
+  variableBorrowsMarketReferenceCurrency: string;
+  variableBorrowsUSD: string;
+  stableBorrows: string;
+  stableBorrowsMarketReferenceCurrency: string;
+  stableBorrowsUSD: string;
+  totalBorrows: string;
+  totalBorrowsMarketReferenceCurrency: string;
+  totalBorrowsUSD: string;
+  stableBorrowAPY: string;
+  stableBorrowAPR: string;
+}
+
+export interface FormatUserSummaryResponse<
+  T extends FormatReserveUSDResponse = FormatReserveUSDResponse,
+> {
+  userReservesData: ComputedUserReserve<T>[];
+  totalLiquidityMarketReferenceCurrency: string;
+  totalLiquidityUSD: string;
+  totalCollateralMarketReferenceCurrency: string;
+  totalCollateralUSD: string;
+  totalBorrowsMarketReferenceCurrency: string;
+  totalBorrowsUSD: string;
+  netWorthUSD: string;
+  availableBorrowsMarketReferenceCurrency: string;
+  availableBorrowsUSD: string;
+  currentLoanToValue: string;
+  currentLiquidationThreshold: string;
+  healthFactor: string;
+  isInIsolationMode: boolean;
+  isolatedReserve?: FormatReserveUSDResponse;
+}
+
 export interface UserReservesIncentivesDataHumanized {
   id: string;
   underlyingAsset: string;
   aTokenIncentivesUserData: UserIncentiveDataHumanized;
   vTokenIncentivesUserData: UserIncentiveDataHumanized;
   sTokenIncentivesUserData: UserIncentiveDataHumanized;
+}
+
+export interface FormatUserSummaryAndIncentivesResponse<
+  T extends FormatReserveUSDResponse = FormatReserveUSDResponse,
+> extends FormatUserSummaryResponse<T> {
+  calculatedUserIncentives: UserIncentiveDict;
 }
