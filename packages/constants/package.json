@@ -12,6 +12,8 @@
     "@lendos/types": "workspace:*",
     "@tanstack/react-query": "^5.62.8",
     "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
+    "micro-memoize": "^4.1.3",
     "object-hash": "^3.0.0",
     "react": "^19.0.0"
   },
