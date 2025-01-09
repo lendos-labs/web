@@ -7,6 +7,7 @@ import {
   ReserveLpToken,
   ReserveToken,
 } from './reserves';
+import { UserIncentiveDataHumanized } from './ui-incentives';
 
 export interface FormatReserveResponse extends ReserveData {
   formattedBaseLTVasCollateral: string;
@@ -131,3 +132,17 @@ export type UserReserveData = [
   }[],
   number,
 ];
+
+export interface UserYield {
+  earnedAPY: number;
+  debtAPY: number;
+  netAPY: number;
+}
+
+export interface UserReservesIncentivesDataHumanized {
+  id: string;
+  underlyingAsset: string;
+  aTokenIncentivesUserData: UserIncentiveDataHumanized;
+  vTokenIncentivesUserData: UserIncentiveDataHumanized;
+  sTokenIncentivesUserData: UserIncentiveDataHumanized;
+}

@@ -1,9 +1,31 @@
 import { ReserveDataHumanized, UserReserveDataHumanized } from '@aave/contract-helpers';
+import { formatReservesAndIncentives as _formatReservesAndIncentives } from '@aave/math-utils';
+import { formatUserSummaryAndIncentives as _formatUserSummaryAndIncentives } from '@aave/math-utils/dist/esm/formatters/user';
+import dayjs from 'dayjs';
+import memoize from 'micro-memoize';
 
-import { PoolBaseCurrencyHumanized, ReservesData } from '@lendos/types/reserves';
-import { UserReserveData } from '@lendos/types/user';
+import { NetworkConfig } from '@lendos/types/chain';
+import {
+  FormattedReservesAndIncentives,
+  PoolBaseCurrencyHumanized,
+  ReservesData,
+  ReservesDataHumanized,
+  ReservesIncentiveDataHumanized,
+} from '@lendos/types/reserves';
+import {
+  UserReserveData,
+  UserReservesDataHumanized,
+  UserReservesIncentivesDataHumanized,
+} from '@lendos/types/user';
 
 import { Address } from './common';
+import {
+  selectBaseCurrencyData,
+  selectReserves,
+  selectUserEModeCategory,
+  selectUserReservesData,
+} from './selectors';
+import { reserveSortFn } from './sort';
 
 export const formatUserReserves = (
   data: UserReserveData,
@@ -122,3 +144,52 @@ export const formatReserves = (
     baseCurrencyData,
   };
 };
+
+export const formatReservesAndIncentives = memoize(
+  (
+    reservesData: ReservesDataHumanized,
+    incentivesData: ReservesIncentiveDataHumanized[],
+    networkConfig: NetworkConfig,
+  ) => {
+    const reserves = selectReserves(reservesData);
+    const baseCurrencyData = selectBaseCurrencyData(reservesData);
+
+    return _formatReservesAndIncentives({
+      reserves: reserves,
+      currentTimestamp: dayjs().unix(),
+      marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
+      marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
+      reserveIncentives: incentivesData,
+    })
+      .map(r => ({
+        ...r,
+        isWrappedBaseAsset:
+          r.symbol.toLowerCase() === networkConfig.wrappedAsset.symbol.toLowerCase(),
+      }))
+      .sort(reserveSortFn);
+  },
+);
+
+export const formatUserSummaryAndIncentives = memoize(
+  (
+    poolReserves: ReservesDataHumanized,
+    userPoolReserves: UserReservesDataHumanized,
+    formattedPoolReserves: FormattedReservesAndIncentives[],
+    reserveIncentiveData: ReservesIncentiveDataHumanized[],
+    userIncentiveData: UserReservesIncentivesDataHumanized[],
+  ) => {
+    const baseCurrencyData = selectBaseCurrencyData(poolReserves);
+    const userReserves = selectUserReservesData(userPoolReserves);
+    const userEmodeCategoryId = selectUserEModeCategory(userPoolReserves);
+    return _formatUserSummaryAndIncentives({
+      currentTimestamp: dayjs().unix(),
+      marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
+      marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
+      userReserves,
+      formattedReserves: formattedPoolReserves,
+      userEmodeCategoryId: userEmodeCategoryId,
+      reserveIncentives: reserveIncentiveData,
+      userIncentives: userIncentiveData,
+    });
+  },
+);

@@ -18,25 +18,20 @@ import { wagmiConfigCore } from '../config/connectors';
 import { SupportedMarkets } from '../config/supported-markets';
 import { lpTokens } from '../constants/lp-tokens';
 
-export class UiPoolService {
-  public market: MarketDataType;
-  constructor(market: MarketDataType) {
-    this.market = market;
-  }
-
-  async getReservesHumanized(): Promise<ReservesDataHumanized> {
+class UiPoolService {
+  async getReservesHumanized(marketData: MarketDataType): Promise<ReservesDataHumanized> {
     const response = await readContract(wagmiConfigCore, {
-      abi: getUiPoolDataAbi(this.market.market as SupportedMarkets),
-      address: this.market.addresses.UI_POOL_DATA_PROVIDER,
+      abi: getUiPoolDataAbi(marketData.market as SupportedMarkets),
+      address: marketData.addresses.UI_POOL_DATA_PROVIDER,
       functionName: 'getReservesData',
-      args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER],
-      chainId: this.market.chain.id,
+      args: [marketData.addresses.LENDING_POOL_ADDRESS_PROVIDER],
+      chainId: marketData.chain.id,
     });
 
     const data = formatReserves(
       response as ReservesData,
-      this.market.chain.id,
-      this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+      marketData.chain.id,
+      marketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     );
 
     const reservesData: ReserveDataHumanized[] = await Promise.all(
@@ -46,7 +41,7 @@ export class UiPoolService {
           const lpContract = {
             address: i.underlyingAsset as Address,
             abi: dexLP.abi,
-            chainId: this.market.chain.id,
+            chainId: marketData.chain.id,
           };
 
           const lpTokensRes = await readContracts(wagmiConfigCore, {
@@ -69,13 +64,13 @@ export class UiPoolService {
                 address: token0,
                 abi: erc20Abi,
                 functionName: 'symbol',
-                chainId: this.market.chain.id,
+                chainId: marketData.chain.id,
               },
               {
                 address: token1,
                 abi: erc20Abi,
                 functionName: 'symbol',
-                chainId: this.market.chain.id,
+                chainId: marketData.chain.id,
               },
             ],
           });
@@ -114,20 +109,25 @@ export class UiPoolService {
     };
   }
 
-  async getUserReservesHumanized(user: Address): Promise<UserReservesDataHumanized> {
+  async getUserReservesHumanized(
+    marketData: MarketDataType,
+    user: Address,
+  ): Promise<UserReservesDataHumanized> {
     const response = await readContract(wagmiConfigCore, {
-      abi: getUiPoolDataAbi(this.market.market as SupportedMarkets),
-      address: this.market.addresses.UI_POOL_DATA_PROVIDER,
+      abi: getUiPoolDataAbi(marketData.market as SupportedMarkets),
+      address: marketData.addresses.UI_POOL_DATA_PROVIDER,
       functionName: 'getUserReservesData',
-      args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER, user],
-      chainId: this.market.chain.id,
+      args: [marketData.addresses.LENDING_POOL_ADDRESS_PROVIDER, user],
+      chainId: marketData.chain.id,
     });
 
     return formatUserReserves(
       response as UserReserveData,
-      this.market.chain.id,
+      marketData.chain.id,
       user,
-      this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER,
+      marketData.addresses.LENDING_POOL_ADDRESS_PROVIDER,
     );
   }
 }
+
+export const uiPoolService = new UiPoolService();
