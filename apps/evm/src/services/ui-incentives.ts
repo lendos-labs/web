@@ -14,23 +14,17 @@ import {
 import { uiIncentivesV3 } from '../abi/ui-incentives-v3.ts';
 import { wagmiConfigCore } from '../config/connectors.ts';
 
-export class UiIncentivesService {
-  private readonly market: MarketDataType;
-
-  constructor(market: MarketDataType) {
-    this.market = market;
-  }
-
-  async getReservesIncentivesDataHumanized() {
+class UiIncentivesService {
+  async getReservesIncentivesDataHumanized(marketData: MarketDataType) {
     const response = await readContract(wagmiConfigCore, {
       abi: uiIncentivesV3,
-      address: this.market.addresses.UI_INCENTIVE_DATA_PROVIDER,
+      address: marketData.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getReservesIncentivesData',
-      args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER],
+      args: [marketData.addresses.LENDING_POOL_ADDRESS_PROVIDER],
     });
 
     return response.map(r => ({
-      id: `${this.market.chain.id}-${r.underlyingAsset}-${this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER}`.toLowerCase(),
+      id: `${marketData.chain.id}-${r.underlyingAsset}-${marketData.addresses.LENDING_POOL_ADDRESS_PROVIDER}`.toLowerCase(),
       underlyingAsset: r.underlyingAsset.toLowerCase(),
       aIncentiveData: this._formatIncentiveData(r.aIncentiveData as IncentiveData),
       vIncentiveData: this._formatIncentiveData(r.vIncentiveData as IncentiveData),
@@ -38,16 +32,16 @@ export class UiIncentivesService {
     }));
   }
 
-  async getUserReservesIncentivesData(user: string) {
+  async getUserReservesIncentivesData(marketData: MarketDataType, user: string) {
     const response = await readContract(wagmiConfigCore, {
       abi: uiIncentivesV3,
-      address: this.market.addresses.UI_INCENTIVE_DATA_PROVIDER,
+      address: marketData.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getUserReservesIncentivesData',
-      args: [this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER, user as Address],
+      args: [marketData.addresses.LENDING_POOL_ADDRESS_PROVIDER, user as Address],
     });
 
     return response.map(r => ({
-      id: `${this.market.chain.id}-${user}-${r.underlyingAsset}-${this.market.addresses.LENDING_POOL_ADDRESS_PROVIDER}`.toLowerCase(),
+      id: `${marketData.chain.id}-${user}-${r.underlyingAsset}-${marketData.addresses.LENDING_POOL_ADDRESS_PROVIDER}`.toLowerCase(),
       underlyingAsset: r.underlyingAsset.toLowerCase(),
       aTokenIncentivesUserData: this._formatUserIncentiveData(
         r.aTokenIncentivesUserData as UserIncentiveData,
@@ -102,3 +96,5 @@ export class UiIncentivesService {
     };
   }
 }
+
+export const uiIncentivesService = new UiIncentivesService();

@@ -1,6 +1,7 @@
 import { ReserveDataHumanized as ReserveDataHumanizedType } from '@aave/contract-helpers';
 import { Address } from 'viem';
 
+import { IncentiveDataHumanized } from './ui-incentives';
 import { ExtendedFormattedUser, FormatReserveUSDResponse } from './user';
 
 export interface ReserveIncentiveResponse {
@@ -290,3 +291,11 @@ export type ReservesData = [
     networkBaseTokenPriceDecimals: number;
   },
 ];
+
+export interface ReservesIncentiveDataHumanized {
+  id: string;
+  underlyingAsset: string;
+  aIncentiveData: IncentiveDataHumanized;
+  vIncentiveData: IncentiveDataHumanized;
+  sIncentiveData: IncentiveDataHumanized;
+}
