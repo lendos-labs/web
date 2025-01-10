@@ -25,8 +25,6 @@ interface SuppliedPositionsListProps {
   type: Reserves;
 }
 
-const empty = true;
-
 export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
   const { currentMarketData } = useStateContext();
   const { accountSummary, reserves, lpReserves } = useReservesContext();
@@ -35,10 +33,6 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
 
   const data = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO delete later
-    if (empty) {
-      return [];
-    }
     return reserves.map(reserve => {
       const canBeEnabledAsCollateral = accountSummary
         ? reserve.reserveLiquidationThreshold !== '0' &&
@@ -58,10 +52,6 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
   }, [currentMarketData, openCollateralChange, openSupply, openWithdraw, accountSummary, reserves]);
 
   const dexLpData = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO delete later
-    if (empty) {
-      return [];
-    }
     return lpReserves.map(reserve =>
       getDexLpSuppliedPositionsCells(reserve, currentMarketData),
     ) as TableData[];

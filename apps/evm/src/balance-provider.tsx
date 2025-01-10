@@ -1,19 +1,20 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 
 import { BalanceContext } from '@lendos/ui/providers/BalanceProvider';
+import { useStateContext } from '@lendos/ui/providers/StateProvider';
+
+import { usePoolsWalletBalances } from './hooks/usePoolsWalletBalance';
 
 export const BalanceProvider = ({ children }: { children: ReactNode }) => {
-  const [walletBalances, setWalletBalances] = useState<
-    Record<string, { amount: string; amountUSD: string }>
-  >({});
-  const [loading, setLoading] = useState<boolean>(true);
+  const { currentMarketData } = useStateContext();
+  const { walletBalances, isLoading } = usePoolsWalletBalances([currentMarketData]);
 
   return (
     <BalanceContext.Provider
       value={{
-        loading,
-        hasEmptyWallet: false,
-        walletBalances,
+        loading: Boolean(isLoading),
+        hasEmptyWallet: Boolean(walletBalances[0]?.hasEmptyWallet),
+        walletBalances: walletBalances[0]?.walletBalances ?? {},
       }}
     >
       {children}

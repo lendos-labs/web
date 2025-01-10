@@ -207,3 +207,8 @@ export interface FormatUserSummaryAndIncentivesResponse<
 > extends FormatUserSummaryResponse<T> {
   calculatedUserIncentives: UserIncentiveDict;
 }
+
+export interface UserPoolTokensBalances {
+  address: Address;
+  amount: string;
+}

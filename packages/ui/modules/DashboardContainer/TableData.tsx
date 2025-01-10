@@ -424,7 +424,7 @@ export const getSupplyAssetsCells = (
       <ListButtonsColumn>
         <Button
           // TODO: need to find out what is disabled
-          disabled={true}
+          disabled={false}
           variant='contained'
           onClick={() => {
             openSupply(reserve.underlyingAsset);

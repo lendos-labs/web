@@ -38,6 +38,12 @@ export const queryKeysFactory = {
     token,
     'poolApprovedAmount',
   ],
+  poolTokens: (user: Address, marketData: MarketDataType) => [
+    ...queryKeysFactory.pool,
+    ...queryKeysFactory.user(user),
+    ...queryKeysFactory.market(marketData),
+    'poolTokens',
+  ],
 };
 
 export const POLLING_INTERVAL = 60000;

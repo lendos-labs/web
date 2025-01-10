@@ -38,7 +38,7 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
     [openSwitch, setAnchorEl],
   );
 
-  const d = (type === Reserves.ASSET ? reserves : lpReserves).map(reserve => {
+  const reserveWithBalance = (type === Reserves.ASSET ? reserves : lpReserves).map(reserve => {
     const walletBalance = walletBalances[reserve.underlyingAsset];
     return {
       ...reserve,
@@ -48,18 +48,20 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
   });
 
   const data = useMemo(() => {
-    return (d as FormattedReservesAndIncentives<DashboardReserve>[]).map(reserve => {
-      return getSupplyAssetsCells(
-        reserve,
-        currentMarketData,
-        openSupply,
-        handleSwitchClick,
-        () => setAnchorEl({}),
-        handleClick,
-        anchorEl[reserve.underlyingAsset] ?? null,
-      );
-    }) as TableData[];
-  }, [d, currentMarketData, openSupply, handleSwitchClick, anchorEl]);
+    return (reserveWithBalance as FormattedReservesAndIncentives<DashboardReserve>[]).map(
+      reserve => {
+        return getSupplyAssetsCells(
+          reserve,
+          currentMarketData,
+          openSupply,
+          handleSwitchClick,
+          () => setAnchorEl({}),
+          handleClick,
+          anchorEl[reserve.underlyingAsset] ?? null,
+        );
+      },
+    ) as TableData[];
+  }, [reserveWithBalance, currentMarketData, openSupply, handleSwitchClick, anchorEl]);
 
   return (
     <ListWrapper

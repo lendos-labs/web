@@ -29,7 +29,9 @@ export const useSupply = () => {
     isFetchedAfterMount,
   } = usePoolApprovedAmount(args.underlyingAsset as Address);
 
-  setLoadingTxns(fetchingApprovedAmount);
+  useEffect(() => {
+    setLoadingTxns(fetchingApprovedAmount);
+  }, [fetchingApprovedAmount, setLoadingTxns]);
 
   const { approval } = useApprovalTx({
     approvedAmount,
