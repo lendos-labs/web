@@ -1,5 +1,6 @@
 import { UserReserveDataHumanized } from '@aave/contract-helpers';
 import { BigNumber } from 'bignumber.js';
+import { Address as UserAddress } from 'viem';
 
 import {
   FormattedReservesAndIncentives,
@@ -80,7 +81,7 @@ export interface FormattedUserReserves<T = ReserveLpToken | ReserveToken> {
   totalBorrows: string;
   totalBorrowsMarketReferenceCurrency: string;
   totalBorrowsUSD: string;
-  underlyingAsset: string;
+  underlyingAsset: Address;
   underlyingBalance: string;
   underlyingBalanceMarketReferenceCurrency: string;
   underlyingBalanceUSD: string;
@@ -121,7 +122,7 @@ export type ExtendedFormattedUser<T = ReserveLpToken | ReserveToken> =
 
 export type UserReserveData = [
   {
-    underlyingAsset: string;
+    underlyingAsset: Address;
     scaledATokenBalance: bigint;
     usageAsCollateralEnabledOnUser: boolean;
     stableBorrowRate: bigint;
@@ -131,3 +132,5 @@ export type UserReserveData = [
   }[],
   number,
 ];
+
+export type Address = UserAddress;

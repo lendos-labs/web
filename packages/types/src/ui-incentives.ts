@@ -21,7 +21,7 @@ export interface IncentiveData {
 }
 
 export interface ReservesIncentiveData {
-  underlyingAsset: string;
+  underlyingAsset: Address;
   aIncentiveData: IncentiveData;
   vIncentiveData: IncentiveData;
   sIncentiveData: IncentiveData;
@@ -59,7 +59,7 @@ export interface UserIncentiveData {
 }
 
 export interface UserReservesIncentivesData {
-  underlyingAsset: string;
+  underlyingAsset: Address;
   aTokenIncentivesUserData: UserIncentiveData;
   vTokenIncentivesUserData: UserIncentiveData;
   sTokenIncentivesUserData: UserIncentiveData;

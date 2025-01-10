@@ -19,6 +19,7 @@ import { BalanceProvider } from './balance-provider';
 import { wagmiConfig } from './config/connectors';
 import { ReservesProvider } from './reserves-providers';
 import { StateProvider } from './state-provider';
+import { TransactionProvider } from './transaction-provider';
 import { ChildrenProps } from './types/common';
 
 export const Providers = ({
@@ -41,7 +42,9 @@ export const Providers = ({
                 <ReservesProvider>
                   <BalanceProvider>
                     <ModalContextProvider>
-                      <MainLayout>{children}</MainLayout>
+                      <TransactionProvider>
+                        <MainLayout>{children}</MainLayout>
+                      </TransactionProvider>
                     </ModalContextProvider>
                   </BalanceProvider>
                 </ReservesProvider>
