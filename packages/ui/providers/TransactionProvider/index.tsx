@@ -1,9 +1,14 @@
 import { createContext, useContext } from 'react';
 
+import { ApproveData } from '@lendos/types/erc20';
 import { Address } from '@lendos/types/user';
 
 export interface TransactionContextType {
-  supply: (reserve: Address, amount: string, decimals: number) => Promise<string>;
+  supply: {
+    action: (reserve: Address, amount: string, decimals: number) => Promise<string>;
+    approvedAmount: ApproveData | undefined;
+    approval: () => Promise<void>;
+  };
 }
 
 export const TransactionContext = createContext<TransactionContextType>(

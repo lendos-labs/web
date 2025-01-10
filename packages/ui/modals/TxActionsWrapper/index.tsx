@@ -3,7 +3,9 @@ import { ReactNode } from 'react';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import { Box, Button, CircularProgress, SvgIcon } from '@mui/material';
 
-import { TxAction, useModalContext } from '../../providers/ModalProvider';
+import { TxAction } from '@lendos/types/error';
+
+import { useModalContext } from '../../providers/ModalProvider';
 import { ApprovalTooltip } from './ApprovalTooltip';
 
 interface TxActionsWrapperProps {

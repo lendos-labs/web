@@ -31,7 +31,7 @@ export interface MarketDataType {
   addresses: {
     LENDING_POOL_ADDRESS_PROVIDER: Address;
     LENDING_POOL: Address;
-    WETH_GATEWAY?: Address;
+    WETH_GATEWAY: Address;
 
     FAUCET?: Address;
     WALLET_BALANCE_PROVIDER: Address;

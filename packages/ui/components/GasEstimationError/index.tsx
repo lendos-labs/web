@@ -1,6 +1,7 @@
 import { Button, Typography } from '@mui/material';
 
-import { TxErrorType } from '../../providers/ModalProvider';
+import { TxErrorType } from '@lendos/types/error';
+
 import { Warning } from '../Warning';
 
 export const GasEstimationError = ({ txError }: { txError: TxErrorType }) => {

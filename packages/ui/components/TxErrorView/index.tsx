@@ -2,7 +2,9 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { Box, Button, Link, SvgIcon, Typography } from '@mui/material';
 
-import { TxErrorType, useModalContext } from '../../providers/ModalProvider';
+import { TxErrorType } from '@lendos/types/error';
+
+import { useModalContext } from '../../providers/ModalProvider';
 
 export const TxErrorView = ({ txError }: { txError: TxErrorType }) => {
   const { close } = useModalContext();

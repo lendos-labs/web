@@ -1,5 +1,6 @@
-import { ReactElement, ReactNode, createContext, useContext, useMemo, useState } from 'react';
+import { ReactNode, createContext, useContext, useMemo, useState } from 'react';
 
+import { TxErrorType } from '@lendos/types/error';
 import { InterestRate } from '@lendos/types/reserves';
 
 export enum ModalType {
@@ -40,20 +41,6 @@ export interface TxStateType {
   success?: boolean;
 }
 
-export enum TxAction {
-  APPROVAL,
-  MAIN_ACTION,
-  GAS_ESTIMATION,
-}
-
-export interface TxErrorType {
-  blocking: boolean;
-  actionBlocked: boolean;
-  rawError: Error;
-  error: ReactElement | undefined;
-  txAction: TxAction;
-}
-
 export interface ModalContextType<T extends ModalArgsType> {
   openSwitch: (underlyingAsset?: string, chainId?: number) => void;
   openBorrow: (underlyingAsset: string) => void;
@@ -75,7 +62,7 @@ export interface ModalContextType<T extends ModalArgsType> {
   loadingTxns: boolean;
   setLoadingTxns: (loading: boolean) => void;
   txError: TxErrorType | undefined;
-  setTxError: (error: TxErrorType) => void;
+  setTxError: (error: TxErrorType | undefined) => void;
   openClaimRewards: () => void;
 }
 
@@ -91,7 +78,7 @@ export const ModalContextProvider = ({ children }: { children: ReactNode }) => {
   const [mainTxState, setMainTxState] = useState<TxStateType>({});
   const [gasLimit, setGasLimit] = useState<string>('');
   const [loadingTxns, setLoadingTxns] = useState(false);
-  const [txError, setTxError] = useState<TxErrorType>();
+  const [txError, setTxError] = useState<TxErrorType | undefined>();
 
   return (
     <ModalContext.Provider
