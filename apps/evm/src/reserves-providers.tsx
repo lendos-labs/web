@@ -1,58 +1,69 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode } from 'react';
 
 import { useAccountContext } from '@lendos/ui/providers/AccountProvider';
 import { ReservesContext } from '@lendos/ui/providers/ReservesProvider';
 import { useStateContext } from '@lendos/ui/providers/StateProvider';
 
-import { FormattedReservesAndIncentives, ReserveToken } from '@lendos/types/reserves';
-import { ExtendedFormattedUser } from '@lendos/types/user';
+import {
+  FormattedReservesAndIncentives,
+  ReserveLpToken,
+  ReserveToken,
+  Reserves,
+} from '@lendos/types/reserves';
+import { FormattedUserReserves } from '@lendos/types/user';
 
-import { baseCurrency } from '@lendos/constants/reserves';
+import { useExtendedUserSummaryAndIncentives } from './hooks/useExtendedUserSummaryAndIncentives';
+import { usePoolReservesHumanized } from './hooks/usePoolReserves';
+import { usePoolFormattedReserves } from './hooks/usePoolsFormattedReserves';
+import { useUserPoolReservesHumanized } from './hooks/useUserPoolReservesHumanized';
 
 export const ReservesProvider = ({ children }: { children: ReactNode }) => {
   const { currentMarketData } = useStateContext();
   const { account } = useAccountContext();
-  const [reserves, setReserves] = useState<FormattedReservesAndIncentives<ReserveToken>[]>([]);
 
-  useEffect(() => {
-    // void (async () => {
-    //   const walletBalance = new WalletBalanceService(currentMarketData);
-    //   const a = await walletBalance.getPoolTokensBalances(account ?? '');
-    // })();
-  }, [currentMarketData, account]);
+  const { data: reserves, isLoading: reservesDataLoading } =
+    usePoolReservesHumanized(currentMarketData);
+
+  const baseCurrencyData = reserves?.baseCurrencyData;
+
+  const { data: formattedPoolReserves, isLoading: formattedPoolReservesLoading } =
+    usePoolFormattedReserves(currentMarketData);
+
+  const { data: userReservesData, isLoading: userReservesDataLoading } =
+    useUserPoolReservesHumanized(currentMarketData);
+
+  const { data: accountSummary, isLoading: userSummaryLoading } =
+    useExtendedUserSummaryAndIncentives(currentMarketData);
+
+  const isReservesLoading = reservesDataLoading || formattedPoolReservesLoading;
+  const isUserDataLoading = userReservesDataLoading || userSummaryLoading;
 
   return (
     <ReservesContext.Provider
       value={{
-        loading: false,
-        reserves,
-        lpReserves: [],
-        accountLpReserves: [],
+        loading: isReservesLoading || (!!account && isUserDataLoading),
+        reserves: formattedPoolReserves
+          ? (formattedPoolReserves.filter(
+              p => p.type === Reserves.ASSET,
+            ) as FormattedReservesAndIncentives<ReserveToken>[])
+          : [],
+        lpReserves: formattedPoolReserves
+          ? (formattedPoolReserves.filter(
+              p => p.type === Reserves.LP,
+            ) as FormattedReservesAndIncentives<ReserveLpToken>[])
+          : [],
+        accountLpReserves: (accountSummary?.userReservesData ?? []).filter(
+          p => p.reserve.type === Reserves.LP,
+        ) as FormattedUserReserves<ReserveLpToken>[],
         eModes: {},
-        accountSummary: {
-          userReservesData: [],
-          totalLiquidityMarketReferenceCurrency: '0',
-          totalLiquidityUSD: '0',
-          totalCollateralMarketReferenceCurrency: '0',
-          totalCollateralUSD: '0',
-          totalBorrowsMarketReferenceCurrency: '0',
-          totalBorrowsUSD: '0',
-          netWorthUSD: '0',
-          availableBorrowsMarketReferenceCurrency: '0',
-          availableBorrowsUSD: '0',
-          currentLoanToValue: '0',
-          currentLiquidationThreshold: '0',
-          healthFactor: '-1',
-          isInIsolationMode: false,
-          calculatedUserIncentives: {},
-          userEmodeCategoryId: 0,
-          isInEmode: false,
-          earnedAPY: 0,
-          debtAPY: 0,
-          netAPY: 0,
-        } as ExtendedFormattedUser,
-        accountReserves: [],
-        baseCurrencyData: baseCurrency,
+        accountSummary,
+        accountReserves: userReservesData?.userReserves ?? [],
+        baseCurrencyData: baseCurrencyData ?? {
+          marketReferenceCurrencyDecimals: 0,
+          marketReferenceCurrencyPriceInUsd: '0',
+          networkBaseTokenPriceInUsd: '0',
+          networkBaseTokenPriceDecimals: 0,
+        },
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import { UseQueryOptions, useQueries } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 
 import { MarketDataType } from '@lendos/types/market';
 import { ReservesDataHumanized } from '@lendos/types/reserves';
@@ -13,15 +13,19 @@ export const usePoolsReservesHumanized = <T = ReservesDataHumanized>(
   opts?: HookOpts<ReservesDataHumanized, T>,
 ) => {
   return useQueries({
-    queries: marketsData.map(
-      marketData =>
-        ({
-          queryKey: queryKeysFactory.poolReservesDataHumanized(marketData),
-          queryFn: () => uiPoolService.getReservesHumanized(marketData),
-          refetchInterval: POLLING_INTERVAL,
-          meta: {},
-          ...opts,
-        }) as UseQueryOptions<ReservesDataHumanized, Error, T>,
-    ),
+    queries: marketsData.map(marketData => ({
+      queryKey: queryKeysFactory.poolReservesDataHumanized(marketData),
+      queryFn: () => uiPoolService.getReservesHumanized(marketData),
+      refetchInterval: POLLING_INTERVAL,
+      meta: {},
+      ...opts,
+    })),
   });
+};
+
+export const usePoolReservesHumanized = (marketData: MarketDataType) => {
+  return usePoolsReservesHumanized([marketData])[0] as {
+    data: ReservesDataHumanized | undefined;
+    isLoading: boolean;
+  };
 };

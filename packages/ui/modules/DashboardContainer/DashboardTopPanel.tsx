@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-import { UserIncentiveData, normalize, valueToBigNumber } from '@aave/math-utils';
+import { normalize, valueToBigNumber } from '@aave/math-utils';
 import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
+import BigNumber from 'bignumber.js';
 
 import { FormattedNumber } from '../../components/FormattedNumber';
 import { HealthFactorNumber } from '../../components/HealthFactorNumber';
@@ -32,12 +33,13 @@ const DashboardTopPanel = () => {
         assets: string[];
       }>(
         (acc, rewardTokenAddress) => {
-          const incentive = accountSummary.calculatedUserIncentives[
-            rewardTokenAddress
-          ] as UserIncentiveData;
+          const incentive = accountSummary.calculatedUserIncentives[rewardTokenAddress];
+          if (!incentive) {
+            return { claimableRewardsUsd: 0, assets: [] };
+          }
 
           const rewardBalance = normalize(
-            incentive.claimableRewards,
+            BigNumber(incentive.claimableRewards.toString()),
             incentive.rewardTokenDecimals,
           );
 

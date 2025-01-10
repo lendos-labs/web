@@ -49,9 +49,9 @@ export interface FormatReserveUSDResponse extends FormatReserveResponse {
   priceInUSD: string;
 }
 
-export declare type UserIncentiveDict = Record<string, UserIncentiveData>;
+export declare type UserIncentiveDict = Record<string, UserIncentive>;
 
-export interface UserIncentiveData {
+export interface UserIncentive {
   incentiveControllerAddress: string;
   rewardTokenSymbol: string;
   rewardPriceFeed: string;

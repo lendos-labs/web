@@ -165,6 +165,7 @@ export const formatReservesAndIncentives = memoize(
         ...r,
         isWrappedBaseAsset:
           r.symbol.toLowerCase() === networkConfig.wrappedAsset.symbol.toLowerCase(),
+        iconSymbol: r.symbol,
       }))
       .sort(reserveSortFn);
   },

@@ -26,3 +26,10 @@ export const useUserPoolsReservesHumanized = <T = UserReservesDataHumanized>(
     })),
   });
 };
+
+export const useUserPoolReservesHumanized = (marketData: MarketDataType) => {
+  return useUserPoolsReservesHumanized([marketData])[0] as {
+    data: UserReservesDataHumanized | undefined;
+    isLoading: boolean;
+  };
+};

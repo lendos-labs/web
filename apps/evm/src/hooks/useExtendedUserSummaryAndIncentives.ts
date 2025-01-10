@@ -54,3 +54,10 @@ export const useExtendedUserSummariesAndIncentives = (
         };
   });
 };
+
+export const useExtendedUserSummaryAndIncentives = (marketData: MarketDataType) => {
+  return useExtendedUserSummariesAndIncentives([marketData])[0] as {
+    data: ExtendedFormattedUser | undefined;
+    isLoading: boolean;
+  };
+};

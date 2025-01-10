@@ -47,3 +47,10 @@ export const usePoolsFormattedReserves = (
         };
   });
 };
+
+export const usePoolFormattedReserves = (marketData: MarketDataType) => {
+  return usePoolsFormattedReserves([marketData])[0] as {
+    data: FormattedReservesAndIncentives[] | undefined;
+    isLoading: boolean;
+  };
+};
