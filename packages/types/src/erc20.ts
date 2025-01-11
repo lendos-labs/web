@@ -1,6 +1,6 @@
-export interface ApproveData {
+export interface ApproveData<T = string> {
   amount: number;
-  spender: string;
-  user: string;
-  token: string;
+  spender: T;
+  user: T;
+  token: T;
 }

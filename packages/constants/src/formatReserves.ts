@@ -170,26 +170,24 @@ export const formatReservesAndIncentives = memoize(
   },
 );
 
-export const formatUserSummaryAndIncentives = memoize(
-  (
-    poolReserves: ReservesDataHumanized,
-    userPoolReserves: UserReservesDataHumanized,
-    formattedPoolReserves: FormattedReservesAndIncentives[],
-    reserveIncentiveData: ReservesIncentiveDataHumanized[],
-    userIncentiveData: UserReservesIncentivesDataHumanized[],
-  ) => {
-    const baseCurrencyData = selectBaseCurrencyData(poolReserves);
-    const userReserves = selectUserReservesData(userPoolReserves);
-    const userEmodeCategoryId = selectUserEModeCategory(userPoolReserves);
-    return _formatUserSummaryAndIncentives({
-      currentTimestamp: dayjs().unix(),
-      marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
-      marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
-      userReserves,
-      formattedReserves: formattedPoolReserves,
-      userEmodeCategoryId: userEmodeCategoryId,
-      reserveIncentives: reserveIncentiveData,
-      userIncentives: userIncentiveData,
-    });
-  },
-);
+export const formatUserSummaryAndIncentives = (
+  poolReserves: ReservesDataHumanized,
+  userPoolReserves: UserReservesDataHumanized,
+  formattedPoolReserves: FormattedReservesAndIncentives[],
+  reserveIncentiveData: ReservesIncentiveDataHumanized[],
+  userIncentiveData: UserReservesIncentivesDataHumanized[],
+) => {
+  const baseCurrencyData = selectBaseCurrencyData(poolReserves);
+  const userReserves = selectUserReservesData(userPoolReserves);
+  const userEmodeCategoryId = selectUserEModeCategory(userPoolReserves);
+  return _formatUserSummaryAndIncentives({
+    currentTimestamp: dayjs().unix(),
+    marketReferencePriceInUsd: baseCurrencyData.marketReferenceCurrencyPriceInUsd,
+    marketReferenceCurrencyDecimals: baseCurrencyData.marketReferenceCurrencyDecimals,
+    userReserves,
+    formattedReserves: formattedPoolReserves,
+    userEmodeCategoryId: userEmodeCategoryId,
+    reserveIncentives: reserveIncentiveData,
+    userIncentives: userIncentiveData,
+  });
+};

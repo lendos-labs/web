@@ -1,17 +1,18 @@
 import { useQueries } from '@tanstack/react-query';
+import { Address } from 'viem';
 
 import { useAccountContext } from '@lendos/ui/providers/AccountProvider';
 
-import { MarketDataType } from '@lendos/types/market';
 import { UserReservesDataHumanized } from '@lendos/types/user';
 
 import { POLLING_INTERVAL, queryKeysFactory } from '@lendos/constants/queries';
 
 import { uiPoolService } from '../services/ui-pool.ts';
+import { EvmMarketDataType } from '../types/common.ts';
 import { HookOpts } from './types';
 
 export const useUserPoolsReservesHumanized = <T = UserReservesDataHumanized>(
-  marketsData: MarketDataType[],
+  marketsData: EvmMarketDataType[],
   opts?: HookOpts<UserReservesDataHumanized, T>,
 ) => {
   const { account } = useAccountContext();
@@ -19,7 +20,7 @@ export const useUserPoolsReservesHumanized = <T = UserReservesDataHumanized>(
   return useQueries({
     queries: marketsData.map(marketData => ({
       queryKey: queryKeysFactory.userPoolReservesDataHumanized(account ?? '', marketData),
-      queryFn: async () => uiPoolService.getUserReservesHumanized(marketData, account ?? '0x'),
+      queryFn: async () => uiPoolService.getUserReservesHumanized(marketData, account as Address),
       enabled: !!account,
       refetchInterval: POLLING_INTERVAL,
       ...opts,
@@ -27,7 +28,7 @@ export const useUserPoolsReservesHumanized = <T = UserReservesDataHumanized>(
   });
 };
 
-export const useUserPoolReservesHumanized = (marketData: MarketDataType) => {
+export const useUserPoolReservesHumanized = (marketData: EvmMarketDataType) => {
   return useUserPoolsReservesHumanized([marketData])[0] as {
     data: UserReservesDataHumanized | undefined;
     isLoading: boolean;

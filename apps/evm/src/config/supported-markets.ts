@@ -1,3 +1,4 @@
+import { Address } from 'viem';
 import { neonDevnet, neonMainnet, sepolia } from 'viem/chains';
 
 import { CustomPoints } from '@lendos/types/chain';
@@ -18,7 +19,7 @@ export enum SupportedMarkets {
 
 const isTestnet = process.env['NEXT_PUBLIC_ENV'] === 'testnet';
 
-export const marketsData: Markets = isTestnet
+export const marketsData: Markets<Address> = isTestnet
   ? {
       [SupportedMarkets.neon_devnet]: {
         marketTitle: 'Neon Devnet',

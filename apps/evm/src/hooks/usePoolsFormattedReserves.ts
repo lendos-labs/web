@@ -1,5 +1,4 @@
 import { NetworkConfig } from '@lendos/types/chain';
-import { MarketDataType } from '@lendos/types/market';
 import {
   FormattedReservesAndIncentives,
   ReservesDataHumanized,
@@ -8,12 +7,13 @@ import {
 
 import { formatReservesAndIncentives } from '@lendos/constants/formatReserves';
 
+import { EvmMarketDataType } from '../types/common.ts';
 import { usePoolsReservesHumanized } from './usePoolReserves.ts';
 import { usePoolsReservesIncentivesHumanized } from './usePoolsReservesIncentivesHumanized.ts';
 import { SimplifiedUseQueryResult, combineQueries } from './utils.ts';
 
 export const usePoolsFormattedReserves = (
-  marketsData: MarketDataType[],
+  marketsData: EvmMarketDataType[],
 ): SimplifiedUseQueryResult<FormattedReservesAndIncentives[]>[] => {
   const poolsReservesQueries = usePoolsReservesHumanized(marketsData);
   const poolsReservesIncentivesQueries = usePoolsReservesIncentivesHumanized(marketsData);
@@ -48,7 +48,7 @@ export const usePoolsFormattedReserves = (
   });
 };
 
-export const usePoolFormattedReserves = (marketData: MarketDataType) => {
+export const usePoolFormattedReserves = (marketData: EvmMarketDataType) => {
   return usePoolsFormattedReserves([marketData])[0] as {
     data: FormattedReservesAndIncentives[] | undefined;
     isLoading: boolean;

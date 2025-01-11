@@ -1,15 +1,15 @@
 import { useQueries } from '@tanstack/react-query';
 
-import { MarketDataType } from '@lendos/types/market';
 import { ReservesDataHumanized } from '@lendos/types/reserves';
 
 import { POLLING_INTERVAL, queryKeysFactory } from '@lendos/constants/queries';
 
 import { uiPoolService } from '../services/ui-pool.ts';
+import { EvmMarketDataType } from '../types/common.ts';
 import { HookOpts } from './types.ts';
 
 export const usePoolsReservesHumanized = <T = ReservesDataHumanized>(
-  marketsData: MarketDataType[],
+  marketsData: EvmMarketDataType[],
   opts?: HookOpts<ReservesDataHumanized, T>,
 ) => {
   return useQueries({
@@ -23,7 +23,7 @@ export const usePoolsReservesHumanized = <T = ReservesDataHumanized>(
   });
 };
 
-export const usePoolReservesHumanized = (marketData: MarketDataType) => {
+export const usePoolReservesHumanized = (marketData: EvmMarketDataType) => {
   return usePoolsReservesHumanized([marketData])[0] as {
     data: ReservesDataHumanized | undefined;
     isLoading: boolean;

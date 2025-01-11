@@ -5,13 +5,11 @@ import { useAccount } from 'wagmi';
 
 import { useStateContext } from '@lendos/ui/providers/StateProvider';
 
-import { ApproveData } from '@lendos/types/erc20';
-import { MarketDataType } from '@lendos/types/market';
-
 import { API_ETH_MOCK_ADDRESS, MAX_UINT_AMOUNT } from '@lendos/constants/addresses';
 import { queryKeysFactory } from '@lendos/constants/queries';
 
 import { wagmiConfigCore } from '../config/connectors';
+import { EvmApproveData, EvmMarketDataType } from '../types/common';
 
 const getAllowanceAmount = async (token: Address, user: Address, spender: Address) => {
   if (token.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
@@ -45,14 +43,14 @@ const getAllowanceAmount = async (token: Address, user: Address, spender: Addres
 const getAllowance = async (
   token: Address,
   user: Address,
-  market: MarketDataType,
-): Promise<ApproveData> => {
+  market: EvmMarketDataType,
+): Promise<EvmApproveData> => {
   const spender =
     token.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()
       ? market.addresses.WETH_GATEWAY
       : market.addresses.LENDING_POOL;
 
-  const amount = await getAllowanceAmount(token, user, spender as Address);
+  const amount = await getAllowanceAmount(token, user, spender);
 
   return { amount, spender, user, token };
 };
@@ -62,7 +60,7 @@ export const usePoolApprovedAmount = (token: Address) => {
   const { address } = useAccount();
   return useQuery({
     queryFn: () => {
-      return getAllowance(token, address ?? '0x', currentMarketData);
+      return getAllowance(token, address ?? '0x', currentMarketData as EvmMarketDataType);
     },
     queryKey: queryKeysFactory.poolApprovedAmount(address ?? '0x', token, currentMarketData),
     enabled: Boolean(address),

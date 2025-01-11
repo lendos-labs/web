@@ -6,11 +6,10 @@ import { setCookie } from 'cookies-next/client';
 
 import { StateContext } from '@lendos/ui/providers/StateProvider';
 
-import { MarketDataType } from '@lendos/types/market';
-
 import { CookieKey } from '@lendos/constants/cookie';
 
 import { marketsData } from './config/supported-markets';
+import { EvmMarketDataType } from './types/common';
 
 export const StateProvider = ({
   children,
@@ -23,8 +22,8 @@ export const StateProvider = ({
   const pathname = usePathname();
   const availableMarkets = marketsData;
 
-  const [currentMarketData, setMarket] = useState<MarketDataType>(
-    marketsData[selectedMarket] ?? ({} as MarketDataType),
+  const [currentMarketData, setMarket] = useState<EvmMarketDataType>(
+    marketsData[selectedMarket] ?? ({} as EvmMarketDataType),
   );
 
   const setCurrentMarket = (market: string) => {

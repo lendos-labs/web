@@ -16,9 +16,11 @@ import { useExtendedUserSummaryAndIncentives } from './hooks/useExtendedUserSumm
 import { usePoolReservesHumanized } from './hooks/usePoolReserves';
 import { usePoolFormattedReserves } from './hooks/usePoolsFormattedReserves';
 import { useUserPoolReservesHumanized } from './hooks/useUserPoolReservesHumanized';
+import { EvmMarketDataType } from './types/common';
 
 export const ReservesProvider = ({ children }: { children: ReactNode }) => {
-  const { currentMarketData } = useStateContext();
+  const state = useStateContext();
+  const currentMarketData = state.currentMarketData as EvmMarketDataType;
   const { account } = useAccountContext();
 
   const { data: reserves, isLoading: reservesDataLoading } =

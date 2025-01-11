@@ -1,8 +1,8 @@
 import { CustomPoints, NetworkConfig } from './chain';
 
-export type Markets = Record<string, MarketDataType>;
+export type Markets<T = string> = Record<string, MarketDataType<T>>;
 
-export interface MarketDataType {
+export interface MarketDataType<T = string> {
   marketTitle: string;
   market: string;
   // the network the market operates on
@@ -27,12 +27,12 @@ export interface MarketDataType {
   ratesHistoryApiUrl?: string;
   subgraphUrl?: string;
   addresses: {
-    LENDING_POOL_ADDRESS_PROVIDER: string;
-    LENDING_POOL: string;
-    WETH_GATEWAY: string;
-    FAUCET?: string;
-    WALLET_BALANCE_PROVIDER: string;
-    UI_POOL_DATA_PROVIDER: string;
-    UI_INCENTIVE_DATA_PROVIDER: string;
+    LENDING_POOL_ADDRESS_PROVIDER: T;
+    LENDING_POOL: T;
+    WETH_GATEWAY: T;
+    FAUCET?: T;
+    WALLET_BALANCE_PROVIDER: T;
+    UI_POOL_DATA_PROVIDER: T;
+    UI_INCENTIVE_DATA_PROVIDER: T;
   };
 }

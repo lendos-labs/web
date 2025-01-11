@@ -2,10 +2,10 @@ import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 import { BigNumber } from 'bignumber.js';
 import memoize from 'micro-memoize';
 
-import { MarketDataType } from '@lendos/types/market';
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 import { UserYield } from '@lendos/types/user';
 
+import { EvmMarketDataType } from '../types/common';
 import { usePoolsFormattedReserves } from './usePoolsFormattedReserves';
 import { useUserSummariesAndIncentives } from './useUserSummaryAndIncentives';
 import { SimplifiedUseQueryResult, combineQueries } from './utils';
@@ -75,7 +75,7 @@ const formatUserYield = memoize(
 );
 
 export const useUserYields = (
-  marketsData: MarketDataType[],
+  marketsData: EvmMarketDataType[],
 ): SimplifiedUseQueryResult<UserYield>[] => {
   const poolsFormattedReservesQuery = usePoolsFormattedReserves(marketsData);
 

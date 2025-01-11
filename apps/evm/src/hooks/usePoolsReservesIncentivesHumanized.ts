@@ -1,15 +1,15 @@
 import { UseQueryOptions, useQueries } from '@tanstack/react-query';
 
-import { MarketDataType } from '@lendos/types/market';
 import { ReservesIncentiveDataHumanized } from '@lendos/types/reserves';
 
 import { POLLING_INTERVAL, queryKeysFactory } from '@lendos/constants/queries';
 
 import { uiIncentivesService } from '../services/ui-incentives';
+import { EvmMarketDataType } from '../types/common';
 import { HookOpts } from './types';
 
 export const usePoolsReservesIncentivesHumanized = <T = ReservesIncentiveDataHumanized[]>(
-  marketsData: MarketDataType[],
+  marketsData: EvmMarketDataType[],
   opts?: HookOpts<ReservesIncentiveDataHumanized[], T>,
 ) =>
   useQueries({

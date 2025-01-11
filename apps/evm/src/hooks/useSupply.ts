@@ -10,6 +10,7 @@ import { useStateContext } from '@lendos/ui/providers/StateProvider';
 import { queryKeysFactory } from '@lendos/constants/queries';
 
 import { TransactionBuilder } from '../services/transaction-builder';
+import { EvmMarketDataType } from '../types/common';
 import { useApprovalTx } from './useApprovalTx';
 import { usePoolApprovedAmount } from './usePoolApprovedAmount';
 
@@ -20,7 +21,7 @@ export const useSupply = () => {
   const { currentMarketData } = useStateContext();
   const { sendTransactionAsync } = useSendTransaction();
 
-  const txBuilder = new TransactionBuilder(currentMarketData);
+  const txBuilder = new TransactionBuilder(currentMarketData as EvmMarketDataType);
 
   const {
     data: approvedAmount,

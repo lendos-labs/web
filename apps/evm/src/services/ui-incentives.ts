@@ -1,7 +1,6 @@
 import { readContract } from '@wagmi/core';
 import { Address } from 'viem';
 
-import { MarketDataType } from '@lendos/types/market';
 import {
   IncentiveData,
   IncentiveDataHumanized,
@@ -13,9 +12,10 @@ import {
 
 import { uiIncentivesV3 } from '../abi/ui-incentives-v3.ts';
 import { wagmiConfigCore } from '../config/connectors.ts';
+import { EvmMarketDataType } from '../types/common.ts';
 
 class UiIncentivesService {
-  async getReservesIncentivesDataHumanized(marketData: MarketDataType) {
+  async getReservesIncentivesDataHumanized(marketData: EvmMarketDataType) {
     const response = await readContract(wagmiConfigCore, {
       abi: uiIncentivesV3,
       address: marketData.addresses.UI_INCENTIVE_DATA_PROVIDER,
@@ -32,7 +32,7 @@ class UiIncentivesService {
     }));
   }
 
-  async getUserReservesIncentivesData(marketData: MarketDataType, user: string) {
+  async getUserReservesIncentivesData(marketData: EvmMarketDataType, user: string) {
     const response = await readContract(wagmiConfigCore, {
       abi: uiIncentivesV3,
       address: marketData.addresses.UI_INCENTIVE_DATA_PROVIDER,

@@ -1,16 +1,16 @@
 import { useQueries } from '@tanstack/react-query';
 import { useAccount } from 'wagmi';
 
-import { MarketDataType } from '@lendos/types/market';
 import { UserPoolTokensBalances } from '@lendos/types/user';
 
 import { POLLING_INTERVAL, queryKeysFactory } from '@lendos/constants/queries';
 
 import { walletBalanceService } from '../services/wallet-balance';
+import { EvmMarketDataType } from '../types/common';
 import { HookOpts } from './types';
 
 export const usePoolsTokensBalance = <T = UserPoolTokensBalances[]>(
-  marketsData: MarketDataType[],
+  marketsData: EvmMarketDataType[],
   opts?: HookOpts<UserPoolTokensBalances[], T>,
 ) => {
   const { address } = useAccount();

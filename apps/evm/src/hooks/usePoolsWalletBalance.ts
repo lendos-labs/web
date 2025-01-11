@@ -1,19 +1,19 @@
 import { USD_DECIMALS, nativeToUSD, normalize } from '@aave/math-utils';
 import BigNumber from 'bignumber.js';
 
-import { MarketDataType } from '@lendos/types/market';
 import { ReservesDataHumanized } from '@lendos/types/reserves';
 import { UserPoolTokensBalances } from '@lendos/types/user';
 
 import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
 
+import { EvmMarketDataType } from '../types/common';
 import { usePoolsReservesHumanized } from './usePoolReserves';
 import { usePoolsTokensBalance } from './usePoolsTokensBalance';
 
 interface FormatAggregatedBalanceParams {
   reservesHumanized?: ReservesDataHumanized;
   balances?: UserPoolTokensBalances[];
-  marketData: MarketDataType;
+  marketData: EvmMarketDataType;
 }
 
 const formatAggregatedBalance = ({
@@ -71,7 +71,7 @@ const formatAggregatedBalance = ({
   };
 };
 
-export const usePoolsWalletBalances = (marketData: MarketDataType[]) => {
+export const usePoolsWalletBalances = (marketData: EvmMarketDataType[]) => {
   const tokensBalanceQueries = usePoolsTokensBalance(marketData);
 
   const poolsBalancesQueries = usePoolsReservesHumanized(marketData);
@@ -84,7 +84,7 @@ export const usePoolsWalletBalances = (marketData: MarketDataType[]) => {
     formatAggregatedBalance({
       reservesHumanized: query.data,
       balances: tokensBalanceQueries[index]?.data,
-      marketData: marketData[index] as unknown as MarketDataType,
+      marketData: marketData[index] as unknown as EvmMarketDataType,
     }),
   );
   return {

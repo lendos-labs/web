@@ -1,11 +1,10 @@
 import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 
-import { MarketDataType } from '@lendos/types/market';
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
-import { UserSummaryAndIncentives } from '@lendos/types/user';
 
 import { formatUserSummaryAndIncentives } from '@lendos/constants/formatReserves';
 
+import { EvmMarketDataType } from '../types/common';
 import { usePoolsReservesHumanized } from './usePoolReserves';
 import { usePoolsFormattedReserves } from './usePoolsFormattedReserves';
 import { usePoolsReservesIncentivesHumanized } from './usePoolsReservesIncentivesHumanized';
@@ -14,8 +13,10 @@ import { useUserPoolsReservesIncentivesHumanized } from './useUserPoolReservesIn
 import { SimplifiedUseQueryResult, combineQueries } from './utils';
 
 export const useUserSummariesAndIncentives = (
-  marketsData: MarketDataType[],
-): SimplifiedUseQueryResult<UserSummaryAndIncentives>[] => {
+  marketsData: EvmMarketDataType[],
+): SimplifiedUseQueryResult<
+  FormatUserSummaryAndIncentivesResponse<FormattedReservesAndIncentives>
+>[] => {
   const poolsReservesQuery = usePoolsReservesHumanized(marketsData);
   const userPoolsReservesQuery = useUserPoolsReservesHumanized(marketsData);
   const formattedReserves = usePoolsFormattedReserves(marketsData);
@@ -23,18 +24,27 @@ export const useUserSummariesAndIncentives = (
   const userPoolsReservesIncentiveQuery = useUserPoolsReservesIncentivesHumanized(marketsData);
 
   return poolsReservesQuery.map((elem, index) => {
-    const queries: SimplifiedUseQueryResult[] = [
-      elem,
-      userPoolsReservesQuery[index] ?? { data: null, error: null, isLoading: true },
-      formattedReserves[index] ?? { data: null, error: null, isLoading: true },
-      poolsReservesIncentivesQuery[index] ?? { data: null, error: null, isLoading: true },
-      userPoolsReservesIncentiveQuery[index] ?? { data: null, error: null, isLoading: true },
-    ];
+    if (
+      !userPoolsReservesQuery[index] ||
+      !formattedReserves[index] ||
+      !poolsReservesIncentivesQuery[index] ||
+      !userPoolsReservesIncentiveQuery[index]
+    ) {
+      return {
+        data: [] as unknown as FormatUserSummaryAndIncentivesResponse<FormattedReservesAndIncentives>,
+        isLoading: false,
+        error: undefined,
+      };
+    }
     return combineQueries(
-      [...queries] as const,
-      formatUserSummaryAndIncentives as (
-        ...data: unknown[]
-      ) => FormatUserSummaryAndIncentivesResponse<FormattedReservesAndIncentives>,
+      [
+        elem,
+        userPoolsReservesQuery[index],
+        formattedReserves[index],
+        poolsReservesIncentivesQuery[index],
+        userPoolsReservesIncentiveQuery[index],
+      ] as const,
+      formatUserSummaryAndIncentives,
     );
   });
 };

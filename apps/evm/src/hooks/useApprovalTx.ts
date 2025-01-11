@@ -3,24 +3,24 @@ import { useSendTransaction } from 'wagmi';
 import { useModalContext } from '@lendos/ui/providers/ModalProvider';
 import { useStateContext } from '@lendos/ui/providers/StateProvider';
 
-import { ApproveData } from '@lendos/types/erc20';
 import { TxAction } from '@lendos/types/error';
 
 import { getErrorTextFromError } from '@lendos/constants/errorMapping';
 
 import { TransactionBuilder } from '../services/transaction-builder';
+import { EvmApproveData, EvmMarketDataType } from '../types/common';
 
 export const useApprovalTx = ({
   approvedAmount,
   onApprovalTxConfirmed,
 }: {
-  approvedAmount: ApproveData | undefined;
+  approvedAmount: EvmApproveData | undefined;
   onApprovalTxConfirmed?: () => Promise<void>;
 }) => {
   const { currentMarketData } = useStateContext();
   const { sendTransactionAsync } = useSendTransaction();
   const { approvalTxState, setApprovalTxState, setTxError } = useModalContext();
-  const txBuilder = new TransactionBuilder(currentMarketData);
+  const txBuilder = new TransactionBuilder(currentMarketData as EvmMarketDataType);
 
   const approval = async () => {
     if (approvedAmount) {

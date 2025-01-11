@@ -1,4 +1,3 @@
-import { MarketDataType } from '@lendos/types/market';
 import {
   ExtendedFormattedUser,
   UserReservesDataHumanized,
@@ -8,6 +7,7 @@ import {
 
 import { reserveSortFn } from '@lendos/constants/sort';
 
+import { EvmMarketDataType } from '../types/common.ts';
 import { useUserPoolsReservesHumanized } from './useUserPoolReservesHumanized.ts';
 import { useUserSummariesAndIncentives } from './useUserSummaryAndIncentives.ts';
 import { useUserYields } from './useUserYield.ts';
@@ -32,7 +32,7 @@ const formatExtendedUserAndIncentives = (
 };
 
 export const useExtendedUserSummariesAndIncentives = (
-  marketsData: MarketDataType[],
+  marketsData: EvmMarketDataType[],
 ): SimplifiedUseQueryResult<ExtendedFormattedUser>[] => {
   const userSummariesQueries = useUserSummariesAndIncentives(marketsData);
   const userYieldsQueries = useUserYields(marketsData);
@@ -55,7 +55,7 @@ export const useExtendedUserSummariesAndIncentives = (
   });
 };
 
-export const useExtendedUserSummaryAndIncentives = (marketData: MarketDataType) => {
+export const useExtendedUserSummaryAndIncentives = (marketData: EvmMarketDataType) => {
   return useExtendedUserSummariesAndIncentives([marketData])[0] as {
     data: ExtendedFormattedUser | undefined;
     isLoading: boolean;

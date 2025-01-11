@@ -1,7 +1,6 @@
 import { readContract, readContracts } from '@wagmi/core';
 import { Address, erc20Abi } from 'viem';
 
-import { MarketDataType } from '@lendos/types/market';
 import {
   EXPOSURE,
   ReserveDataHumanized,
@@ -17,9 +16,10 @@ import { getUiPoolDataAbi } from '../abi/ui-pool-data';
 import { wagmiConfigCore } from '../config/connectors';
 import { SupportedMarkets } from '../config/supported-markets';
 import { lpTokens } from '../constants/lp-tokens';
+import { EvmMarketDataType } from '../types/common';
 
 class UiPoolService {
-  async getReservesHumanized(marketData: MarketDataType): Promise<ReservesDataHumanized> {
+  async getReservesHumanized(marketData: EvmMarketDataType): Promise<ReservesDataHumanized> {
     const response = await readContract(wagmiConfigCore, {
       abi: getUiPoolDataAbi(marketData.market as SupportedMarkets),
       address: marketData.addresses.UI_POOL_DATA_PROVIDER,
@@ -110,7 +110,7 @@ class UiPoolService {
   }
 
   async getUserReservesHumanized(
-    marketData: MarketDataType,
+    marketData: EvmMarketDataType,
     user: Address,
   ): Promise<UserReservesDataHumanized> {
     const response = await readContract(wagmiConfigCore, {

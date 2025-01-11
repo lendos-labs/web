@@ -1,19 +1,17 @@
 import { EstimateGasParameters, estimateGas } from '@wagmi/core';
 import { Address, encodeFunctionData, erc20Abi } from 'viem';
 
-import { ApproveData } from '@lendos/types/erc20';
-import { MarketDataType } from '@lendos/types/market';
-
 import { API_ETH_MOCK_ADDRESS, MAX_UINT_AMOUNT } from '@lendos/constants/addresses';
 
 import { lendingPoolAbi } from '../abi/lending-pool';
 import { wethGatewayAbi } from '../abi/weth-gateway';
 import { wagmiConfigCore } from '../config/connectors';
+import { EvmApproveData, EvmMarketDataType } from '../types/common';
 
 export class TransactionBuilder {
-  private readonly market: MarketDataType;
+  private readonly market: EvmMarketDataType;
 
-  constructor(market: MarketDataType) {
+  constructor(market: EvmMarketDataType) {
     this.market = market;
   }
 
@@ -46,7 +44,7 @@ export class TransactionBuilder {
     };
   }
 
-  prepareApproval({ spender, token, user }: ApproveData) {
+  prepareApproval({ spender, token, user }: EvmApproveData): EstimateGasParameters {
     const txData = encodeFunctionData({
       abi: erc20Abi,
       functionName: 'approve',
@@ -56,7 +54,7 @@ export class TransactionBuilder {
     return {
       data: txData,
       to: token,
-      from: user,
+      account: user,
     };
   }
 

@@ -1,3 +1,5 @@
+import { UserIncentiveDict } from '@aave/math-utils';
+
 import {
   FormattedReservesAndIncentives,
   ReserveData,
@@ -46,8 +48,6 @@ export interface FormatReserveUSDResponse extends FormatReserveResponse {
   formattedPriceInMarketReferenceCurrency: string;
   priceInUSD: string;
 }
-
-export declare type UserIncentiveDict = Record<string, UserIncentive>;
 
 export interface UserIncentive {
   incentiveControllerAddress: string;
@@ -196,12 +196,6 @@ export interface UserReservesIncentivesDataHumanized {
   aTokenIncentivesUserData: UserIncentiveDataHumanized;
   vTokenIncentivesUserData: UserIncentiveDataHumanized;
   sTokenIncentivesUserData: UserIncentiveDataHumanized;
-}
-
-export interface FormatUserSummaryAndIncentivesResponse<
-  T extends FormatReserveUSDResponse = FormatReserveUSDResponse,
-> extends FormatUserSummaryResponse<T> {
-  calculatedUserIncentives: UserIncentiveDict;
 }
 
 export interface UserPoolTokensBalances {
