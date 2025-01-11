@@ -1,5 +1,4 @@
 import { TxAction } from '@lendos/types/error';
-import { Address } from '@lendos/types/user';
 
 import { getErrorTextFromError } from '@lendos/constants/errorMapping';
 
@@ -12,7 +11,7 @@ export interface SupplyActionProps {
   amountToSupply: string;
   isWrongNetwork: boolean;
   customGasPrice?: string;
-  poolAddress: Address;
+  poolAddress: string;
   symbol: string;
   blocked: boolean;
   decimals: number;

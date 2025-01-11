@@ -1,5 +1,4 @@
 import { MarketDataType } from '@lendos/types/market';
-import { Address } from '@lendos/types/user';
 
 export const queryKeysFactory = {
   pool: ['pool'] as const,
@@ -31,14 +30,14 @@ export const queryKeysFactory = {
     ...queryKeysFactory.market(marketData),
     'poolReservesDataHumanized',
   ],
-  poolApprovedAmount: (user: Address, token: string, marketData: MarketDataType) => [
+  poolApprovedAmount: (user: string, token: string, marketData: MarketDataType) => [
     ...queryKeysFactory.pool,
     ...queryKeysFactory.user(user),
     ...queryKeysFactory.market(marketData),
     token,
     'poolApprovedAmount',
   ],
-  poolTokens: (user: Address, marketData: MarketDataType) => [
+  poolTokens: (user: string, marketData: MarketDataType) => [
     ...queryKeysFactory.pool,
     ...queryKeysFactory.user(user),
     ...queryKeysFactory.market(marketData),

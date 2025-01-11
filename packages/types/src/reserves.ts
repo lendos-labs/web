@@ -1,5 +1,4 @@
 import { ReserveDataHumanized as ReserveDataHumanizedType } from '@aave/contract-helpers';
-import { Address } from 'viem';
 
 import { IncentiveDataHumanized } from './ui-incentives';
 import { ExtendedFormattedUser, FormatReserveUSDResponse } from './user';
@@ -33,7 +32,7 @@ export enum EXPOSURE {
 }
 
 export interface LpToken {
-  address: Address;
+  address: string;
   symbol: string;
 }
 

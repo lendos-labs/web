@@ -11,7 +11,7 @@ import { CapType } from '@lendos/types/cap';
 import { CollateralType } from '@lendos/types/collateral';
 import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
 import { WrappedTokenConfig } from '@lendos/types/token';
-import { Address, ExtendedFormattedUser } from '@lendos/types/user';
+import { ExtendedFormattedUser } from '@lendos/types/user';
 
 import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
 import { getAssetCollateralType } from '@lendos/constants/getAssetCollateralType';
@@ -268,9 +268,7 @@ export const SupplyModalContent = ({
       <SupplyActions
         amountToSupply={amount}
         isWrongNetwork={isWrongNetwork}
-        poolAddress={
-          (supplyUnWrapped ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset) as Address
-        }
+        poolAddress={supplyUnWrapped ? API_ETH_MOCK_ADDRESS : poolReserve.underlyingAsset}
         symbol={symbol}
         // TODO fix it
         blocked={false}

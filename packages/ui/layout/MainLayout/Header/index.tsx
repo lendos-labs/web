@@ -64,7 +64,7 @@ export const Header = () => {
   };
 
   const handleSwitchClick = () => {
-    setCookie(SWITCH_VISITED_KEY, 'true');
+    void setCookie(SWITCH_VISITED_KEY, 'true');
     setVisitedSwitch(true);
     openSwitch();
   };

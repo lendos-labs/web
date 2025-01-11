@@ -52,7 +52,7 @@ const getAllowance = async (
       ? market.addresses.WETH_GATEWAY
       : market.addresses.LENDING_POOL;
 
-  const amount = await getAllowanceAmount(token, user, spender);
+  const amount = await getAllowanceAmount(token, user, spender as Address);
 
   return { amount, spender, user, token };
 };

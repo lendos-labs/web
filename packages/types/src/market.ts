@@ -1,5 +1,3 @@
-import { Address } from 'viem';
-
 import { CustomPoints, NetworkConfig } from './chain';
 
 export type Markets = Record<string, MarketDataType>;
@@ -29,19 +27,12 @@ export interface MarketDataType {
   ratesHistoryApiUrl?: string;
   subgraphUrl?: string;
   addresses: {
-    LENDING_POOL_ADDRESS_PROVIDER: Address;
-    LENDING_POOL: Address;
-    WETH_GATEWAY: Address;
-
-    FAUCET?: Address;
-    WALLET_BALANCE_PROVIDER: Address;
-
-    UI_POOL_DATA_PROVIDER: Address;
-    UI_INCENTIVE_DATA_PROVIDER: Address;
-    COLLECTOR?: string;
-  };
-  halIntegration?: {
-    URL: string;
-    marketName: string;
+    LENDING_POOL_ADDRESS_PROVIDER: string;
+    LENDING_POOL: string;
+    WETH_GATEWAY: string;
+    FAUCET?: string;
+    WALLET_BALANCE_PROVIDER: string;
+    UI_POOL_DATA_PROVIDER: string;
+    UI_INCENTIVE_DATA_PROVIDER: string;
   };
 }

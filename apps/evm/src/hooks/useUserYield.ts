@@ -82,7 +82,7 @@ export const useUserYields = (
   const userSummaryQuery = useUserSummariesAndIncentives(marketsData);
 
   return poolsFormattedReservesQuery.map((elem, index) => {
-    const ghoSelector = (
+    const selector = (
       formattedPoolReserves: FormattedReservesAndIncentives[],
       user: FormatUserSummaryAndIncentivesResponse,
     ) => {
@@ -92,7 +92,7 @@ export const useUserYields = (
     return userSummaryQuery[index]
       ? (combineQueries(
           [elem, userSummaryQuery[index]] as const,
-          ghoSelector,
+          selector,
         ) as SimplifiedUseQueryResult<UserYield>)
       : {
           isLoading: elem.isLoading,

@@ -1,9 +1,7 @@
 import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
-import { Address } from '@lendos/constants/common';
-
 export interface AccountContextType {
-  account: Address | null;
+  account: string | null;
   chainId: number;
   connected: boolean;
   loading: boolean;

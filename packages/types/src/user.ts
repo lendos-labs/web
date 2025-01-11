@@ -1,5 +1,3 @@
-import { Address as UserAddress } from 'viem';
-
 import {
   FormattedReservesAndIncentives,
   ReserveData,
@@ -91,7 +89,7 @@ export interface FormattedUserReserves<T = ReserveLpToken | ReserveToken> {
   totalBorrows: string;
   totalBorrowsMarketReferenceCurrency: string;
   totalBorrowsUSD: string;
-  underlyingAsset: Address;
+  underlyingAsset: string;
   underlyingBalance: string;
   underlyingBalanceMarketReferenceCurrency: string;
   underlyingBalanceUSD: string;
@@ -132,7 +130,7 @@ export type ExtendedFormattedUser<T = ReserveLpToken | ReserveToken> =
 
 export type UserReserveData = [
   {
-    underlyingAsset: Address;
+    underlyingAsset: string;
     scaledATokenBalance: bigint;
     usageAsCollateralEnabledOnUser: boolean;
     stableBorrowRate: bigint;
@@ -142,8 +140,6 @@ export type UserReserveData = [
   }[],
   number,
 ];
-
-export type Address = UserAddress;
 
 export interface UserYield {
   earnedAPY: number;
@@ -209,6 +205,6 @@ export interface FormatUserSummaryAndIncentivesResponse<
 }
 
 export interface UserPoolTokensBalances {
-  address: Address;
+  address: string;
   amount: string;
 }

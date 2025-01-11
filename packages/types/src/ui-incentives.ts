@@ -1,9 +1,7 @@
-import { Address } from 'viem';
-
 export interface RewardInfo {
   rewardTokenSymbol: string;
-  rewardTokenAddress: Address;
-  rewardOracleAddress: Address;
+  rewardTokenAddress: string;
+  rewardOracleAddress: string;
   emissionPerSecond: bigint;
   incentivesLastUpdateTimestamp: bigint;
   tokenIncentivesIndex: bigint;
@@ -15,13 +13,13 @@ export interface RewardInfo {
 }
 
 export interface IncentiveData {
-  tokenAddress: Address;
-  incentiveControllerAddress: Address;
+  tokenAddress: string;
+  incentiveControllerAddress: string;
   rewardsTokenInformation: RewardInfo[];
 }
 
 export interface ReservesIncentiveData {
-  underlyingAsset: Address;
+  underlyingAsset: string;
   aIncentiveData: IncentiveData;
   vIncentiveData: IncentiveData;
   sIncentiveData: IncentiveData;
@@ -43,8 +41,8 @@ export interface RewardInfoHumanized {
 
 export interface UserRewardInfo {
   rewardTokenSymbol: string;
-  rewardOracleAddress: Address;
-  rewardTokenAddress: Address;
+  rewardOracleAddress: string;
+  rewardTokenAddress: string;
   userUnclaimedRewards: bigint;
   tokenIncentivesUserIndex: bigint;
   rewardPriceFeed: bigint;
@@ -59,7 +57,7 @@ export interface UserIncentiveData {
 }
 
 export interface UserReservesIncentivesData {
-  underlyingAsset: Address;
+  underlyingAsset: string;
   aTokenIncentivesUserData: UserIncentiveData;
   vTokenIncentivesUserData: UserIncentiveData;
   sTokenIncentivesUserData: UserIncentiveData;

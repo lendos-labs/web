@@ -18,7 +18,6 @@ import {
   UserReservesIncentivesDataHumanized,
 } from '@lendos/types/user';
 
-import { Address } from './common';
 import {
   selectBaseCurrencyData,
   selectReserves,
@@ -30,8 +29,8 @@ import { reserveSortFn } from './sort';
 export const formatUserReserves = (
   data: UserReserveData,
   chainId: number,
-  user: Address,
-  lendingPoolAddressProvider: Address,
+  user: string,
+  lendingPoolAddressProvider: string,
 ): {
   userReserves: UserReserveDataHumanized[];
   userEmodeCategoryId: number;
@@ -60,7 +59,7 @@ export const formatUserReserves = (
 export const formatReserves = (
   data: ReservesData,
   chainId: number,
-  lendingPoolAddressProvider: Address,
+  lendingPoolAddressProvider: string,
 ): {
   reservesData: ReserveDataHumanized[];
   baseCurrencyData: PoolBaseCurrencyHumanized;
