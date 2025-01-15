@@ -14,7 +14,7 @@ export const useVoting = ({ networkQuery }: { networkQuery: string }) => {
 
 export const useCreateEmployee = () => {
   return useMutation({
-    mutationKey: queryKeys.createEmployee,
+    mutationKey: queryKeysFactory.createEmployee,
     mutationFn: governanceServices.createEmployee,
     onSuccess: async () => {
       try {

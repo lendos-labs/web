@@ -57,6 +57,9 @@ export const ReservesProvider = ({ children }: { children: ReactNode }) => {
         accountLpReserves: (accountSummary?.userReservesData ?? []).filter(
           p => p.reserve.type === Reserves.LP,
         ) as FormattedUserReserves<ReserveLpToken>[],
+        accountTokenReserves: (accountSummary?.userReservesData ?? []).filter(
+          p => p.reserve.type === Reserves.ASSET,
+        ) as FormattedUserReserves<ReserveToken>[],
         eModes: {},
         accountSummary,
         accountReserves: userReservesData?.userReserves ?? [],

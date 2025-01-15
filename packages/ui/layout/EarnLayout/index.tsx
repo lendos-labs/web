@@ -120,7 +120,6 @@ export const EarnLayout = ({
           flexDirection: 'column',
           alignItems: 'center',
           flex: 1,
-          mt: { xs: -18, md: -20, lg: '-94px', xl: '-92px', xxl: '-96px' },
         }}
       >
         <Container sx={{ ...earnContainerProps.sx, mt: { xs: showTab ? 10 : 0 } }}>

@@ -5,6 +5,7 @@ import { Typography } from '@mui/material';
 
 import { Reserves } from '@lendos/types/reserves';
 
+import { ListLoader } from '../../components/ListLoader/index.tsx';
 import { ListTopInfoItem } from '../../components/ListTopInfoItem';
 import { ListWrapper } from '../../components/ListWrapper';
 import { NoContent } from '../../components/NoContent';
@@ -27,35 +28,59 @@ interface SuppliedPositionsListProps {
 
 export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
   const { currentMarketData } = useStateContext();
-  const { accountSummary, reserves, lpReserves } = useReservesContext();
+  const { accountLpReserves, accountTokenReserves, accountSummary, loading } = useReservesContext();
 
   const { openSupply, openWithdraw, openCollateralChange } = useModalContext();
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
 
   const data = useMemo(() => {
-    return reserves.map(reserve => {
-      const canBeEnabledAsCollateral = accountSummary
-        ? reserve.reserveLiquidationThreshold !== '0' &&
-          ((!reserve.isIsolated && !accountSummary.isInIsolationMode) ||
-            accountSummary.isolatedReserve?.underlyingAsset === reserve.underlyingAsset ||
-            (reserve.isIsolated && accountSummary.totalCollateralMarketReferenceCurrency === '0'))
-        : false;
-      return getSuppliedPositionsCells(
-        reserve,
-        currentMarketData,
-        openSupply,
-        openWithdraw,
-        openCollateralChange,
-        canBeEnabledAsCollateral,
-      );
-    }) as TableData[];
-  }, [currentMarketData, openCollateralChange, openSupply, openWithdraw, accountSummary, reserves]);
+    if (type === Reserves.LP) {
+      return accountLpReserves
+        .filter(userReserve => userReserve.underlyingBalance !== '0')
+        .map(i => {
+          return getDexLpSuppliedPositionsCells(i, currentMarketData, openSupply, openWithdraw);
+        }) as TableData[];
+    }
 
-  const dexLpData = useMemo(() => {
-    return lpReserves.map(reserve =>
-      getDexLpSuppliedPositionsCells(reserve, currentMarketData),
-    ) as TableData[];
-  }, [currentMarketData, lpReserves]);
+    return accountTokenReserves
+      .filter(userReserve => userReserve.underlyingBalance !== '0')
+      .map(i => {
+        const { reserve } = i;
+        const canBeEnabledAsCollateral = accountSummary
+          ? reserve.reserveLiquidationThreshold !== '0' &&
+            ((!reserve.isIsolated && !accountSummary.isInIsolationMode) ||
+              accountSummary.isolatedReserve?.underlyingAsset === reserve.underlyingAsset ||
+              (reserve.isIsolated && accountSummary.totalCollateralMarketReferenceCurrency === '0'))
+          : false;
+
+        return getSuppliedPositionsCells(
+          i,
+          currentMarketData,
+          canBeEnabledAsCollateral,
+          openSupply,
+          openWithdraw,
+          openCollateralChange,
+        );
+      }) as TableData[];
+  }, [
+    type,
+    accountTokenReserves,
+    accountLpReserves,
+    currentMarketData,
+    openSupply,
+    openWithdraw,
+    accountSummary,
+    openCollateralChange,
+  ]);
+
+  if (loading) {
+    return (
+      <ListLoader
+        title={type === Reserves.ASSET ? 'Your supplies' : 'LP tokens under collateral'}
+        head={(type === Reserves.ASSET ? suppliedPositionsHead : lpHead).map(col => col.title)}
+      />
+    );
+  }
 
   return (
     <ListWrapper
@@ -99,7 +124,7 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
         <CustomTable
           heightRow={50}
           header={type === Reserves.ASSET ? suppliedPositionsHead : lpHead}
-          data={type === Reserves.ASSET ? data : dexLpData}
+          data={data}
           paddingColl={1}
         />
       ) : (

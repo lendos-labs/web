@@ -14,11 +14,17 @@ import { DashboardContentWrapper } from './DashboardContentWrapper.tsx';
 import DashboardTopPanel from './DashboardTopPanel.tsx';
 
 const DashboardContainer = () => {
-  const { account, loading: web3Loading } = useAccountContext();
+  const { account, loading } = useAccountContext();
   const [mode, setMode] = useState<'supply' | 'borrow' | ''>('supply');
 
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: { xs: 18, md: 20, lg: '56px' },
+      }}
+    >
       <DashboardTopPanel />
       <ContentContainer>
         {account && (
@@ -50,10 +56,10 @@ const DashboardContainer = () => {
         {account ? (
           <DashboardContentWrapper isBorrow={mode === 'borrow'} />
         ) : (
-          <ConnectWalletPaper loading={web3Loading} />
+          <ConnectWalletPaper loading={loading} />
         )}
       </ContentContainer>
-    </>
+    </Box>
   );
 };
 

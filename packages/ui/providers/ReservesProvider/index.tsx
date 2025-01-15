@@ -18,6 +18,7 @@ export interface ReservesContextType {
   reserves: FormattedReservesAndIncentives<ReserveToken>[];
   lpReserves: FormattedReservesAndIncentives<ReserveLpToken>[];
   accountLpReserves: FormattedUserReserves<ReserveLpToken>[];
+  accountTokenReserves: FormattedUserReserves<ReserveToken>[];
   eModes: Record<number, EmodeCategory>;
   accountSummary: ExtendedFormattedUser | undefined;
   accountReserves: UserReservesDataHumanized['userReserves'];

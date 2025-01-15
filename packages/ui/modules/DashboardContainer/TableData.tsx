@@ -23,6 +23,7 @@ import {
   ReserveToken,
   Reserves,
 } from '@lendos/types/reserves';
+import { FormattedUserReserves } from '@lendos/types/user';
 
 import { isFeatureEnabled } from '@lendos/constants/markets';
 import { Routes } from '@lendos/constants/routes';
@@ -76,13 +77,14 @@ export const suppliedPositionsHead: TableHeadProperties[] = [
 ];
 
 export const getSuppliedPositionsCells = (
-  reserve: FormattedReservesAndIncentives<ReserveToken>,
+  userReserve: FormattedUserReserves<ReserveToken>,
   market: MarketDataType,
+  canBeEnabledAsCollateral: boolean,
   openSupply: ModalContextType<ModalArgsType>['openSupply'],
   openWithdraw: ModalContextType<ModalArgsType>['openWithdraw'],
   openCollateralChange: ModalContextType<ModalArgsType>['openCollateralChange'],
-  canBeEnabledAsCollateral: boolean,
 ) => {
+  const { reserve } = userReserve;
   return {
     symbol: (
       <Box
@@ -115,9 +117,8 @@ export const getSuppliedPositionsCells = (
     underlyingBalance: (
       <ListValueColumn
         symbol={reserve.iconSymbol}
-        value={Number(123)}
-        subValue={Number(123)}
-        disabled={Number(123) === 0}
+        value={userReserve.underlyingBalance}
+        subValue={userReserve.underlyingBalanceUSD}
       />
     ),
     supplyAPY: (
@@ -168,8 +169,7 @@ export const getSuppliedPositionsCells = (
       <ListItemUsedAsCollateral
         disabled={reserve.isPaused}
         isIsolated={reserve.isIsolated}
-        // TODO: need to find out what is usageAsCollateralEnabledOnUser
-        usageAsCollateralEnabledOnUser={false}
+        usageAsCollateralEnabledOnUser={userReserve.usageAsCollateralEnabledOnUser}
         canBeEnabledAsCollateral={canBeEnabledAsCollateral}
         onToggleSwitch={() => {
           openCollateralChange(reserve.underlyingAsset);
@@ -220,12 +220,19 @@ export const lpHead = [
     title: 'DEX',
     sortKey: 'dexName',
   },
+  {
+    key: 'action',
+    title: '',
+  },
 ];
 
 export const getDexLpSuppliedPositionsCells = (
-  reserve: FormattedReservesAndIncentives<ReserveLpToken>,
+  userReserve: FormattedUserReserves<ReserveLpToken>,
   market: MarketDataType,
+  openSupply: ModalContextType<ModalArgsType>['openSupply'],
+  openWithdraw: ModalContextType<ModalArgsType>['openWithdraw'],
 ) => {
+  const { reserve } = userReserve;
   return {
     symbol: (
       <Box
@@ -259,12 +266,37 @@ export const getDexLpSuppliedPositionsCells = (
         </Tooltip>
       </Box>
     ),
-    // TODO: need to find out what is underlyingBalanceUSD
-    underlyingBalanceUSD: <ReserveSubheader value={'123'} variant='subtitle' />,
+    underlyingBalanceUSD: (
+      <ReserveSubheader value={userReserve.underlyingBalanceUSD} variant='subtitle' />
+    ),
     dexName: (
       <Typography variant='subtitle' sx={{ ml: 3, color: 'text.dark' }} noWrap data-cy={`dexName`}>
         {reserve.dex.name}
       </Typography>
+    ),
+    action: (
+      <ListButtonsColumn>
+        <Button
+          disabled={!reserve.isActive || reserve.isFrozen || reserve.isPaused}
+          variant='contained'
+          size={'small'}
+          onClick={() => openSupply(reserve.underlyingAsset)}
+          sx={{ minWidth: '82px', width: { xs: '100%', md: 'auto' } }}
+        >
+          Supply
+        </Button>
+        <Button
+          disabled={!reserve.isActive || reserve.isPaused}
+          variant='white'
+          size={'small'}
+          sx={{ minWidth: '82px', width: { xs: '100%', md: 'auto' } }}
+          onClick={() => {
+            openWithdraw(reserve.underlyingAsset);
+          }}
+        >
+          Withdraw
+        </Button>
+      </ListButtonsColumn>
     ),
   };
 };
