@@ -390,82 +390,87 @@ export const getSupplyAssetsCells = (
         >
           Supply
         </Button>
-        <Button
-          id='supply-extra-button'
+        <Box
           sx={{
-            minWidth: 0,
-            px: 4,
-            display: { xs: 'none', sm: 'flex' },
-          }}
-          variant='white'
-          onClick={e =>
-            setAnchor(state => ({ ...state, [reserve.underlyingAsset]: e.currentTarget }))
-          }
-          aria-controls={anchorEl ? 'basic-menu' : undefined}
-          aria-haspopup='true'
-          aria-expanded={anchorEl ? 'true' : undefined}
-          size={'small'}
-        >
-          ...
-        </Button>
-        <Button
-          variant='white'
-          size={'small'}
-          component={Link}
-          href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
-          sx={{
-            display: { xs: 'flex', sm: 'none' },
             width: { xs: '100%', md: 'auto' },
           }}
-          fullWidth
         >
-          Details
-        </Button>
-        <Menu
-          id='supply-item-extra-menu'
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          MenuListProps={{
-            'aria-labelledby': 'supply-extra-button',
-            sx: {
-              py: 0,
-            },
-          }}
-          onClose={() => setAnchor({})}
-          keepMounted={true}
-          slotProps={{
-            paper: {
-              sx: {
-                minWidth: '120px',
-                py: 0,
-              },
-            },
-          }}
-        >
-          {isFeatureEnabled.switch(market) && (
-            <MenuItem
-              sx={{ gap: 2 }}
-              onClick={() => handleSwitchClick(reserve)}
-              disabled={!isFeatureEnabled.switch(market)}
-            >
-              <SvgIcon fontSize='small'>
-                <SwapHorizIcon />
-              </SvgIcon>
-              <ListItemText>Switch</ListItemText>
-            </MenuItem>
-          )}
-          <MenuItem
-            sx={{ gap: 2 }}
+          <Button
+            id='supply-extra-button'
+            sx={{
+              minWidth: 0,
+              px: 4,
+              display: { xs: 'none', sm: 'flex' },
+            }}
+            variant='white'
+            onClick={e =>
+              setAnchor(state => ({ ...state, [reserve.underlyingAsset]: e.currentTarget }))
+            }
+            aria-controls={anchorEl ? 'basic-menu' : undefined}
+            aria-haspopup='true'
+            aria-expanded={anchorEl ? 'true' : undefined}
+            size={'small'}
+          >
+            ...
+          </Button>
+          <Button
+            variant='white'
+            size={'small'}
             component={Link}
             href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
-            onClick={() => setAnchor({})}
+            sx={{
+              display: { xs: 'block', sm: 'none' },
+              textAlign: 'center',
+            }}
           >
-            <SvgIcon fontSize='small'>
-              <VisibilityIcon />
-            </SvgIcon>
-            <ListItemText>Details</ListItemText>
-          </MenuItem>
-        </Menu>
+            Details
+          </Button>
+          <Menu
+            id='supply-item-extra-menu'
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            MenuListProps={{
+              'aria-labelledby': 'supply-extra-button',
+              sx: {
+                py: 0,
+              },
+            }}
+            onClose={() => setAnchor({})}
+            keepMounted={true}
+            slotProps={{
+              paper: {
+                sx: {
+                  minWidth: '120px',
+                  py: 0,
+                },
+              },
+            }}
+          >
+            {isFeatureEnabled.switch(market) && (
+              <MenuItem
+                sx={{ gap: 2 }}
+                onClick={() => handleSwitchClick(reserve)}
+                disabled={!isFeatureEnabled.switch(market)}
+              >
+                <SvgIcon fontSize='small'>
+                  <SwapHorizIcon />
+                </SvgIcon>
+                <ListItemText>Switch</ListItemText>
+              </MenuItem>
+            )}
+            <MenuItem
+              sx={{ gap: 2 }}
+              component={Link}
+              href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
+              onClick={() => setAnchor({})}
+            >
+              <SvgIcon fontSize='small'>
+                <VisibilityIcon />
+              </SvgIcon>
+              <ListItemText>Details</ListItemText>
+            </MenuItem>
+          </Menu>
+        </Box>
       </ListButtonsColumn>
     ),
   };
@@ -757,17 +762,23 @@ export const getBorrowAssetsCells = (
         >
           Borrow
         </Button>
-        <Button
-          variant='white'
-          size={'small'}
-          component={Link}
-          href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
+        <Box
           sx={{
             width: { xs: '100%', md: 'auto' },
           }}
         >
-          Details
-        </Button>
+          <Button
+            variant='white'
+            size={'small'}
+            component={Link}
+            href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
+            sx={{
+              width: { xs: '100%', md: 'auto' },
+            }}
+          >
+            Details
+          </Button>
+        </Box>
       </ListButtonsColumn>
     ),
   };

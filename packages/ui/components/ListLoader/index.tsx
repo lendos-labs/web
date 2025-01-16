@@ -1,16 +1,11 @@
 import { ReactNode } from 'react';
 
-import { Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import { ListWrapper } from '../ListWrapper';
 import { ListHeader } from './ListHeader';
 import { ListItemLoader } from './ListItemLoader';
 import { MobileListItemLoader } from './MobileListItemLoader';
-
-// import { ListWrapper } from '../../../components/lists/ListWrapper';
-// import { ListHeader } from './ListHeader';
-// import { ListItemLoader } from './ListItemLoader';
-// import { MobileListItemLoader } from './MobileListItemLoader';
 
 interface ListLoaderProps {
   title?: ReactNode;
@@ -19,9 +14,6 @@ interface ListLoaderProps {
 }
 
 export const ListLoader = ({ title, withTopMargin, head }: ListLoaderProps) => {
-  const theme = useTheme();
-  const downToXSM = useMediaQuery(theme.breakpoints.down('xsm'));
-
   return (
     <ListWrapper
       titleComponent={
@@ -33,17 +25,29 @@ export const ListLoader = ({ title, withTopMargin, head }: ListLoaderProps) => {
       }
       withTopMargin={withTopMargin}
     >
-      <>
-        {!downToXSM && <ListHeader head={head} />}
-        {!downToXSM ? (
-          <>
-            <ListItemLoader />
-            <ListItemLoader />
-          </>
-        ) : (
-          <MobileListItemLoader />
-        )}
-      </>
+      <Box
+        sx={theme => ({
+          [theme.breakpoints.down('xsm')]: {
+            display: 'none',
+          },
+          display: 'block',
+        })}
+      >
+        <ListHeader head={head} />
+        <ListItemLoader />
+        <ListItemLoader />
+      </Box>
+
+      <Box
+        sx={theme => ({
+          [theme.breakpoints.down('xsm')]: {
+            display: 'block',
+          },
+          display: 'none',
+        })}
+      >
+        <MobileListItemLoader />
+      </Box>
     </ListWrapper>
   );
 };

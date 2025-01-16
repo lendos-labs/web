@@ -26,8 +26,7 @@ interface NextLinkComposedProps
 
 export const NextLinkComposed = React.forwardRef<HTMLAnchorElement, NextLinkComposedProps>(
   function NextLinkComposed(props, forwardedRef) {
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars -- need for remove href */
-    const { to, linkAs, replace, scroll, shallow, prefetch, locale, href, ...other } = props;
+    const { to, linkAs, replace, scroll, shallow, prefetch, locale, ...other } = props;
 
     return (
       <NextLink
@@ -39,6 +38,7 @@ export const NextLinkComposed = React.forwardRef<HTMLAnchorElement, NextLinkComp
         shallow={shallow}
         passHref
         locale={locale}
+        style={{ textDecoration: 'none' }}
       >
         <Anchor ref={forwardedRef} {...other} />
       </NextLink>
