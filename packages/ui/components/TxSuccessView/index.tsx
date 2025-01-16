@@ -3,11 +3,12 @@ import { ReactNode } from 'react';
 import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
 import { Box, Button, Typography } from '@mui/material';
 
-import { InterestRate } from '@lendos/types/reserves';
+import { FormattedReservesAndIncentives, InterestRate } from '@lendos/types/reserves';
 
 import { useAccountContext } from '../../providers/AccountProvider';
 import { BaseSuccessView } from '../BaseSuccessView';
 import { FormattedNumber } from '../FormattedNumber';
+import { TokenIcon } from '../TokenIcon';
 
 export interface SuccessTxViewProps {
   txHash?: string;
@@ -16,10 +17,10 @@ export interface SuccessTxViewProps {
   symbol?: string;
   collateral?: boolean;
   rate?: InterestRate;
-  // TODO add addToken
-  // addToken?: ERC20TokenType;
+  poolReserve?: FormattedReservesAndIncentives;
   customAction?: ReactNode;
   customText?: ReactNode;
+  aToken?: boolean;
 }
 
 export const TxSuccessView = ({
@@ -29,12 +30,12 @@ export const TxSuccessView = ({
   symbol,
   collateral,
   rate,
-  // addToken,
+  poolReserve,
   customAction,
   customText,
+  aToken,
 }: SuccessTxViewProps) => {
   const { addToken } = useAccountContext();
-  // const [base64, setBase64] = useState('');
 
   return (
     <BaseSuccessView txHash={txHash}>
@@ -74,7 +75,7 @@ export const TxSuccessView = ({
           </Typography>
         )}
 
-        {symbol && (
+        {poolReserve && symbol && (
           <Box
             sx={theme => ({
               border: `1px solid ${theme.palette.background.surface}`,
@@ -88,32 +89,22 @@ export const TxSuccessView = ({
               mt: '24px',
             })}
           >
-            {/* <TokenIcon
-              symbol={addToken.symbol}
-              aToken={addToken && addToken.aToken ? true : false}
+            <TokenIcon
+              symbol={poolReserve.iconSymbol}
+              aToken={Boolean(aToken)}
               sx={{ fontSize: '32px', mt: '12px', mb: '8px' }}
             />
             <Typography variant='subtitle' sx={{ mx: '24px' }}>
-              <>
-                Add {addToken && addToken.aToken ? 'aToken ' : 'token '} to wallet to track your
-                balance.
-              </>
-            </Typography> */}
+              <>Add {aToken ? 'aToken ' : 'token '} to wallet to track your balance.</>
+            </Typography>
             <Button
               onClick={() => {
-                void addToken();
+                void addToken(poolReserve.aTokenAddress);
               }}
               variant={'white'}
               size='small'
               sx={{ mt: '8px', mb: '12px' }}
             >
-              {/* {addToken.symbol && !/_/.test(addToken.symbol) && (
-                <Base64Token
-                  symbol={addToken.symbol}
-                  onImageGenerated={setBase64}
-                  aToken={addToken.aToken}
-                />
-              )} */}
               <AccountBalanceWalletOutlinedIcon sx={{ width: '20px', height: '20px' }} />
               <Typography variant='buttonS' ml='4px'>
                 Add to wallet

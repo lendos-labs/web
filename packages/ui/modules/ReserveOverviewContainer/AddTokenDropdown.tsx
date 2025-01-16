@@ -5,7 +5,6 @@ import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 
-import { Base64Token } from '../../components/Base64Token';
 import { TokenIcon } from '../../components/TokenIcon';
 import { useAccountContext } from '../../providers/AccountProvider';
 import { useStateContext } from '../../providers/StateProvider';
@@ -15,45 +14,33 @@ interface AddTokenDropdownProps {
   hideAToken?: boolean;
 }
 
-export const AddTokenDropdown = ({
-  poolReserve,
-
-  hideAToken,
-}: AddTokenDropdownProps) => {
+export const AddTokenDropdown = ({ poolReserve, hideAToken }: AddTokenDropdownProps) => {
   const { addToken, switchNetwork, chainId: connectedChainId } = useAccountContext();
   const { currentMarketData } = useStateContext();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [changingNetwork, setChangingNetwork] = useState<boolean>(false);
-  const [underlyingBase64, setUnderlyingBase64] = useState('');
-  const [, setATokenBase64] = useState('');
 
-  // The switchNetwork function has no return type, so to detect if a user successfully switched networks before adding token to wallet, check the selected vs connected chain id
   useEffect(() => {
-    if (changingNetwork && (currentMarketData.chainId as number) === connectedChainId) {
+    if (changingNetwork && currentMarketData.chain.id === connectedChainId) {
       void (async () => {
-        await addToken();
+        await addToken(poolReserve.underlyingAsset);
       })();
-      //   {
-      //   address: poolReserve.underlyingAsset,
-      //   decimals: poolReserve.decimals,
-      //   symbol: poolReserve.symbol,
-      //   image: !/_/.test(poolReserve.iconSymbol) ? underlyingBase64 : undefined,
-      // }
+
       setChangingNetwork(false);
     }
-  }, [addToken, connectedChainId, changingNetwork, underlyingBase64, currentMarketData.chainId]);
+  }, [
+    addToken,
+    connectedChainId,
+    changingNetwork,
+    currentMarketData.chain,
+    currentMarketData.chain.id,
+    poolReserve.aTokenAddress,
+    poolReserve.underlyingAsset,
+  ]);
 
   return (
     <>
-      {/* Load base64 token symbol for adding underlying and aTokens to wallet */}
-      {poolReserve.symbol && !poolReserve.symbol.includes('_') && (
-        <Base64Token
-          symbol={poolReserve.iconSymbol}
-          onImageGenerated={!hideAToken ? setATokenBase64 : setUnderlyingBase64}
-          aToken={!hideAToken ? true : false}
-        />
-      )}
       <Box onClick={e => setAnchorEl(e.currentTarget)}>
         <IconButton color={'primary'}>
           <AccountBalanceWalletOutlinedIcon
@@ -83,17 +70,11 @@ export const AddTokenDropdown = ({
           divider
           onClick={() => {
             void (async () => {
-              if ((currentMarketData.chainId as number) !== connectedChainId) {
+              if (currentMarketData.chain.id !== connectedChainId) {
                 await switchNetwork();
                 setChangingNetwork(true);
               } else {
-                await addToken();
-                // addERC20Token({
-                //   address: poolReserve.underlyingAsset,
-                //   decimals: poolReserve.decimals,
-                //   symbol: poolReserve.symbol,
-                //   image: !/_/.test(poolReserve.symbol) ? underlyingBase64 : undefined,
-                // });
+                await addToken(poolReserve.underlyingAsset);
               }
               setAnchorEl(null);
             });
@@ -116,11 +97,11 @@ export const AddTokenDropdown = ({
               value='atoken'
               onClick={() => {
                 void (async () => {
-                  if ((currentMarketData.chainId as number) !== connectedChainId) {
+                  if (currentMarketData.chain.id !== connectedChainId) {
                     await switchNetwork();
                     setChangingNetwork(true);
                   } else {
-                    await addToken();
+                    await addToken(poolReserve.underlyingAsset);
                   }
                   setAnchorEl(null);
                 });

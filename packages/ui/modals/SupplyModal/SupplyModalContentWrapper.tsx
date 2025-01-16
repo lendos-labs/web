@@ -10,7 +10,6 @@ import BigNumber from 'bignumber.js';
 import { CapType } from '@lendos/types/cap';
 import { CollateralType } from '@lendos/types/collateral';
 import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
-import { WrappedTokenConfig } from '@lendos/types/token';
 import { ExtendedFormattedUser } from '@lendos/types/user';
 
 import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
@@ -44,19 +43,9 @@ export const SupplyModalContentWrapper = (
   params: ModalWrapperProps & { user: ExtendedFormattedUser },
 ) => {
   const user = params.user;
-  // const { walletBalances } = useBalanceContext();
-  // const wrappedTokenReserves = useWrappedTokens();
   const { supplyCap: supplyCapUsage, debtCeiling: debtCeilingUsage } = useAssetCaps();
 
   const { poolReserve, userReserve } = params;
-
-  // const wrappedToken = wrappedTokenReserves.find(
-  //   r => r.tokenOut.underlyingAsset === params.underlyingAsset,
-  // );
-
-  // const canSupplyAsWrappedToken =
-  //   wrappedToken &&
-  //   walletBalances[wrappedToken.tokenIn.underlyingAsset.toLowerCase()].amount !== '0';
 
   const hasDifferentCollateral = user.userReservesData.find(
     reserve => reserve.usageAsCollateralEnabledOnUser && reserve.reserve.id !== poolReserve.id,
@@ -73,13 +62,6 @@ export const SupplyModalContentWrapper = (
     isolationModeWarning: showIsolationWarning ? (
       <IsolationModeWarning asset={poolReserve.symbol} />
     ) : null,
-    // TODO add token
-    // addTokenProps: {
-    //   address: poolReserve.aTokenAddress,
-    //   symbol: poolReserve.iconSymbol,
-    //   decimals: poolReserve.decimals,
-    //   aToken: true,
-    // },
     collateralType: getAssetCollateralType(
       userReserve,
       user.totalCollateralUSD,
@@ -88,24 +70,16 @@ export const SupplyModalContentWrapper = (
     ),
     supplyCapWarning: supplyCapUsage.determineWarningDisplay({ supplyCap: supplyCapUsage }),
     debtCeilingWarning: debtCeilingUsage.determineWarningDisplay({ debtCeiling: debtCeilingUsage }),
-    // wrappedTokenConfig: wrappedTokenReserves.find(
-    //   r => r.tokenOut.underlyingAsset === params.underlyingAsset,
-    // ),
   };
 
   return <SupplyModalContent {...props} />;
-  //  canSupplyAsWrappedToken ? (
-  //   <SupplyWrappedTokenModalContent {...props} />
-  // ) :
 };
 
 interface SupplyModalContentProps extends ModalWrapperProps {
-  // addTokenProps: ERC20TokenType;
   collateralType: CollateralType;
   isolationModeWarning: ReactNode;
   supplyCapWarning: ReactNode;
   debtCeilingWarning: ReactNode;
-  wrappedTokenConfig?: WrappedTokenConfig;
   user: ExtendedFormattedUser;
 }
 
@@ -152,7 +126,6 @@ export const SupplyModalContent = ({
   nativeBalance,
   tokenBalance,
   isolationModeWarning,
-  // addTokenProps,
   collateralType,
   supplyCapWarning,
   debtCeilingWarning,
@@ -220,7 +193,8 @@ export const SupplyModalContent = ({
         action='Supplied'
         amount={amount}
         symbol={supplyUnWrapped ? currentMarketData.chain.nativeCurrency.symbol : symbol}
-        // addToken={addTokenProps}
+        poolReserve={poolReserve}
+        aToken={true}
       />
     );
   }
