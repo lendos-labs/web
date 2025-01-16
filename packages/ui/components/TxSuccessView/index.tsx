@@ -49,12 +49,10 @@ export const TxSuccessView = ({
         }}
       >
         {action && amount && symbol && (
-          <Typography>
-            <>
-              You {action} <FormattedNumber value={Number(amount)} compact variant='secondary14' />{' '}
-              {symbol}
-            </>
-          </Typography>
+          <Box>
+            You {action} <FormattedNumber value={Number(amount)} compact variant='secondary14' />{' '}
+            {symbol}
+          </Box>
         )}
 
         {customAction && (

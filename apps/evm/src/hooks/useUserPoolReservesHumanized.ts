@@ -20,7 +20,7 @@ export const useUserPoolsReservesHumanized = <T = UserReservesDataHumanized>(
   return useQueries({
     queries: marketsData.map(marketData => ({
       queryKey: queryKeysFactory.userPoolReservesDataHumanized(account ?? '', marketData),
-      queryFn: async () => uiPoolService.getUserReservesHumanized(marketData, account as Address),
+      queryFn: () => uiPoolService.getUserReservesHumanized(marketData, account as Address),
       enabled: !!account,
       refetchInterval: POLLING_INTERVAL,
       ...opts,

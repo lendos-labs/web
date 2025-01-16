@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConnectKitProvider } from 'connectkit';
 import { setCookie } from 'cookies-next';
 import { State, WagmiProvider } from 'wagmi';
@@ -12,7 +12,6 @@ import { MuiLayout } from '@lendos/ui/layout/MuiLayout';
 import { ModalContextProvider } from '@lendos/ui/providers/ModalProvider';
 
 import { CookieKey } from '@lendos/constants/cookie';
-import { queryClient } from '@lendos/constants/queryClient';
 
 import { AccountProvider } from './account-provider';
 import { BalanceProvider } from './balance-provider';
@@ -32,6 +31,16 @@ interface ProviderProps extends ChildrenProps {
 }
 
 export const Providers = ({ children, initialState, appState }: ProviderProps) => {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+          },
+        },
+      }),
+  );
   useEffect(() => {
     void (async () => {
       await setCookie(CookieKey.SELECTED_MARKET, appState.selectedMarket);

@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
+import { sendTransaction, waitForTransactionReceipt } from '@wagmi/core';
 import { Address, parseUnits } from 'viem';
-import { useAccount, useSendTransaction } from 'wagmi';
+import { useAccount } from 'wagmi';
 
 import { useModalContext } from '@lendos/ui/providers/ModalProvider';
 import { useStateContext } from '@lendos/ui/providers/StateProvider';
 
 import { queryKeysFactory } from '@lendos/constants/queries';
 
+import { wagmiConfigCore } from '../config/connectors';
 import { TransactionBuilder } from '../services/transaction-builder';
 import { EvmMarketDataType } from '../types/common';
 import { useApprovalTx } from './useApprovalTx';
@@ -19,7 +21,6 @@ export const useSupply = () => {
   const { args, setLoadingTxns } = useModalContext();
   const queryClient = useQueryClient();
   const { currentMarketData } = useStateContext();
-  const { sendTransactionAsync } = useSendTransaction();
 
   const txBuilder = new TransactionBuilder(currentMarketData as EvmMarketDataType);
 
@@ -47,12 +48,25 @@ export const useSupply = () => {
     }
   }, [fetchApprovedAmount, isFetchedAfterMount]);
 
-  const supply = async (reserve: Address, amount: string, decimals: number) => {
-    const txData = txBuilder.prepareSupply(reserve, parseUnits(amount, decimals), address ?? '0x');
+  const supply = async (reserve: string, amount: string, decimals: number) => {
+    const txData = txBuilder.prepareSupply(
+      reserve as Address,
+      parseUnits(amount, decimals),
+      address ?? '0x',
+    );
     const gas = await txBuilder.estimateGas(txData);
-    const txHash = await sendTransactionAsync({ ...txData, gas });
-    void queryClient.invalidateQueries({ queryKey: queryKeysFactory.pool });
-    return txHash;
+
+    const hash = await sendTransaction(wagmiConfigCore, {
+      ...txData,
+      gas,
+    });
+
+    await waitForTransactionReceipt(wagmiConfigCore, {
+      hash,
+    });
+    await queryClient.invalidateQueries({ queryKey: queryKeysFactory.pool });
+
+    return hash as string;
   };
 
   return {
