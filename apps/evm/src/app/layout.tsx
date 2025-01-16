@@ -42,6 +42,9 @@ async function RootLayout({
     cookieStore.get(CookieKey.SELECTED_MARKET)?.value ??
     markets[0]?.market;
 
+  const showZeroAssets = cookieStore.get(CookieKey.SHOW_ZERO_ASSETS)?.value;
+  const showZeroLps = cookieStore.get(CookieKey.SHOW_ZERO_LPS)?.value;
+
   return (
     <html lang='en'>
       <Box
@@ -52,7 +55,14 @@ async function RootLayout({
         minHeight={'100dvh'}
       >
         <AppRouterCacheProvider>
-          <Providers initialState={wagmiInitialState} selectedMarket={selectedMarket ?? ''}>
+          <Providers
+            initialState={wagmiInitialState}
+            appState={{
+              selectedMarket: selectedMarket ?? '',
+              [CookieKey.SHOW_ZERO_ASSETS]: showZeroAssets === 'true' ? true : false,
+              [CookieKey.SHOW_ZERO_LPS]: showZeroLps === 'true' ? true : false,
+            }}
+          >
             {children}
           </Providers>
         </AppRouterCacheProvider>

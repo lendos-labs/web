@@ -5,22 +5,18 @@ import { Typography } from '@mui/material';
 
 import { Reserves } from '@lendos/types/reserves';
 
-import { ListLoader } from '../../components/ListLoader/index.tsx';
-import { ListTopInfoItem } from '../../components/ListTopInfoItem';
-import { ListWrapper } from '../../components/ListWrapper';
-import { NoContent } from '../../components/NoContent';
-import { CustomTable, TableData } from '../../components/Table';
-import { CollateralTooltip } from '../../components/infoTooltips/CollateralTooltip.tsx';
-import { TotalSupplyAPYTooltip } from '../../components/infoTooltips/TotalSupplyAPYTooltip.tsx';
-import { useModalContext } from '../../providers/ModalProvider';
-import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
-import { useStateContext } from '../../providers/StateProvider';
-import {
-  getDexLpSuppliedPositionsCells,
-  getSuppliedPositionsCells,
-  lpHead,
-  suppliedPositionsHead,
-} from './TableData.tsx';
+import { ListLoader } from '../../../components/ListLoader/index.tsx';
+import { ListTopInfoItem } from '../../../components/ListTopInfoItem/index.tsx';
+import { ListWrapper } from '../../../components/ListWrapper/index.tsx';
+import { NoContent } from '../../../components/NoContent/index.tsx';
+import { CustomTable, TableData } from '../../../components/Table/index.tsx';
+import { CollateralTooltip } from '../../../components/infoTooltips/CollateralTooltip.tsx';
+import { TotalSupplyAPYTooltip } from '../../../components/infoTooltips/TotalSupplyAPYTooltip.tsx';
+import { useModalContext } from '../../../providers/ModalProvider/index.tsx';
+import { useReservesContext } from '../../../providers/ReservesProvider/index.tsx';
+import { useStateContext } from '../../../providers/StateProvider/index.tsx';
+import { getDexLpSuppliedPositionsCells, getSuppliedPositionsCells } from '../TableData.tsx';
+import { suppliedAssetsDataByType } from './constants';
 
 interface SuppliedPositionsListProps {
   type: Reserves;
@@ -76,8 +72,8 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
   if (loading) {
     return (
       <ListLoader
-        title={type === Reserves.ASSET ? 'Your supplies' : 'LP tokens under collateral'}
-        head={(type === Reserves.ASSET ? suppliedPositionsHead : lpHead).map(col => col.title)}
+        title={suppliedAssetsDataByType[type].title}
+        head={suppliedAssetsDataByType[type].header.map(col => col.title)}
       />
     );
   }
@@ -92,10 +88,10 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
           sx={{ mr: 4, display: 'flex', alignItems: 'center', gap: 1.5 }}
         >
           <PlayCircleIcon sx={{ color: 'primary.light' }} />
-          {type === Reserves.ASSET ? 'Your supplies' : 'LP tokens under collateral'}
+          {suppliedAssetsDataByType[type].title}
         </Typography>
       }
-      localStorageName='suppliedAssetsDashboardTableCollapse'
+      storageName={suppliedAssetsDataByType[type].collapseStorageName}
       noData={!data.length}
       topInfo={
         type === Reserves.ASSET && (
@@ -123,7 +119,7 @@ export const SuppliedPositionsList = ({ type }: SuppliedPositionsListProps) => {
       {data.length ? (
         <CustomTable
           heightRow={50}
-          header={type === Reserves.ASSET ? suppliedPositionsHead : lpHead}
+          header={suppliedAssetsDataByType[type].header}
           data={data}
           paddingColl={1}
         />

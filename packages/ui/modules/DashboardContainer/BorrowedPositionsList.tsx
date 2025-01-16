@@ -4,8 +4,9 @@ import { valueToBigNumber } from '@aave/math-utils';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { Typography } from '@mui/material';
 
-import { reservesDashboard } from '@lendos/constants/reserves';
+import { CookieKey } from '@lendos/constants/cookie';
 
+import { ListLoader } from '../../components/ListLoader/index.tsx';
 import { ListTopInfoItem } from '../../components/ListTopInfoItem';
 import { ListWrapper } from '../../components/ListWrapper';
 import { NoContent } from '../../components/NoContent';
@@ -15,55 +16,15 @@ import { TotalBorrowAPYTooltip } from '../../components/infoTooltips/TotalBorrow
 import { useModalContext } from '../../providers/ModalProvider';
 import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
 import { useStateContext } from '../../providers/StateProvider';
-import { borrowedPositionsHead, getBorrowedPositionsCells } from './TableData.tsx';
-
-const hide = true;
+import { borrowedPositionsHead, getBorrowedPositionsCells } from './TableData';
 
 export const BorrowedPositionsList = () => {
-  const { accountSummary } = useReservesContext();
+  const { accountTokenReserves, accountSummary, loading } = useReservesContext();
 
   const { openBorrow, openRepay, openRateSwitch, openDebtSwitch } = useModalContext();
   const { currentMarketData } = useStateContext();
 
   const [tooltipOpen, setTooltipOpen] = useState<boolean>(false);
-
-  // const borrowPositions =
-  //   data?.userReservesData.reduce(
-  //     (acc, userReserve) => {
-  //       if (userReserve.variableBorrows !== '0') {
-  //         acc.push({
-  //           ...userReserve,
-  //           borrowRateMode: InterestRate.Variable,
-  //           reserve: {
-  //             ...userReserve.reserve,
-  //             ...(userReserve.reserve.isWrappedBaseAsset
-  //               ? fetchIconSymbolAndName({
-  //                   symbol: currentNetworkConfig.baseAssetSymbol,
-  //                   underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
-  //                 })
-  //               : {}),
-  //           },
-  //         });
-  //       }
-  //       if (userReserve.stableBorrows !== '0') {
-  //         acc.push({
-  //           ...userReserve,
-  //           borrowRateMode: InterestRate.Stable,
-  //           reserve: {
-  //             ...userReserve.reserve,
-  //             ...(userReserve.reserve.isWrappedBaseAsset
-  //               ? fetchIconSymbolAndName({
-  //                   symbol: currentNetworkConfig.baseAssetSymbol,
-  //                   underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
-  //                 })
-  //               : {}),
-  //           },
-  //         });
-  //       }
-  //       return acc;
-  //     },
-  //     [] as (ExtendedFormattedUser['userReservesData'][0] & { borrowRateMode: InterestRate })[],
-  //   ) || [];
 
   const maxBorrowAmount = valueToBigNumber(
     accountSummary?.totalBorrowsMarketReferenceCurrency ?? '0',
@@ -75,24 +36,31 @@ export const BorrowedPositionsList = () => {
         .div(maxBorrowAmount)
         .toFixed();
 
-  // Transform to the DashboardReserve schema so the sort utils can work with it
-  // const preSortedReserves = borrowPositions as DashboardReserve[];
   const data = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO delete later
-    if (hide) {
-      return [];
-    }
-    return reservesDashboard.map(reserve => {
-      return getBorrowedPositionsCells(
-        reserve,
-        currentMarketData,
-        openBorrow,
-        openRepay,
-        openRateSwitch,
-        openDebtSwitch,
-      );
-    }) as TableData[];
-  }, [currentMarketData, openBorrow, openDebtSwitch, openRateSwitch, openRepay]);
+    return accountTokenReserves
+      .filter(reserve => reserve.variableBorrows !== '0' || reserve.stableBorrows !== '0')
+      .map(reserve => {
+        return getBorrowedPositionsCells(
+          reserve,
+          currentMarketData,
+          openBorrow,
+          openRepay,
+          openRateSwitch,
+          openDebtSwitch,
+        );
+      }) as TableData[];
+  }, [
+    accountTokenReserves,
+    currentMarketData,
+    openBorrow,
+    openDebtSwitch,
+    openRateSwitch,
+    openRepay,
+  ]);
+
+  if (loading) {
+    return <ListLoader title='Your borrows' head={borrowedPositionsHead.map(col => col.title)} />;
+  }
 
   return (
     <ListWrapper
@@ -107,21 +75,21 @@ export const BorrowedPositionsList = () => {
           Your borrows
         </Typography>
       }
-      localStorageName='borrowedAssetsDashboardTableCollapse'
+      storageName={CookieKey.BORROWED_ASSET_DASHBOARD_COLLAPSE}
       noData={!data.length}
       topInfo={
         <>
           {!!data.length && (
             <>
-              <ListTopInfoItem title={<>Balance</>} value={accountSummary?.totalBorrowsUSD ?? 0} />
+              <ListTopInfoItem title='Balance' value={accountSummary?.totalBorrowsUSD ?? 0} />
               <ListTopInfoItem
-                title={<>APY</>}
+                title='APY'
                 value={accountSummary?.debtAPY ?? 0}
                 percent
                 tooltip={<TotalBorrowAPYTooltip setOpen={setTooltipOpen} />}
               />
               <ListTopInfoItem
-                title={<>Borrow power used</>}
+                title='Borrow power used'
                 value={collateralUsagePercent || 0}
                 percent
                 tooltip={<BorrowPowerTooltip setOpen={setTooltipOpen} />}

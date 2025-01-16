@@ -11,20 +11,29 @@ import { CookieKey } from '@lendos/constants/cookie';
 import { marketsData } from './config/supported-markets';
 import { EvmMarketDataType } from './types/common';
 
-export const StateProvider = ({
-  children,
-  selectedMarket,
-}: {
+interface StateProviderProps {
   children: ReactNode;
-  selectedMarket: string;
-}) => {
+  appState: {
+    selectedMarket: string;
+    [CookieKey.SHOW_ZERO_ASSETS]: boolean;
+    [CookieKey.SHOW_ZERO_LPS]: boolean;
+  };
+}
+
+export const StateProvider = ({ children, appState }: StateProviderProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const availableMarkets = marketsData;
 
   const [currentMarketData, setMarket] = useState<EvmMarketDataType>(
-    marketsData[selectedMarket] ?? ({} as EvmMarketDataType),
+    marketsData[appState.selectedMarket] ?? ({} as EvmMarketDataType),
   );
+  const [showZero, setShowZero] = useState<
+    Record<CookieKey.SHOW_ZERO_ASSETS | CookieKey.SHOW_ZERO_LPS, boolean>
+  >({
+    [CookieKey.SHOW_ZERO_ASSETS]: appState[CookieKey.SHOW_ZERO_ASSETS],
+    [CookieKey.SHOW_ZERO_LPS]: appState[CookieKey.SHOW_ZERO_LPS],
+  });
 
   const setCurrentMarket = (market: string) => {
     const value = marketsData[market];
@@ -41,13 +50,23 @@ export const StateProvider = ({
     router.push(paths.join('/'));
   };
 
+  const showShowZeroByKey = (key: CookieKey.SHOW_ZERO_ASSETS | CookieKey.SHOW_ZERO_LPS) => {
+    setCookie(key, !showZero[key]);
+    setShowZero(state => ({
+      ...state,
+      [key]: !showZero[key],
+    }));
+  };
+
   return (
     <StateContext.Provider
       value={{
         availableMarkets,
         currentMarketData,
         minRemainingBaseTokenBalance: '1',
+        showZero,
         setCurrentMarket,
+        setShowZero: showShowZeroByKey,
       }}
     >
       {children}

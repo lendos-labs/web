@@ -22,20 +22,26 @@ import { StateProvider } from './state-provider';
 import { TransactionProvider } from './transaction-provider';
 import { ChildrenProps } from './types/common';
 
-export const Providers = ({
-  children,
-  initialState,
-  selectedMarket,
-}: ChildrenProps & { initialState?: State; selectedMarket: string }) => {
+interface ProviderProps extends ChildrenProps {
+  initialState?: State;
+  appState: {
+    selectedMarket: string;
+    [CookieKey.SHOW_ZERO_ASSETS]: boolean;
+    [CookieKey.SHOW_ZERO_LPS]: boolean;
+  };
+}
+
+export const Providers = ({ children, initialState, appState }: ProviderProps) => {
   useEffect(() => {
     void (async () => {
-      await setCookie(CookieKey.SELECTED_MARKET, selectedMarket);
+      await setCookie(CookieKey.SELECTED_MARKET, appState.selectedMarket);
     })();
-  }, [selectedMarket]);
+  }, [appState.selectedMarket]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <MuiLayout>
-        <StateProvider selectedMarket={selectedMarket}>
+        <StateProvider appState={appState}>
           <WagmiProvider config={wagmiConfig} initialState={initialState}>
             <ConnectKitProvider>
               <AccountProvider>

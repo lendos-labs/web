@@ -2,11 +2,15 @@ import { createContext, useContext } from 'react';
 
 import { MarketDataType, Markets } from '@lendos/types/market';
 
+import { CookieKey } from '@lendos/constants/cookie';
+
 export interface StateContextType {
   availableMarkets: Markets;
   currentMarketData: MarketDataType;
   minRemainingBaseTokenBalance: string;
+  showZero: Record<CookieKey.SHOW_ZERO_ASSETS | CookieKey.SHOW_ZERO_LPS, boolean>;
   setCurrentMarket: (market: string) => void;
+  setShowZero: (key: CookieKey.SHOW_ZERO_ASSETS | CookieKey.SHOW_ZERO_LPS) => void;
 }
 
 export const StateContext = createContext<StateContextType>({} as StateContextType);

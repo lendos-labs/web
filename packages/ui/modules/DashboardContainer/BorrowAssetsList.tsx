@@ -4,6 +4,7 @@ import { valueToBigNumber } from '@aave/math-utils';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { Box, Typography } from '@mui/material';
 
+import { CookieKey } from '@lendos/constants/cookie';
 import { reservesDashboard } from '@lendos/constants/reserves';
 
 import { ListWrapper } from '../../components/ListWrapper';
@@ -63,7 +64,7 @@ export const BorrowAssetsList = () => {
           Assets to borrow
         </Typography>
       }
-      localStorageName='borrowAssetsDashboardTableCollapse'
+      storageName={CookieKey.BORROW_ASSET_DASHBOARD_COLLAPSE}
       withTopMargin
       noData={borrowDisabled}
       subChildrenComponent={

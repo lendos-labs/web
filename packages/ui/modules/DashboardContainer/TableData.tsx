@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -40,7 +40,6 @@ import { TokenIcon } from '../../components/TokenIcon';
 import { VariableAPYTooltip } from '../../components/VariableAPYTooltip';
 import { APYTypeTooltip } from '../../components/infoTooltips/APYTypeTooltip.tsx';
 import { AvailableTooltip } from '../../components/infoTooltips/AvailableTooltip.tsx';
-import { CollateralSwitchTooltip } from '../../components/infoTooltips/CollateralSwitchTooltip.tsx';
 import { ModalArgsType, ModalContextType } from '../../providers/ModalProvider';
 import { ListAPRColumn } from './ListAPRColumn.tsx';
 import { ListButtonsColumn } from './ListButtonsColumn.tsx';
@@ -48,33 +47,6 @@ import { ListItemAPYButton } from './ListItemAPYButton.tsx';
 import { ListItemCanBeCollateral } from './ListItemCanBeCollateral.tsx';
 import { ListItemUsedAsCollateral } from './ListItemUsedAsCollateral.tsx';
 import { ListValueColumn } from './ListValueColumn.tsx';
-
-export const suppliedPositionsHead: TableHeadProperties[] = [
-  {
-    key: 'symbol',
-    title: 'Assets',
-    sortKey: 'symbol',
-    mobileHide: true,
-  },
-  {
-    key: 'underlyingBalance',
-    title: 'Balance',
-    sortKey: 'underlyingBalance',
-  },
-  {
-    key: 'supplyAPY',
-    title: 'APY',
-    sortKey: 'supplyAPY',
-  },
-  {
-    key: 'usageAsCollateralEnabledOnUser',
-    title: <CollateralSwitchTooltip text='Collateral' variant='h3' />,
-  },
-  {
-    key: 'action',
-    title: '',
-  },
-];
 
 export const getSuppliedPositionsCells = (
   userReserve: FormattedUserReserves<ReserveToken>,
@@ -204,28 +176,6 @@ export const getSuppliedPositionsCells = (
   };
 };
 
-export const lpHead = [
-  {
-    key: 'symbol',
-    title: 'Pool',
-    mobileHide: true,
-  },
-  {
-    key: 'underlyingBalanceUSD',
-    title: 'Value',
-    sortKey: 'underlyingBalanceUSD',
-  },
-  {
-    key: 'dexName',
-    title: 'DEX',
-    sortKey: 'dexName',
-  },
-  {
-    key: 'action',
-    title: '',
-  },
-];
-
 export const getDexLpSuppliedPositionsCells = (
   userReserve: FormattedUserReserves<ReserveLpToken>,
   market: MarketDataType,
@@ -301,40 +251,12 @@ export const getDexLpSuppliedPositionsCells = (
   };
 };
 
-export const supplyAssetsHead: TableHeadProperties[] = [
-  {
-    key: 'symbol',
-    title: 'Assets',
-    sortKey: 'symbol',
-    mobileHide: true,
-  },
-  {
-    key: 'walletBalance',
-    title: 'Wallet balance',
-    sortKey: 'walletBalance',
-  },
-  {
-    key: 'supplyAPY',
-    title: 'APY',
-    sortKey: 'supplyAPY',
-  },
-  {
-    key: 'usageAsCollateralEnabledOnUser',
-    title: 'Can be collateral',
-  },
-  {
-    key: 'action',
-    title: '',
-  },
-];
-
 export const getSupplyAssetsCells = (
   reserve: FormattedReservesAndIncentives<DashboardReserve>,
   market: MarketDataType,
   openSupply: ModalContextType<ModalArgsType>['openSupply'],
   handleSwitchClick: (reserve: FormattedReservesAndIncentives) => void,
-  handleClose: () => void,
-  handleClick: (event: MouseEvent<HTMLButtonElement>, id: string) => void,
+  setAnchor: Dispatch<SetStateAction<Record<string, HTMLElement | null>>>,
   anchorEl: HTMLElement | null,
 ) => {
   const symbol =
@@ -474,7 +396,9 @@ export const getSupplyAssetsCells = (
             display: { xs: 'none', sm: 'flex' },
           }}
           variant='white'
-          onClick={e => handleClick(e, reserve.underlyingAsset)}
+          onClick={e =>
+            setAnchor(state => ({ ...state, [reserve.underlyingAsset]: e.currentTarget }))
+          }
           aria-controls={anchorEl ? 'basic-menu' : undefined}
           aria-haspopup='true'
           aria-expanded={anchorEl ? 'true' : undefined}
@@ -505,7 +429,7 @@ export const getSupplyAssetsCells = (
               py: 0,
             },
           }}
-          onClose={handleClose}
+          onClose={() => setAnchor({})}
           keepMounted={true}
           slotProps={{
             paper: {
@@ -532,7 +456,7 @@ export const getSupplyAssetsCells = (
             sx={{ gap: 2 }}
             component={Link}
             href={`${Routes.reserveOverview}/?underlyingAsset=${reserve.underlyingAsset}&marketName=${market.market}`}
-            onClick={handleClose}
+            onClick={() => setAnchor({})}
           >
             <SvgIcon fontSize='small'>
               <VisibilityIcon />
@@ -544,28 +468,6 @@ export const getSupplyAssetsCells = (
     ),
   };
 };
-
-export const dexLpSupplyAssetsHead: TableHeadProperties[] = [
-  {
-    key: 'symbol',
-    title: 'Pool',
-    mobileHide: true,
-  },
-  {
-    key: 'walletBalance',
-    title: 'Collateral value',
-    sortKey: 'walletBalance',
-  },
-
-  {
-    key: 'dex',
-    title: 'DEX',
-  },
-  {
-    key: 'action',
-    title: '',
-  },
-];
 
 export const borrowedPositionsHead: TableHeadProperties[] = [
   {
@@ -595,13 +497,21 @@ export const borrowedPositionsHead: TableHeadProperties[] = [
 ];
 
 export const getBorrowedPositionsCells = (
-  reserve: FormattedReservesAndIncentives<DashboardReserve>,
+  userReserve: FormattedUserReserves<ReserveToken>,
   market: MarketDataType,
   openBorrow: ModalContextType<ModalArgsType>['openBorrow'],
   openRepay: ModalContextType<ModalArgsType>['openRepay'],
   openRateSwitch: ModalContextType<ModalArgsType>['openRateSwitch'],
   openDebtSwitch: ModalContextType<ModalArgsType>['openDebtSwitch'],
 ) => {
+  const { reserve } = userReserve;
+
+  let borrowRateMode: InterestRate | undefined;
+  if (userReserve.variableBorrows !== '0') {
+    borrowRateMode = InterestRate.Variable;
+  } else if (userReserve.stableBorrows !== '0') {
+    borrowRateMode = InterestRate.Stable;
+  }
   const disableBorrow =
     !reserve.isActive || !reserve.borrowingEnabled || reserve.isFrozen || reserve.isPaused;
 
@@ -611,24 +521,22 @@ export const getBorrowedPositionsCells = (
   const disableSwitch = reserve.isPaused || !reserve.isActive || reserve.symbol === 'stETH';
 
   const borrowAPY =
-    reserve.borrowRateMode === InterestRate.Variable
+    borrowRateMode === InterestRate.Variable
       ? Number(reserve.variableBorrowAPY)
       : Number(reserve.stableBorrowAPY);
 
   const incentives =
-    reserve.borrowRateMode === InterestRate.Variable
-      ? reserve.vIncentivesData
-      : reserve.sIncentivesData;
+    borrowRateMode === InterestRate.Variable ? reserve.vIncentivesData : reserve.sIncentivesData;
 
   const totalBorrows =
-    reserve.borrowRateMode === InterestRate.Variable
-      ? reserve.variableBorrows
-      : reserve.stableBorrows;
+    borrowRateMode === InterestRate.Variable
+      ? userReserve.variableBorrows
+      : userReserve.stableBorrows;
 
   const totalBorrowsUSD =
-    reserve.borrowRateMode === InterestRate.Variable
-      ? reserve.variableBorrowsUSD
-      : reserve.stableBorrowsUSD;
+    borrowRateMode === InterestRate.Variable
+      ? userReserve.variableBorrowsUSD
+      : userReserve.stableBorrowsUSD;
 
   return {
     symbol: (
@@ -663,10 +571,10 @@ export const getBorrowedPositionsCells = (
       <ListValueColumn symbol={reserve.symbol} value={totalBorrows} subValue={totalBorrowsUSD} />
     ),
     borrowAPY: <ListAPRColumn value={borrowAPY} incentives={incentives} symbol={reserve.symbol} />,
-    typeAPY: (
+    typeAPY: borrowRateMode && (
       <ListItemAPYButton
         stableBorrowRateEnabled={reserve.stableBorrowRateEnabled}
-        borrowRateMode={reserve.borrowRateMode}
+        borrowRateMode={borrowRateMode}
         disabled={
           !reserve.stableBorrowRateEnabled ||
           reserve.isFrozen ||
@@ -674,7 +582,7 @@ export const getBorrowedPositionsCells = (
           reserve.isPaused
         }
         onClick={() => {
-          openRateSwitch(reserve.underlyingAsset, reserve.borrowRateMode);
+          openRateSwitch(reserve.underlyingAsset, borrowRateMode);
         }}
         stableBorrowAPY={reserve.stableBorrowAPY}
         variableBorrowAPY={reserve.variableBorrowAPY}
@@ -689,7 +597,9 @@ export const getBorrowedPositionsCells = (
             disabled={disableSwitch}
             variant='contained'
             onClick={() => {
-              openDebtSwitch(reserve.underlyingAsset, reserve.borrowRateMode);
+              if (borrowRateMode) {
+                openDebtSwitch(reserve.underlyingAsset, borrowRateMode);
+              }
             }}
             data-cy={`swapButton`}
             size={'small'}
@@ -719,7 +629,9 @@ export const getBorrowedPositionsCells = (
           variant='white'
           size={'small'}
           onClick={() => {
-            openRepay(reserve.underlyingAsset, reserve.borrowRateMode, reserve.isFrozen);
+            if (borrowRateMode) {
+              openRepay(reserve.underlyingAsset, borrowRateMode, reserve.isFrozen);
+            }
           }}
           sx={{
             width: { xs: '100%', md: 'auto' },

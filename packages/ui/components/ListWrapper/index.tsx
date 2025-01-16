@@ -5,11 +5,13 @@ import { ReactNode, useState } from 'react';
 import { Box, BoxProps, Paper, Typography } from '@mui/material';
 import { getCookie } from 'cookies-next';
 
+import { CookieKey } from '@lendos/constants/cookie';
+
 import { toggleCookieStorageClick } from '../../helpers/toggle-cookie-storage-click.ts';
 
 interface ListWrapperProps {
   titleComponent: ReactNode;
-  localStorageName?: string;
+  storageName?: CookieKey;
   subTitleComponent?: ReactNode;
   subChildrenComponent?: ReactNode;
   topInfo?: ReactNode;
@@ -22,7 +24,7 @@ interface ListWrapperProps {
 
 export const ListWrapper = ({
   children,
-  localStorageName,
+  storageName,
   titleComponent,
   subTitleComponent,
   subChildrenComponent,
@@ -33,7 +35,7 @@ export const ListWrapper = ({
   tooltipOpen,
 }: ListWrapperProps) => {
   const [isCollapse, setIsCollapse] = useState(
-    localStorageName ? getCookie(localStorageName) === 'true' : false,
+    storageName ? getCookie(storageName) === 'true' : false,
   );
 
   const collapsed = isCollapse && !noData;
@@ -68,7 +70,7 @@ export const ListWrapper = ({
           {subTitleComponent}
         </Box>
 
-        {!!localStorageName && !noData && (
+        {!!storageName && !noData && (
           <Box
             sx={{
               display: 'flex',
@@ -95,7 +97,7 @@ export const ListWrapper = ({
               },
             }}
             onClick={() => {
-              void toggleCookieStorageClick(isCollapse, setIsCollapse, localStorageName);
+              void toggleCookieStorageClick(isCollapse, setIsCollapse, storageName);
             }}
           >
             <Typography variant='buttonM' color='text.secondary'>
