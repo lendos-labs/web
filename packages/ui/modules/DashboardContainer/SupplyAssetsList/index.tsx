@@ -6,7 +6,7 @@ import { Box, Typography } from '@mui/material';
 import { ListWrapper } from '@lendos/ui/components/ListWrapper';
 import { CustomTable, TableData } from '@lendos/ui/components/Table';
 
-import { DashboardReserve, FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
+import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
 
 import { ListLoader } from '../../../components/ListLoader/index.tsx';
 import { WalletEmptyInfo } from '../../../components/WalletEmptyInfo/index.tsx';

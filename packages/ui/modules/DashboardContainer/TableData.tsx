@@ -675,11 +675,17 @@ export const borrowAssetsHead: TableHeadProperties[] = [
 ];
 
 export const getBorrowAssetsCells = (
-  reserve: FormattedReservesAndIncentives<DashboardReserve>,
+  reserve: FormattedReservesAndIncentives<ReserveToken> & {
+    totalBorrows: string;
+    availableBorrows: number;
+    availableBorrowsInUSD: string;
+    formattedStableBorrowRate: number;
+    formattedVariableBorrowRate: number;
+  },
   market: MarketDataType,
   openBorrow: ModalContextType<ModalArgsType>['openBorrow'],
 ) => {
-  const disableBorrow = reserve.isFreezed ?? Number(reserve.availableBorrows) <= 0;
+  const disableBorrow = Number(reserve.availableBorrows) <= 0;
 
   return {
     symbol: (
@@ -729,7 +735,7 @@ export const getBorrowAssetsCells = (
     ),
     variableBorrowAPY: (
       <ListAPRColumn
-        value={Number(reserve.variableBorrowRate)}
+        value={reserve.formattedVariableBorrowRate}
         incentives={reserve.vIncentivesData}
         symbol={reserve.symbol}
       />

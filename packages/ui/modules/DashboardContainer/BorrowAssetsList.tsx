@@ -1,12 +1,18 @@
 import { useMemo } from 'react';
 
-import { valueToBigNumber } from '@aave/math-utils';
+import { USD_DECIMALS, valueToBigNumber } from '@aave/math-utils';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { Box, Typography } from '@mui/material';
 
-import { CookieKey } from '@lendos/constants/cookie';
-import { reservesDashboard } from '@lendos/constants/reserves';
+import { InterestRate } from '@lendos/types/reserves';
 
+import { CookieKey } from '@lendos/constants/cookie';
+import {
+  assetCanBeBorrowedByUser,
+  getMaxAmountAvailableToBorrow,
+} from '@lendos/constants/getMaxAmountAvailableToBorrow';
+
+import { ListLoader } from '../../components/ListLoader/index.tsx';
 import { ListWrapper } from '../../components/ListWrapper';
 import { NoContent } from '../../components/NoContent';
 import { CustomTable, TableData } from '../../components/Table';
@@ -16,16 +22,44 @@ import { useReservesContext } from '../../providers/ReservesProvider/index.tsx';
 import { useStateContext } from '../../providers/StateProvider';
 import { borrowAssetsHead, getBorrowAssetsCells } from './TableData.tsx';
 
-const hide = true;
-
 export const BorrowAssetsList = () => {
-  const { accountSummary } = useReservesContext();
+  const { accountSummary, reserves, baseCurrencyData, loading } = useReservesContext();
+
   const { openBorrow } = useModalContext();
   const { currentMarketData } = useStateContext();
+
+  const tokensToBorrow = reserves
+    .filter(reserve => (accountSummary ? assetCanBeBorrowedByUser(reserve, accountSummary) : false))
+    .map(reserve => {
+      const availableBorrows = accountSummary
+        ? Number(getMaxAmountAvailableToBorrow(reserve, accountSummary, InterestRate.Variable))
+        : 0;
+
+      const availableBorrowsInUSD = valueToBigNumber(availableBorrows)
+        .multipliedBy(reserve.formattedPriceInMarketReferenceCurrency)
+        .multipliedBy(baseCurrencyData.marketReferenceCurrencyPriceInUsd)
+        .shiftedBy(-USD_DECIMALS)
+        .toFixed(2);
+
+      return {
+        ...reserve,
+        totalBorrows: reserve.totalDebt,
+        availableBorrows,
+        availableBorrowsInUSD,
+        formattedStableBorrowRate:
+          reserve.stableBorrowRateEnabled && reserve.borrowingEnabled
+            ? Number(reserve.stableBorrowAPY)
+            : -1,
+        formattedVariableBorrowRate: reserve.borrowingEnabled
+          ? Number(reserve.variableBorrowAPY)
+          : -1,
+      };
+    });
 
   const maxBorrowAmount = valueToBigNumber(
     accountSummary?.totalBorrowsMarketReferenceCurrency ?? '0',
   ).plus(accountSummary?.availableBorrowsMarketReferenceCurrency ?? '0');
+
   const collateralUsagePercent = maxBorrowAmount.eq(0)
     ? '0'
     : valueToBigNumber(accountSummary?.totalBorrowsMarketReferenceCurrency ?? '0')
@@ -35,22 +69,22 @@ export const BorrowAssetsList = () => {
   const borrowReserves =
     accountSummary?.totalCollateralMarketReferenceCurrency === '0' ||
     +collateralUsagePercent >= 0.98
-      ? reservesDashboard
-      : reservesDashboard.filter(({ availableBorrowsInUSD, totalLiquidityUSD }) => {
+      ? tokensToBorrow
+      : tokensToBorrow.filter(({ availableBorrowsInUSD, totalLiquidityUSD }) => {
           return availableBorrowsInUSD !== '0.00' && totalLiquidityUSD !== '0';
         });
 
   const borrowDisabled = !borrowReserves.length;
 
   const data = useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO delete later
-    if (hide) {
-      return [];
-    }
-    return reservesDashboard.map(reserve => {
+    return tokensToBorrow.map(reserve => {
       return getBorrowAssetsCells(reserve, currentMarketData, openBorrow);
     }) as TableData[];
-  }, [currentMarketData, openBorrow]);
+  }, [tokensToBorrow, currentMarketData, openBorrow]);
+
+  if (loading) {
+    return <ListLoader title=' Assets to borrow' head={borrowAssetsHead.map(col => col.title)} />;
+  }
 
   return (
     <ListWrapper
