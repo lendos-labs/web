@@ -263,7 +263,11 @@ const Row = ({
       >
         {(collapsibleHeader ? header.filter(i => i.key !== 'actions') : header).map(
           (h, hIndex, hArr) => (
-            <TableCell key={h.key} sx={{ padding: paddingColl }} align={getAlign(hIndex, hArr)}>
+            <TableCell
+              key={h.key}
+              sx={{ padding: paddingColl, borderTopWidth: '1px', borderColor: 'border.grey' }}
+              align={getAlign(hIndex, hArr)}
+            >
               <Box
                 sx={{
                   display: 'flex',
