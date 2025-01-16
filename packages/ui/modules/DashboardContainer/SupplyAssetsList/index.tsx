@@ -42,7 +42,10 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
     [openSwitch, setAnchors],
   );
 
-  const reserveWithBalance = (type === Reserves.ASSET ? reserves : lpReserves).map(reserve => {
+  const reserveWithBalance: (FormattedReservesAndIncentives & {
+    walletBalance: string;
+    walletBalanceUSD: string;
+  })[] = (type === Reserves.ASSET ? reserves : lpReserves).map(reserve => {
     const walletBalance = walletBalances[reserve.underlyingAsset];
     return {
       ...reserve,
@@ -52,7 +55,7 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
   });
 
   const data = useMemo(() => {
-    return (reserveWithBalance as FormattedReservesAndIncentives<DashboardReserve>[])
+    return reserveWithBalance
       .filter(reserves => {
         if (showWithZero) {
           return reserves;

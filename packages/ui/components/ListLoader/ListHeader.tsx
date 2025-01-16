@@ -2,8 +2,8 @@ import { ReactNode } from 'react';
 
 import { ListButtonsColumn } from '../../modules/DashboardContainer/ListButtonsColumn';
 import { ListColumn } from '../ListColumn';
+import { ListHeaderTitle } from '../ListHeaderTitle';
 import { ListHeaderWrapper, ListHeaderWrapperProps } from '../ListHeaderWrapper';
-import { ListHeaderTitle } from '../ListHeaderTitle'
 
 // import { ListColumn } from '../../../components/lists/ListColumn';
 // import { ListHeaderTitle } from '../../../components/lists/ListHeaderTitle';

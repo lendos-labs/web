@@ -16,7 +16,6 @@ import {
 import { CapType } from '@lendos/types/cap';
 import { MarketDataType } from '@lendos/types/market';
 import {
-  DashboardReserve,
   FormattedReservesAndIncentives,
   InterestRate,
   ReserveLpToken,
@@ -252,7 +251,10 @@ export const getDexLpSuppliedPositionsCells = (
 };
 
 export const getSupplyAssetsCells = (
-  reserve: FormattedReservesAndIncentives<DashboardReserve>,
+  reserve: FormattedReservesAndIncentives & {
+    walletBalance: string;
+    walletBalanceUSD: string;
+  },
   market: MarketDataType,
   openSupply: ModalContextType<ModalArgsType>['openSupply'],
   handleSwitchClick: (reserve: FormattedReservesAndIncentives) => void,
