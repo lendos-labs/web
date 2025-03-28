@@ -1,5 +1,5 @@
 import { EstimateGasParameters, estimateGas } from '@wagmi/core';
-import { Address, encodeFunctionData, erc20Abi } from 'viem';
+import { Address, encodeFunctionData, erc20Abi, maxUint256, parseUnits } from 'viem';
 
 import { API_ETH_MOCK_ADDRESS, MAX_UINT_AMOUNT } from '@lendos/constants/addresses';
 
@@ -35,6 +35,31 @@ export class TransactionBuilder {
       abi: lendingPoolAbi,
       functionName: 'deposit',
       args: [reserve, amount, account, 0],
+    });
+
+    return {
+      data: txData,
+      to: this.market.addresses.LENDING_POOL,
+      account,
+    };
+  }
+
+  prepareWithdraw(
+    reserve: Address,
+    amount: string,
+    account: Address,
+    decimals: number,
+  ): EstimateGasParameters {
+    if (reserve.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
+      return {};
+    }
+
+    const convertedAmount = amount === '-1' ? maxUint256 : parseUnits(amount, decimals);
+
+    const txData = encodeFunctionData({
+      abi: lendingPoolAbi,
+      functionName: 'withdraw',
+      args: [reserve, convertedAmount, account],
     });
 
     return {

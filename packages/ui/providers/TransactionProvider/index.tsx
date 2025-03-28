@@ -8,6 +8,11 @@ export interface TransactionContextType {
     approvedAmount: ApproveData | undefined;
     approval: () => Promise<void>;
   };
+  withdraw: {
+    action: (reserve: string, amount: string, decimals: number) => Promise<string>;
+    approvedAmount: ApproveData | undefined;
+    approval: () => Promise<void>;
+  };
 }
 
 export const TransactionContext = createContext<TransactionContextType>(

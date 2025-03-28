@@ -6,6 +6,7 @@ import { Box, Checkbox, Typography } from '@mui/material';
 import { Reserves } from '@lendos/types/reserves';
 import { ExtendedFormattedUser } from '@lendos/types/user';
 
+import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
 import { calculateHFAfterWithdraw } from '@lendos/constants/utils/hfUtils';
 
 import { AssetInput } from '../../components/AssetInput';
@@ -22,6 +23,7 @@ import { Warning } from '../../components/Warning';
 import { useModalContext } from '../../providers/ModalProvider';
 import { useStateContext } from '../../providers/StateProvider';
 import { zeroLTVBlockingWithdraw } from '../utils.ts';
+import { WithdrawActions } from './WithdrawActions.tsx';
 import { useWithdrawError } from './WithdrawError.tsx';
 import { calculateMaxWithdrawAmount } from './utils.ts';
 
@@ -31,7 +33,7 @@ export const WithdrawModalContent = ({
   unwrap: withdrawUnWrapped,
   setUnwrap: setWithdrawUnWrapped,
   symbol,
-  // isWrongNetwork,
+  isWrongNetwork,
   user,
 }: ModalWrapperProps & {
   unwrap: boolean;
@@ -43,7 +45,7 @@ export const WithdrawModalContent = ({
   const currentChainId = currentMarketData.chain.id;
 
   const [_amount, setAmount] = useState('');
-  // const [withdrawMax, setWithdrawMax] = useState('');
+  const [withdrawMax, setWithdrawMax] = useState('');
   const [riskCheckboxAccepted, setRiskCheckboxAccepted] = useState(false);
   const amountRef = useRef<string>('');
 
@@ -58,9 +60,9 @@ export const WithdrawModalContent = ({
     amountRef.current = maxSelected ? maxAmountToWithdraw.toString(10) : value;
     setAmount(value);
     if (maxSelected && maxAmountToWithdraw.eq(underlyingBalance)) {
-      // setWithdrawMax('-1');
+      setWithdrawMax('-1');
     } else {
-      // setWithdrawMax(maxAmountToWithdraw.toString(10));
+      setWithdrawMax(maxAmountToWithdraw.toString(10));
     }
   };
 
@@ -216,19 +218,18 @@ export const WithdrawModalContent = ({
         </>
       )}
 
-      {/* <WithdrawActions*/}
-      {/*  poolReserve={poolReserve}*/}
-      {/*  amountToWithdraw={isMaxSelected ? withdrawMax : withdrawAmount}*/}
-      {/*  poolAddress={*/}
-      {/*    withdrawUnWrapped && poolReserve.isWrappedBaseAsset*/}
-      {/*      ? API_ETH_MOCK_ADDRESS*/}
-      {/*      : poolReserve.underlyingAsset*/}
-      {/*  }*/}
-      {/*  isWrongNetwork={isWrongNetwork}*/}
-      {/*  symbol={showedSymbol}*/}
-      {/*  blocked={blockingError !== undefined || (displayRiskCheckbox && !riskCheckboxAccepted)}*/}
-      {/*  sx={displayRiskCheckbox ? { mt: 0 } : {}}*/}
-      {/*/ >*/}
+      <WithdrawActions
+        poolReserve={poolReserve}
+        amountToWithdraw={isMaxSelected ? withdrawMax : withdrawAmount}
+        poolAddress={
+          withdrawUnWrapped && poolReserve.isWrappedBaseAsset
+            ? API_ETH_MOCK_ADDRESS
+            : poolReserve.underlyingAsset
+        }
+        isWrongNetwork={isWrongNetwork}
+        symbol={showedSymbol}
+        blocked={blockingError !== undefined || (displayRiskCheckbox && !riskCheckboxAccepted)}
+      />
     </>
   );
 };

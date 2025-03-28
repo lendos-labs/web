@@ -1,9 +1,9 @@
 import React, { ReactNode, useMemo, useState } from 'react';
 
-import {  readContracts, watchAsset } from '@wagmi/core';
+import { readContracts, watchAsset } from '@wagmi/core';
 import { useModal } from 'connectkit';
 import { Address, erc20Abi } from 'viem';
-import { useAccount, useChainId, useDisconnect } from 'wagmi';
+import { useAccount, useDisconnect, useSwitchChain } from 'wagmi';
 
 import { AccountContext } from '@lendos/ui/providers/AccountProvider';
 
@@ -11,17 +11,17 @@ import { wagmiConfigCore } from './config/connectors';
 
 export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const [switchNetworkError, setSwitchNetworkError] = useState<Error>();
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, chainId } = useAccount();
   const { setOpen } = useModal();
   const { disconnect } = useDisconnect();
-  const chainId = useChainId();
+  const { switchChain } = useSwitchChain();
 
   return (
     <AccountContext.Provider
       value={useMemo(
         () => ({
-          account: address as string | undefined,
-          chainId,
+          account: address as string | null,
+          chainId: Number(chainId),
           connected: isConnected,
           loading: false,
           switchNetworkError,
@@ -53,9 +53,7 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
               },
             });
           },
-          switchNetwork: async () => {
-            //
-          },
+          switchNetwork: (chainId: number) => switchChain({ chainId }),
         }),
         [
           address,
@@ -65,6 +63,7 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
           setSwitchNetworkError,
           disconnect,
           setOpen,
+          switchChain,
         ],
       )}
     >

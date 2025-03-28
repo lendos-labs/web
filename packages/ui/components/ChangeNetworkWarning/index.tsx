@@ -1,6 +1,7 @@
 import { Button, Typography } from '@mui/material';
 
 import { useAccountContext } from '../../providers/AccountProvider';
+import { useStateContext } from '../../providers/StateProvider';
 import { Warning } from '../Warning';
 
 export interface ChangeNetworkWarningProps {
@@ -8,6 +9,7 @@ export interface ChangeNetworkWarningProps {
 }
 
 export const ChangeNetworkWarning = ({ networkName }: ChangeNetworkWarningProps) => {
+  const { currentMarketData } = useStateContext();
   const { switchNetwork, switchNetworkError } = useAccountContext();
 
   return (
@@ -23,7 +25,7 @@ export const ChangeNetworkWarning = ({ networkName }: ChangeNetworkWarningProps)
           <Button
             variant='text'
             sx={{ verticalAlign: 'top', color: 'text.dark' }}
-            onClick={() => void switchNetwork()}
+            onClick={() => switchNetwork(currentMarketData.chain.id)}
             disableRipple
           >
             <Typography variant='subtitle'>Switch Network</Typography>

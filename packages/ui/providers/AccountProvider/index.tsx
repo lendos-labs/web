@@ -8,7 +8,7 @@ export interface AccountContextType {
   switchNetworkError: Error | undefined;
   setSwitchNetworkError: Dispatch<SetStateAction<Error | undefined>>;
   addToken: (address: string) => Promise<void>;
-  switchNetwork: () => Promise<void>;
+  switchNetwork: (chainId: number) => void;
   connect: () => void;
   disconnect: () => void;
 }

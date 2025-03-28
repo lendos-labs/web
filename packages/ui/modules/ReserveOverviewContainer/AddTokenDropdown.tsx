@@ -71,7 +71,7 @@ export const AddTokenDropdown = ({ poolReserve, hideAToken }: AddTokenDropdownPr
           onClick={() => {
             void (async () => {
               if (currentMarketData.chain.id !== connectedChainId) {
-                await switchNetwork();
+                switchNetwork(currentMarketData.chain.id);
                 setChangingNetwork(true);
               } else {
                 await addToken(poolReserve.underlyingAsset);
@@ -98,7 +98,7 @@ export const AddTokenDropdown = ({ poolReserve, hideAToken }: AddTokenDropdownPr
               onClick={() => {
                 void (async () => {
                   if (currentMarketData.chain.id !== connectedChainId) {
-                    await switchNetwork();
+                    switchNetwork(currentMarketData.chain.id);
                     setChangingNetwork(true);
                   } else {
                     await addToken(poolReserve.underlyingAsset);

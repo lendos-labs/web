@@ -73,7 +73,6 @@ export const SupplyActions = ({
   return (
     <TxActionsWrapper
       blocked={blocked}
-      // TODO fix it
       isWrongNetwork={isWrongNetwork}
       requiresAmount
       amount={amountToSupply}
