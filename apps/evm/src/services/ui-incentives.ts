@@ -21,6 +21,7 @@ class UiIncentivesService {
       address: marketData.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getReservesIncentivesData',
       args: [marketData.addresses.LENDING_POOL_ADDRESS_PROVIDER],
+      chainId: marketData.chain.id,
     });
 
     return response.map(r => ({
@@ -38,6 +39,7 @@ class UiIncentivesService {
       address: marketData.addresses.UI_INCENTIVE_DATA_PROVIDER,
       functionName: 'getUserReservesIncentivesData',
       args: [marketData.addresses.LENDING_POOL_ADDRESS_PROVIDER, user as Address],
+      chainId: marketData.chain.id,
     });
 
     return response.map(r => ({

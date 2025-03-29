@@ -20,7 +20,6 @@ export const usePoolsFormattedReserves = (
 
   return poolsReservesQueries.map((poolReservesQuery, index) => {
     const marketData = marketsData[index];
-
     const poolReservesIncentivesQuery = poolsReservesIncentivesQueries[index];
 
     const networkConfig = marketData?.chain ?? ({} as NetworkConfig);
@@ -30,7 +29,6 @@ export const usePoolsFormattedReserves = (
     ) => {
       return formatReservesAndIncentives(reservesData, incentivesData, networkConfig);
     };
-
     return poolReservesIncentivesQuery
       ? {
           ...combineQueries(

@@ -12,8 +12,6 @@ import { injected, walletConnect } from 'wagmi/connectors';
 
 const WALLETCONNECT_PROJECT_ID = process.env['NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID'];
 
-const ALCHEMY_ID = process.env['NEXT_PUBLIC_ALCHEMY_ID'];
-
 const isTestnet = process.env['NEXT_PUBLIC_ENV'] === 'testnet';
 
 const METADATA = {
@@ -48,13 +46,14 @@ export const wagmiConfig = createWagmiConfig({
   chains: supportedChains,
   connectors: generateETHConnectors(),
   transports: {
-    [neonMainnet.id]: fallback([http(`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_ID}`)]),
-    [neonDevnet.id]: fallback([http('https://245022926.rpc.thirdweb.com')]),
-    [sepolia.id]: fallback([http(`https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_ID}`)]),
+    [neonMainnet.id]: fallback([http(`https://neon-proxy-mainnet.solana.p2p.org`)]),
+    [neonDevnet.id]: fallback([http('https://devnet.neonevm.org/', { timeout: 0 })]),
+    [sepolia.id]: fallback([http(`https://1rpc.io/sepolia`)]),
   },
   storage: createStorage({
     storage: cookieStorage,
   }),
+
   ssr: true,
 });
 

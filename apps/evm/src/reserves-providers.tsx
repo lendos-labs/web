@@ -22,7 +22,6 @@ export const ReservesProvider = ({ children }: { children: ReactNode }) => {
   const state = useStateContext();
   const currentMarketData = state.currentMarketData as EvmMarketDataType;
   const { account } = useAccountContext();
-
   const { data: reserves, isLoading: reservesDataLoading } =
     usePoolReservesHumanized(currentMarketData);
 

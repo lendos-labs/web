@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { sendTransaction, waitForTransactionReceipt } from '@wagmi/core';
+import { estimateFeesPerGas, sendTransaction, waitForTransactionReceipt } from '@wagmi/core';
 import { Address, parseUnits } from 'viem';
 import { useAccount } from 'wagmi';
 
@@ -55,15 +55,22 @@ export const useSupply = () => {
       address ?? '0x',
     );
     const gas = await txBuilder.estimateGas(txData);
+    const result = await estimateFeesPerGas(wagmiConfigCore, {
+      chainId: currentMarketData.chain.id,
+    });
 
     const hash = await sendTransaction(wagmiConfigCore, {
       ...txData,
       gas,
+      maxFeePerGas: result.maxFeePerGas,
+      maxPriorityFeePerGas: result.maxPriorityFeePerGas,
+      chainId: currentMarketData.chain.id,
     });
 
     await waitForTransactionReceipt(wagmiConfigCore, {
       hash,
     });
+
     await queryClient.invalidateQueries({ queryKey: queryKeysFactory.pool });
 
     return hash as string;
