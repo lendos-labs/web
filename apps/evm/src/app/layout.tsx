@@ -36,7 +36,6 @@ async function RootLayout({
   const markets = Object.values(marketsData);
 
   const marketFromPath = markets.find(i => i.market === pathname?.split('/')[1]);
-
   const selectedMarket =
     marketFromPath?.market ??
     cookieStore.get(CookieKey.SELECTED_MARKET)?.value ??

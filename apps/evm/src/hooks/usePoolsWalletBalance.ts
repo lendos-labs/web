@@ -28,27 +28,28 @@ const formatAggregatedBalance = ({
     networkBaseTokenPriceInUsd: '0',
     networkBaseTokenPriceDecimals: 0,
   };
-
   const walletBalances = balances ?? [];
+
   // process data
   let hasEmptyWallet = true;
   const aggregatedBalance = walletBalances.reduce<
     Record<string, { amount: string; amountUSD: string }>
   >((acc, reserve) => {
     const poolReserve = reserves.find(poolReserve => {
-      if (reserve.address === API_ETH_MOCK_ADDRESS.toLowerCase()) {
+      if (reserve.address.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
         return (
           poolReserve.symbol.toLowerCase() === marketData.chain.wrappedAsset.symbol.toLowerCase()
         );
       }
       return poolReserve.underlyingAsset.toLowerCase() === reserve.address.toLowerCase();
     });
+
     if (reserve.amount !== '0') {
       hasEmptyWallet = false;
     }
 
     if (poolReserve) {
-      acc[reserve.address.toLowerCase()] = {
+      acc[reserve.address] = {
         amount: normalize(reserve.amount, poolReserve.decimals),
         amountUSD: nativeToUSD({
           amount: new BigNumber(reserve.amount),
@@ -87,6 +88,7 @@ export const usePoolsWalletBalances = (marketData: EvmMarketDataType[]) => {
       marketData: marketData[index] as unknown as EvmMarketDataType,
     }),
   );
+
   return {
     walletBalances,
     isLoading,

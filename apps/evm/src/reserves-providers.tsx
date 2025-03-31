@@ -24,7 +24,6 @@ export const ReservesProvider = ({ children }: { children: ReactNode }) => {
   const { account } = useAccountContext();
   const { data: reserves, isLoading: reservesDataLoading } =
     usePoolReservesHumanized(currentMarketData);
-
   const baseCurrencyData = reserves?.baseCurrencyData;
 
   const { data: formattedPoolReserves, isLoading: formattedPoolReservesLoading } =

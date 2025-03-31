@@ -12,5 +12,6 @@ export interface ExplorerLinkBuilder {
 export interface NetworkConfig extends Chain {
   networkLogoPath: string;
   wrappedAsset: { name: string; symbol: string; decimals: number };
+  baseAssetSymbol: string;
   explorerLinkBuilder: (args: ExplorerLinkBuilder) => string;
 }

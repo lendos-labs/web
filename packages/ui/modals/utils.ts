@@ -17,7 +17,6 @@ export const zeroLTVBlockingWithdraw = (user: ExtendedFormattedUser): string[] =
 
 export const checkRequiresApproval = ({
   approvedAmount,
-
   amount,
 }: {
   approvedAmount: number;

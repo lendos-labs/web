@@ -8,6 +8,9 @@ import { CustomTable, TableData } from '@lendos/ui/components/Table';
 
 import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves';
 
+import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
+import { fetchIconSymbolAndName } from '@lendos/constants/fetchIconSymbolAndName';
+
 import { ListLoader } from '../../../components/ListLoader/index.tsx';
 import { WalletEmptyInfo } from '../../../components/WalletEmptyInfo/index.tsx';
 import { Warning } from '../../../components/Warning/index.tsx';
@@ -41,18 +44,41 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
     },
     [openSwitch, setAnchors],
   );
-
   const reserveWithBalance: (FormattedReservesAndIncentives & {
     walletBalance: string;
     walletBalanceUSD: string;
-  })[] = (type === Reserves.ASSET ? reserves : lpReserves).map(reserve => {
-    const walletBalance = walletBalances[reserve.underlyingAsset];
-    return {
-      ...reserve,
-      walletBalance: walletBalance?.amount ?? '0',
-      walletBalanceUSD: walletBalance?.amountUSD ?? '0',
-    };
-  });
+  })[] = (type === Reserves.ASSET ? reserves : lpReserves)
+    .map(reserve => {
+      const walletBalance = walletBalances[reserve.underlyingAsset];
+
+      if (reserve.isWrappedBaseAsset) {
+        return [
+          {
+            ...reserve,
+            ...fetchIconSymbolAndName({
+              symbol: currentMarketData.chain.baseAssetSymbol,
+              underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
+            }),
+            underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
+            walletBalance: walletBalances[API_ETH_MOCK_ADDRESS]?.amount,
+            walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS]?.amountUSD,
+            id: reserve.id + 'base',
+          },
+          {
+            ...reserve,
+            walletBalance: walletBalance?.amount ?? '0',
+            walletBalanceUSD: walletBalance?.amountUSD ?? '0',
+          },
+        ];
+      }
+
+      return {
+        ...reserve,
+        walletBalance: walletBalance?.amount ?? '0',
+        walletBalanceUSD: walletBalance?.amountUSD ?? '0',
+      };
+    })
+    .flat();
 
   const data = useMemo(() => {
     return reserveWithBalance
@@ -110,7 +136,9 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
               data.length === 0 && <WalletEmptyInfo name={currentMarketData.chain.name} />
             )}
           </Box>
-          {data.length >= 1 && <DashboardListTopPanel storageName={showZeroStorageName} />}
+          {reserveWithBalance.length >= 1 && (
+            <DashboardListTopPanel storageName={showZeroStorageName} />
+          )}
         </>
       }
     >

@@ -26,6 +26,7 @@ export const marketsData: Markets<Address> = isTestnet
         market: SupportedMarkets.neon_devnet,
         chain: {
           ...neonDevnet,
+          baseAssetSymbol: 'NEON',
           wrappedAsset: { name: 'WNEON', symbol: 'WNEON', decimals: 18 },
           explorerLinkBuilder: linkBuilder({
             baseUrl: neonDevnet.blockExplorers.default.url,
@@ -54,6 +55,7 @@ export const marketsData: Markets<Address> = isTestnet
         market: SupportedMarkets.sepolia,
         chain: {
           ...sepolia,
+          baseAssetSymbol: 'ETH',
           wrappedAsset: { name: 'WETH', symbol: 'WETH', decimals: 18 },
           explorerLinkBuilder: linkBuilder({
             baseUrl: sepolia.blockExplorers.default.url,
@@ -88,6 +90,7 @@ export const marketsData: Markets<Address> = isTestnet
         market: SupportedMarkets.neon,
         chain: {
           ...neonMainnet,
+          baseAssetSymbol: 'NEON',
           wrappedAsset: { name: 'WNEON', symbol: 'WNEON', decimals: 18 },
           explorerLinkBuilder: linkBuilder({
             baseUrl: neonMainnet.blockExplorers.default.url,
