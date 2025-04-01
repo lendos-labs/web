@@ -3,6 +3,8 @@ import { MarketDataType } from '@lendos/types/market';
 export const queryKeysFactory = {
   pool: ['pool'] as const,
   incentives: ['incentives'] as const,
+  voting: ['voting'] as const,
+  createEmployee: ['createEmployee'] as const,
   market: (marketData: MarketDataType) => [marketData.chain.id, marketData.market],
   userPoolReservesDataHumanized: (user: string, marketData: MarketDataType) => [
     ...queryKeysFactory.pool,

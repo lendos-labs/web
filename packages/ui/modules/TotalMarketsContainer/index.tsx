@@ -12,7 +12,8 @@ import { TotalTopPanel } from './TotalTopPanel.tsx';
 const TotalMarketsContainer = () => {
   const data = [] as TotalFormatReserveWithMarkets[];
   const { availableMarkets } = useStateContext();
-  const marketsData = availableMarkets;
+  const marketsData = Object.values(availableMarkets);
+
   return (
     <>
       <TotalTopPanel reserves={data} />
