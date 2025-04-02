@@ -3,13 +3,11 @@ import { cookies, headers } from 'next/headers';
 
 import { Box } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import { cookieToInitialState } from 'wagmi';
 
 import { aldrich, montserrat } from '@lendos/ui/fonts';
 
 import { CookieKey } from '@lendos/constants/cookie';
 
-import { wagmiConfig } from '../config/connectors';
 import { marketsData } from '../config/supported-markets';
 import { Providers } from '../providers';
 import { ChildrenProps } from '../types/common';
@@ -30,7 +28,7 @@ async function RootLayout({
 }) {
   const head = await headers();
   const cookieStore = await cookies();
-  const wagmiInitialState = cookieToInitialState(wagmiConfig, head.get('cookie'));
+
   const pathname = head.get('x-pathname');
 
   const markets = Object.values(marketsData);
@@ -55,7 +53,6 @@ async function RootLayout({
       >
         <AppRouterCacheProvider>
           <Providers
-            initialState={wagmiInitialState}
             appState={{
               selectedMarket: selectedMarket ?? '',
               [CookieKey.SHOW_ZERO_ASSETS]: showZeroAssets === 'true' ? true : false,

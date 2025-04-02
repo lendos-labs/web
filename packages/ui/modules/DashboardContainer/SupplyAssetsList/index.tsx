@@ -50,7 +50,6 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
   })[] = (type === Reserves.ASSET ? reserves : lpReserves)
     .map(reserve => {
       const walletBalance = walletBalances[reserve.underlyingAsset];
-
       if (reserve.isWrappedBaseAsset) {
         return [
           {
@@ -79,6 +78,8 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
       };
     })
     .flat();
+
+  console.log({ reserveWithBalance });
 
   const data = useMemo(() => {
     return reserveWithBalance

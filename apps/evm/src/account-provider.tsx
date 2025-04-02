@@ -1,20 +1,19 @@
 import React, { ReactNode, useMemo, useState } from 'react';
 
+import { useAppKit, useAppKitAccount, useAppKitNetwork, useDisconnect } from '@reown/appkit/react';
 import { readContracts, watchAsset } from '@wagmi/core';
-import { useModal } from 'connectkit';
 import { Address, erc20Abi } from 'viem';
-import { useAccount, useDisconnect, useSwitchChain } from 'wagmi';
 
 import { AccountContext } from '@lendos/ui/providers/AccountProvider';
 
-import { wagmiConfigCore } from './config/connectors';
+import { wagmiAdapter } from './config/connectors.ts';
 
 export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const [switchNetworkError, setSwitchNetworkError] = useState<Error>();
-  const { address, isConnected, chainId } = useAccount();
-  const { setOpen } = useModal();
+  const { open } = useAppKit();
   const { disconnect } = useDisconnect();
-  const { switchChain } = useSwitchChain();
+  const { address, isConnected } = useAppKitAccount();
+  const { switchNetwork, chainId } = useAppKitNetwork();
 
   return (
     <AccountContext.Provider
@@ -27,9 +26,9 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
           switchNetworkError,
           setSwitchNetworkError,
           disconnect: () => disconnect(),
-          connect: () => setOpen(true),
+          connect: () => open(),
           addToken: async (address: string) => {
-            const res = await readContracts(wagmiConfigCore, {
+            const res = await readContracts(wagmiAdapter.wagmiConfig, {
               contracts: [
                 {
                   abi: erc20Abi,
@@ -44,7 +43,7 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
               ],
             });
 
-            await watchAsset(wagmiConfigCore, {
+            await watchAsset(wagmiAdapter.wagmiConfig, {
               type: 'ERC20',
               options: {
                 address: address,
@@ -53,7 +52,7 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
               },
             });
           },
-          switchNetwork: (chainId: number) => switchChain({ chainId }),
+          switchNetwork: network => switchNetwork(network),
         }),
         [
           address,
@@ -62,8 +61,8 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
           switchNetworkError,
           setSwitchNetworkError,
           disconnect,
-          setOpen,
-          switchChain,
+          open,
+          switchNetwork,
         ],
       )}
     >

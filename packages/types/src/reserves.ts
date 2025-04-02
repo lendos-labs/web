@@ -1,7 +1,7 @@
 import { ReserveDataHumanized as ReserveDataHumanizedType } from '@aave/contract-helpers';
 
 import { IncentiveDataHumanized } from './ui-incentives';
-import { FormatReserveUSDResponse } from './user';
+import { ExtendedFormattedUser, FormatReserveUSDResponse } from './user';
 
 export interface ReserveIncentiveResponse {
   incentiveAPR: string;
@@ -242,3 +242,59 @@ export interface ReservesIncentiveDataHumanized {
   vIncentiveData: IncentiveDataHumanized;
   sIncentiveData: IncentiveDataHumanized;
 }
+
+export interface BorrowAssetsItem {
+  id: string;
+  symbol: string;
+  name: string;
+  iconSymbol: string;
+  underlyingAsset: string;
+  stableBorrowRate: number | string;
+  variableBorrowRate: number | string;
+  availableBorrows: number | string;
+  availableBorrowsInUSD: number | string;
+  stableBorrowRateEnabled?: boolean;
+  isFreezed?: boolean;
+  aIncentivesData?: ReserveIncentiveResponse[];
+  vIncentivesData?: ReserveIncentiveResponse[];
+  sIncentivesData?: ReserveIncentiveResponse[];
+  borrowCap: string;
+  borrowableInIsolation: boolean;
+  totalBorrows: string;
+  totalLiquidityUSD: string;
+  borrowingEnabled: boolean;
+  isActive: boolean;
+  eModeCategoryId: number;
+}
+
+export interface SupplyAssetsItem {
+  underlyingAsset: string;
+  symbol: string;
+  iconSymbol: string;
+  name: string;
+  walletBalance: string;
+  walletBalanceUSD: string;
+  availableToDeposit: string;
+  availableToDepositUSD: string;
+  supplyAPY: number | string;
+  aIncentivesData?: ReserveIncentiveResponse[];
+  isFreezed?: boolean;
+  isIsolated: boolean;
+  totalLiquidity: string;
+  supplyCap: string;
+  isActive?: boolean;
+  usageAsCollateralEnabledOnUser: boolean;
+  detailsAddress: string;
+}
+
+type DashboardReserveData<T> = ExtendedFormattedUser['userReservesData'][0] &
+  FormattedReservesAndIncentives<T> &
+  BorrowAssetsItem &
+  SupplyAssetsItem;
+
+export type DashboardReserve<T = ReserveToken | ReserveLpToken> = DashboardReserveData<T> & {
+  // Additions
+  borrowRateMode: InterestRate; // for the borrow positions list
+  // Overrides
+  reserve: FormattedReservesAndIncentives;
+};

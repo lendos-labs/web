@@ -177,6 +177,7 @@ export const formatUserSummaryAndIncentives = (
   reserveIncentiveData: ReservesIncentiveDataHumanized[],
   userIncentiveData: UserReservesIncentivesDataHumanized[],
 ) => {
+  console.log({ userPoolReserves });
   const baseCurrencyData = selectBaseCurrencyData(poolReserves);
   const userReserves = selectUserReservesData(userPoolReserves);
   const userEmodeCategoryId = selectUserEModeCategory(userPoolReserves);

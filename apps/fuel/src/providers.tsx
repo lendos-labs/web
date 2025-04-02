@@ -3,7 +3,6 @@
 import React from 'react';
 
 import { QueryClientProvider } from '@tanstack/react-query';
-import { ConnectKitProvider } from 'connectkit';
 import { State, WagmiProvider } from 'wagmi';
 
 import { MainLayout } from '@lendos/ui/layout/MainLayout';
@@ -26,19 +25,17 @@ export const Providers = ({ children, initialState }: ChildrenProps & { initialS
       <MuiLayout>
         <StateProvider>
           <WagmiProvider config={wagmiConfig} initialState={initialState}>
-            <ConnectKitProvider>
-              <FuelProviders>
-                <AccountProvider>
-                  <ReservesProvider>
-                    <BalanceProvider>
-                      <ModalContextProvider>
-                        <MainLayout>{children}</MainLayout>
-                      </ModalContextProvider>
-                    </BalanceProvider>
-                  </ReservesProvider>
-                </AccountProvider>
-              </FuelProviders>
-            </ConnectKitProvider>
+            <FuelProviders>
+              <AccountProvider>
+                <ReservesProvider>
+                  <BalanceProvider>
+                    <ModalContextProvider>
+                      <MainLayout>{children}</MainLayout>
+                    </ModalContextProvider>
+                  </BalanceProvider>
+                </ReservesProvider>
+              </AccountProvider>
+            </FuelProviders>
           </WagmiProvider>
         </StateProvider>
       </MuiLayout>
