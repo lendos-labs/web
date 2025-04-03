@@ -2,6 +2,8 @@ import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 import { BigNumber } from 'bignumber.js';
 import memoize from 'micro-memoize';
 
+import { useAccountContext } from '@lendos/ui/providers/AccountProvider';
+
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 import { UserYield } from '@lendos/types/user';
 
@@ -78,8 +80,9 @@ export const useUserYields = (
   marketsData: EvmMarketDataType[],
 ): SimplifiedUseQueryResult<UserYield>[] => {
   const poolsFormattedReservesQuery = usePoolsFormattedReserves(marketsData);
-
   const userSummaryQuery = useUserSummariesAndIncentives(marketsData);
+
+  const { account } = useAccountContext();
 
   return poolsFormattedReservesQuery.map((elem, index) => {
     const selector = (
@@ -88,6 +91,14 @@ export const useUserYields = (
     ) => {
       return formatUserYield(formattedPoolReserves, user);
     };
+
+    if (!account || !userSummaryQuery[index]) {
+      return {
+        data: undefined,
+        isLoading: false,
+        error: undefined,
+      } as SimplifiedUseQueryResult<UserYield>;
+    }
 
     return userSummaryQuery[index]
       ? (combineQueries(

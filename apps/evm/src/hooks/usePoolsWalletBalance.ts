@@ -49,7 +49,6 @@ const formatAggregatedBalance = ({
     }
 
     if (poolReserve) {
-      console.log(reserve);
       acc[reserve.address.toLowerCase()] = {
         amount: normalize(reserve.amount, poolReserve.decimals),
         amountUSD: nativeToUSD({

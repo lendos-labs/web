@@ -59,8 +59,8 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
               underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
             }),
             underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
-            walletBalance: walletBalances[API_ETH_MOCK_ADDRESS]?.amount,
-            walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS]?.amountUSD,
+            walletBalance: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount,
+            walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amountUSD,
             id: reserve.id + 'base',
           },
           {
@@ -78,8 +78,6 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
       };
     })
     .flat();
-
-  console.log({ reserveWithBalance });
 
   const data = useMemo(() => {
     return reserveWithBalance

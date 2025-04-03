@@ -2,6 +2,8 @@ import { SolanaAdapter } from '@reown/appkit-adapter-solana';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import {
   AppKitNetwork,
+  hemi,
+  hemiSepolia,
   neonDevnet,
   neonMainnet,
   sepolia,
@@ -9,7 +11,7 @@ import {
   solanaDevnet,
 } from '@reown/appkit/networks';
 import { CreateConnectorFn, fallback, http } from 'wagmi';
-import { injected, walletConnect } from 'wagmi/connectors';
+import { injected } from 'wagmi/connectors';
 
 export const metadata = {
   name: 'AppKit',
@@ -18,24 +20,17 @@ export const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/179229932'],
 };
 
-const WALLETCONNECT_PROJECT_ID = process.env['NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID'];
-
 const isTestnet = process.env['NEXT_PUBLIC_ENV'] === 'testnet';
 
-const testnetNetworks: [AppKitNetwork, ...AppKitNetwork[]] = [neonDevnet, sepolia, solanaDevnet];
-const mainnetNetworks: [AppKitNetwork, ...AppKitNetwork[]] = [neonMainnet, solana];
+const testnetNetworks: [AppKitNetwork, ...AppKitNetwork[]] = [
+  neonDevnet,
+  sepolia,
+  solanaDevnet,
+  hemiSepolia,
+];
+const mainnetNetworks: [AppKitNetwork, ...AppKitNetwork[]] = [neonMainnet, solana, hemi];
 
 const connectors: CreateConnectorFn[] = [injected({ shimDisconnect: true })];
-
-if (WALLETCONNECT_PROJECT_ID) {
-  connectors.push(
-    walletConnect({
-      projectId: WALLETCONNECT_PROJECT_ID,
-      showQrModal: false,
-      metadata,
-    }),
-  );
-}
 
 export const networks: [AppKitNetwork, ...AppKitNetwork[]] = isTestnet
   ? testnetNetworks
@@ -48,6 +43,7 @@ export const wagmiAdapter = new WagmiAdapter({
   ssr: true,
   projectId,
   networks,
+  connectors,
   transports: {
     [neonMainnet.id]: fallback([http(`https://neon-proxy-mainnet.solana.p2p.org`)]),
     [neonDevnet.id]: fallback([http('https://devnet.neonevm.org/', { timeout: 0 })]),

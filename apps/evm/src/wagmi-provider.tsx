@@ -13,17 +13,30 @@ import {
   wagmiAdapter,
   wagmiConfigCore,
 } from './config/connectors';
+import { EWalletsInclude } from './types/wallets.ts';
 
 createAppKit({
+  allWallets: 'HIDE',
+  includeWalletIds: Object.values(EWalletsInclude),
   adapters: [wagmiAdapter, solanaWeb3JsAdapter],
   networks,
+  enableWalletGuide: false,
+  allowUnsupportedChain: false,
+  enableEmbedded: false,
   metadata,
   projectId,
   features: {
     email: false,
     socials: false,
-    analytics: true,
+    swaps: false,
+    onramp: false,
+    send: false,
   },
+
+  // wallets
+  enableInjected: false,
+  enableWalletConnect: false,
+  enableCoinbase: false,
 });
 
 function WagmiProviderInit({ children }: { children: ReactNode }) {

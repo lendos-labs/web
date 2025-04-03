@@ -27,7 +27,7 @@ const DashboardTopPanel = () => {
   const downToSM = useMediaQuery(breakpoints.down('sm'));
   const noDataTypographyVariant = downToSM ? 'secondary16' : 'secondary21';
 
-  const { claimableRewardsUsd } = accountSummary
+  const { claimableRewardsUsd } = accountSummary?.calculatedUserIncentives
     ? Object.keys(accountSummary.calculatedUserIncentives).reduce<{
         claimableRewardsUsd: number;
         assets: string[];

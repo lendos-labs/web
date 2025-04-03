@@ -1,5 +1,7 @@
 import { FormatUserSummaryAndIncentivesResponse } from '@aave/math-utils';
 
+import { useAccountContext } from '@lendos/ui/providers/AccountProvider';
+
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 
 import { formatUserSummaryAndIncentives } from '@lendos/constants/formatReserves';
@@ -22,9 +24,11 @@ export const useUserSummariesAndIncentives = (
   const formattedReserves = usePoolsFormattedReserves(marketsData);
   const poolsReservesIncentivesQuery = usePoolsReservesIncentivesHumanized(marketsData);
   const userPoolsReservesIncentiveQuery = useUserPoolsReservesIncentivesHumanized(marketsData);
+  const { account } = useAccountContext();
 
   return poolsReservesQuery.map((elem, index) => {
     if (
+      !account ||
       !userPoolsReservesQuery[index] ||
       !formattedReserves[index] ||
       !poolsReservesIncentivesQuery[index] ||
@@ -36,6 +40,7 @@ export const useUserSummariesAndIncentives = (
         error: undefined,
       };
     }
+
     return combineQueries(
       [
         elem,

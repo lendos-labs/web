@@ -1,3 +1,5 @@
+import { useAccountContext } from '@lendos/ui/providers/AccountProvider';
+
 import {
   ExtendedFormattedUser,
   UserReservesDataHumanized,
@@ -37,22 +39,29 @@ export const useExtendedUserSummariesAndIncentives = (
   const userSummariesQueries = useUserSummariesAndIncentives(marketsData);
   const userYieldsQueries = useUserYields(marketsData);
   const userReservesQueries = useUserPoolsReservesHumanized(marketsData);
+  const { account } = useAccountContext();
 
-  return userSummariesQueries.map((elem, index) => {
-    const userYieldQuery = userYieldsQueries[index];
-    const userReservesQuery = userReservesQueries[index];
-
-    return userYieldQuery && userReservesQuery
-      ? combineQueries(
-          [elem, userYieldQuery, userReservesQuery] as const,
+  return account
+    ? userSummariesQueries.map((elem, index) => {
+        const userYield = userYieldsQueries[index];
+        const userReserve = userReservesQueries[index];
+        if (!userYield || !userReserve) {
+          return {
+            data: {},
+            isLoading: false,
+          } as SimplifiedUseQueryResult<ExtendedFormattedUser>;
+        }
+        return combineQueries(
+          [elem, userYield, userReserve] as const,
           formatExtendedUserAndIncentives,
-        )
-      : {
-          isLoading: true,
-          data: undefined,
-          error: null,
-        };
-  });
+        );
+      })
+    : [
+        {
+          data: {},
+          isLoading: false,
+        } as SimplifiedUseQueryResult<ExtendedFormattedUser>,
+      ];
 };
 
 export const useExtendedUserSummaryAndIncentives = (marketData: EvmMarketDataType) => {
