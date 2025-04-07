@@ -6,7 +6,6 @@ import { useModalContext } from '@lendos/ui/providers/ModalProvider';
 import { useReservesContext } from '@lendos/ui/providers/ReservesProvider';
 import { useStateContext } from '@lendos/ui/providers/StateProvider';
 
-import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
 import { queryKeysFactory } from '@lendos/constants/queries';
 import { queryClient } from '@lendos/constants/queryClient';
 
@@ -20,9 +19,10 @@ export const useWithdraw = () => {
   const { reserves } = useReservesContext();
   const { args } = useModalContext();
 
-  const a = reserves.find(r => r.underlyingAsset === args.underlyingAsset);
+  const assetAddress = (reserves.find(r => r.underlyingAsset === args.underlyingAsset)
+    ?.underlyingAsset ?? '0x') as Address;
 
-  const { data: _approvedAmount } = usePoolApprovedAmount(API_ETH_MOCK_ADDRESS);
+  const { data: _approvedAmount } = usePoolApprovedAmount(assetAddress);
 
   const { currentMarketData } = useStateContext();
 
