@@ -20,7 +20,7 @@
     "@lendos/ui": "workspace:*",
     "@mui/icons-material": "^6.2.1",
     "@mui/material": "^6.2.1",
-    "@mui/material-nextjs": "^6.2.1",
+    "@mui/material-nextjs": "^6.3.0",
     "@reown/appkit": "^1.7.1",
     "@reown/appkit-adapter-solana": "^1.7.1",
     "@reown/appkit-adapter-wagmi": "^1.7.1",

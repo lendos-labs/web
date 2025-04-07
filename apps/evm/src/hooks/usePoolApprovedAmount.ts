@@ -55,14 +55,18 @@ const getAllowance = async (
   return { amount, spender, user, token };
 };
 
-export const usePoolApprovedAmount = (token: Address) => {
+export const usePoolApprovedAmount = (token?: Address) => {
   const { currentMarketData } = useStateContext();
   const { address } = useAccount();
   return useQuery({
     queryFn: () => {
-      return getAllowance(token, address ?? '0x', currentMarketData as EvmMarketDataType);
+      return getAllowance(token ?? '0x', address ?? '0x', currentMarketData as EvmMarketDataType);
     },
-    queryKey: queryKeysFactory.poolApprovedAmount(address ?? '0x', token, currentMarketData),
-    enabled: Boolean(address),
+    queryKey: queryKeysFactory.poolApprovedAmount(
+      address ?? '0x',
+      token ?? '0x',
+      currentMarketData,
+    ),
+    enabled: Boolean(address) && Boolean(token),
   });
 };

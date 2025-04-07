@@ -1,5 +1,5 @@
 import { EstimateGasParameters, estimateGas } from '@wagmi/core';
-import { Address, encodeFunctionData, erc20Abi, maxUint256, parseUnits } from 'viem';
+import { Address, encodeFunctionData, erc20Abi, maxUint256, parseEther, parseUnits } from 'viem';
 
 import { API_ETH_MOCK_ADDRESS, MAX_UINT_AMOUNT } from '@lendos/constants/addresses';
 
@@ -28,6 +28,7 @@ export class TransactionBuilder {
         to: this.market.addresses.WETH_GATEWAY,
         account,
         value: amount,
+        chainId: this.market.chain.id,
       };
     }
 
@@ -41,6 +42,7 @@ export class TransactionBuilder {
       data: txData,
       to: this.market.addresses.LENDING_POOL,
       account,
+      chainId: this.market.chain.id,
     };
   }
 
@@ -51,7 +53,19 @@ export class TransactionBuilder {
     decimals: number,
   ): EstimateGasParameters {
     if (reserve.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
-      return {};
+      const convertedAmount = amount === '-1' ? maxUint256 : parseEther(amount);
+
+      const txData = encodeFunctionData({
+        abi: wethGatewayAbi,
+        functionName: 'withdrawETH',
+        args: [this.market.addresses.LENDING_POOL, convertedAmount, account],
+      });
+
+      return {
+        data: txData,
+        to: this.market.addresses.WETH_GATEWAY,
+        account,
+      };
     }
 
     const convertedAmount = amount === '-1' ? maxUint256 : parseUnits(amount, decimals);
@@ -66,6 +80,7 @@ export class TransactionBuilder {
       data: txData,
       to: this.market.addresses.LENDING_POOL,
       account,
+      chainId: this.market.chain.id,
     };
   }
 
@@ -80,6 +95,7 @@ export class TransactionBuilder {
       data: txData,
       to: token,
       account: user,
+      chainId: this.market.chain.id,
     };
   }
 

@@ -25,16 +25,8 @@ export const WithdrawActions = ({
   blocked,
 }: WithdrawActionsProps) => {
   const { withdraw } = useTransactionContext();
-
-  const { action: withdrawAction, approvedAmount, approval } = withdraw;
-  const {
-    mainTxState,
-    loadingTxns,
-    approvalTxState,
-    setApprovalTxState,
-    setMainTxState,
-    setTxError,
-  } = useModalContext();
+  const { action: withdrawAction } = withdraw;
+  const { mainTxState, loadingTxns, setMainTxState, setTxError } = useModalContext();
 
   const action = async () => {
     try {
