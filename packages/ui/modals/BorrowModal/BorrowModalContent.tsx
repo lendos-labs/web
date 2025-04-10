@@ -11,6 +11,7 @@ import { CapType } from '@lendos/types/cap';
 import { InterestRate } from '@lendos/types/reserves';
 import { ExtendedFormattedUser } from '@lendos/types/user';
 
+import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
 import { getMaxAmountAvailableToBorrow } from '@lendos/constants/getMaxAmountAvailableToBorrow';
 import { roundToTokenDecimals } from '@lendos/constants/round';
 
@@ -33,6 +34,7 @@ import { useAssetCaps } from '../../providers/AssetCapsProvider';
 import { useModalContext } from '../../providers/ModalProvider';
 import { useReservesContext } from '../../providers/ReservesProvider';
 import { useStateContext } from '../../providers/StateProvider';
+import { BorrowActions } from './BorrowActions.tsx';
 import { BorrowAmountWarning } from './BorrowAmountWarning.tsx';
 import { ParameterChangewarning } from './ParameterChangewarning.tsx';
 
@@ -86,12 +88,9 @@ const BorrowModeSwitch = ({
 };
 
 export const BorrowModalContent = ({
-  // underlyingAsset,
-  // isWrongNetwork,
+  isWrongNetwork,
   poolReserve,
   userReserve,
-  unwrap: borrowUnWrapped,
-  setUnwrap: setBorrowUnWrapped,
   symbol,
   user,
 }: ModalWrapperProps & {
@@ -99,10 +98,11 @@ export const BorrowModalContent = ({
   setUnwrap: (unwrap: boolean) => void;
   user: ExtendedFormattedUser;
 }) => {
-  const { mainTxState: borrowTxState, gasLimit, txError } = useModalContext();
+  const { mainTxState: borrowTxState, gasLimit, txError, args, setUnWrapped } = useModalContext();
   const { baseCurrencyData } = useReservesContext();
   const { currentMarketData } = useStateContext();
   const { borrowCap } = useAssetCaps();
+  const borrowUnWrapped = Boolean(args.unWrapped);
 
   const [interestRateMode, setInterestRateMode] = useState<InterestRate>(InterestRate.Variable);
   const [amount, setAmount] = useState('');
@@ -256,7 +256,7 @@ export const BorrowModalContent = ({
       {poolReserve.isWrappedBaseAsset && (
         <DetailsUnwrapSwitch
           unwrapped={borrowUnWrapped}
-          setUnWrapped={setBorrowUnWrapped}
+          setUnWrapped={setUnWrapped}
           disabled={false}
           label={
             <Typography>{`Unwrap ${poolReserve.symbol} (to borrow ${currentMarketData.chain.nativeCurrency.symbol})`}</Typography>
@@ -286,20 +286,20 @@ export const BorrowModalContent = ({
 
       <ParameterChangewarning />
 
-      {/* <BorrowActions*/}
-      {/*  poolReserve={poolReserve}*/}
-      {/*  amountToBorrow={amount}*/}
-      {/*  poolAddress={*/}
-      {/*    borrowUnWrapped && poolReserve.isWrappedBaseAsset*/}
-      {/*      ? API_ETH_MOCK_ADDRESS*/}
-      {/*      : poolReserve.underlyingAsset*/}
-      {/*  }*/}
-      {/*  interestRateMode={interestRateMode}*/}
-      {/*  isWrongNetwork={isWrongNetwork}*/}
-      {/*  symbol={symbol}*/}
-      {/*  blocked={blockingError !== undefined || (displayRiskCheckbox && !riskCheckboxAccepted)}*/}
-      {/*  sx={displayRiskCheckbox ? { mt: 0 } : {}}*/}
-      {/*/ >*/}
+      <BorrowActions
+        poolReserve={poolReserve}
+        amountToBorrow={amount}
+        poolAddress={
+          borrowUnWrapped && poolReserve.isWrappedBaseAsset
+            ? API_ETH_MOCK_ADDRESS
+            : poolReserve.underlyingAsset
+        }
+        interestRateMode={interestRateMode}
+        isWrongNetwork={isWrongNetwork}
+        symbol={symbol}
+        blocked={blockingError !== undefined || (displayRiskCheckbox && !riskCheckboxAccepted)}
+        sx={displayRiskCheckbox ? { mt: 0 } : {}}
+      />
     </>
   );
 };

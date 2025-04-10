@@ -1,46 +1,56 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { estimateFeesPerGas, sendTransaction, waitForTransactionReceipt } from '@wagmi/core';
-import { Address } from 'viem';
+import { Address, parseUnits } from 'viem';
 import { useAccount } from 'wagmi';
 
 import { useStateContext } from '@lendos/ui/providers/StateProvider';
 
-import { queryKeysFactory } from '@lendos/constants/queries';
-import { queryClient } from '@lendos/constants/queryClient';
+import { InterestRate } from '@lendos/types/reserves';
 
-import { wagmiConfigCore } from '../config/connectors.ts';
+import { queryKeysFactory } from '@lendos/constants/queries';
+
+import { wagmiConfigCore } from '../config/connectors';
 import { TransactionBuilder } from '../services/transaction-builder';
 import { EvmMarketDataType } from '../types/common';
-import { getAllowance } from './usePoolApprovedAmount';
+import { getAllowance } from './usePoolApprovedAmount.ts';
 
-export const useWithdraw = () => {
-  const { address } = useAccount();
-
+export const useBorrow = () => {
+  const { address, chainId: _chainId } = useAccount();
+  const queryClient = useQueryClient();
   const { currentMarketData } = useStateContext();
-  const chainId = currentMarketData.chain.id as number;
+  const chainId = _chainId ?? 0;
 
   const txBuilder = new TransactionBuilder(currentMarketData as EvmMarketDataType);
 
-  const withdraw = async (reserve: Address, amount: string, decimals: number) => {
+  const borrow = async (
+    reserve: Address,
+    amount: string,
+    interestRateMode: InterestRate,
+    decimals: number,
+  ) => {
     if (!address) {
       return '';
     }
-    
+
     const approvedAmount = await getAllowance(
       reserve,
       address,
       currentMarketData as EvmMarketDataType,
     );
 
-    const txData = txBuilder.prepareWithdraw(reserve, amount, address, decimals);
+    const txData = txBuilder.prepareBorrow(
+      reserve,
+      parseUnits(amount, decimals),
+      interestRateMode,
+      address,
+    );
     const txDataApproval = txBuilder.prepareApproval(approvedAmount);
-    // if(wallet === 'solana') {
-    //
-    // }
-    const gasApproval = await txBuilder.estimateGas({
-      ...txDataApproval,
+    const result = await estimateFeesPerGas(wagmiConfigCore, {
       chainId,
     });
-    const result = await estimateFeesPerGas(wagmiConfigCore, {
+
+    const gasApproval = await txBuilder.estimateGas({
+      ...txDataApproval,
       chainId,
     });
 
@@ -56,7 +66,7 @@ export const useWithdraw = () => {
       hash: hashApproval,
     });
 
-    const gas = await txBuilder.estimateGas({ ...txData, chainId });
+    const gas = await txBuilder.estimateGas(txData);
 
     const hash = await sendTransaction(wagmiConfigCore, {
       ...txData,
@@ -76,6 +86,6 @@ export const useWithdraw = () => {
   };
 
   return {
-    action: withdraw,
+    action: borrow,
   };
 };

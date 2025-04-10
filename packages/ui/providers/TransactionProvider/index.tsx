@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react';
 
 import { ApproveData } from '@lendos/types/erc20';
+import { InterestRate } from '@lendos/types/reserves';
 
 export interface TransactionContextType {
   supply: {
@@ -10,8 +11,14 @@ export interface TransactionContextType {
   };
   withdraw: {
     action: (reserve: string, amount: string, decimals: number) => Promise<string>;
-    // approvedAmount: ApproveData | undefined;
-    // approval: () => Promise<void>;
+  };
+  borrow: {
+    action: (
+      reserve: string,
+      amount: string,
+      interestRateMode: InterestRate,
+      decimals: number,
+    ) => Promise<string>;
   };
 }
 

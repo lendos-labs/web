@@ -82,8 +82,6 @@ export const WithdrawActions = ({
       actionInProgressText={`Withdrawing ${symbol}`}
       actionText={`Withdraw ${symbol}`}
       handleAction={action}
-      // handleApproval={() => approval([{ amount: amountToWithdraw, underlyingAsset: poolAddress }])}
-      // requiresApproval={requiresApproval}
     />
   );
 };
