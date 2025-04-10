@@ -1,6 +1,8 @@
 import { EstimateGasParameters, estimateGas } from '@wagmi/core';
 import { Address, encodeFunctionData, erc20Abi, maxUint256, parseEther, parseUnits } from 'viem';
 
+import { InterestRate } from '@lendos/types/reserves';
+
 import { API_ETH_MOCK_ADDRESS, MAX_UINT_AMOUNT } from '@lendos/constants/addresses';
 
 import { lendingPoolAbi } from '../abi/lending-pool';
@@ -28,7 +30,7 @@ export class TransactionBuilder {
         to: this.market.addresses.WETH_GATEWAY,
         account,
         value: amount,
-        chainId: this.market.chain.id,
+        chainId: Number(this.market.chain.id),
       };
     }
 
@@ -42,7 +44,7 @@ export class TransactionBuilder {
       data: txData,
       to: this.market.addresses.LENDING_POOL,
       account,
-      chainId: this.market.chain.id,
+      chainId: Number(this.market.chain.id),
     };
   }
 
@@ -80,7 +82,44 @@ export class TransactionBuilder {
       data: txData,
       to: this.market.addresses.LENDING_POOL,
       account,
-      chainId: this.market.chain.id,
+      chainId: Number(this.market.chain.id),
+    };
+  }
+
+  prepareBorrow(
+    reserve: Address,
+    amount: bigint,
+    interestRateMode: InterestRate,
+    account: Address,
+  ): EstimateGasParameters {
+    const numberInterestRateMode = BigInt(interestRateMode === InterestRate.Variable ? 2 : 1);
+
+    if (reserve.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
+      const txData = encodeFunctionData({
+        abi: wethGatewayAbi,
+        functionName: 'borrowETH',
+        args: [this.market.addresses.LENDING_POOL, amount, numberInterestRateMode, 0],
+      });
+
+      return {
+        data: txData,
+        to: this.market.addresses.WETH_GATEWAY,
+        account,
+        chainId: Number(this.market.chain.id),
+      };
+    }
+
+    const txData = encodeFunctionData({
+      abi: lendingPoolAbi,
+      functionName: 'borrow',
+      args: [reserve, amount, numberInterestRateMode, 0, account],
+    });
+
+    return {
+      data: txData,
+      to: this.market.addresses.LENDING_POOL,
+      account,
+      chainId: Number(this.market.chain.id),
     };
   }
 
@@ -95,7 +134,7 @@ export class TransactionBuilder {
       data: txData,
       to: token,
       account: user,
-      chainId: this.market.chain.id,
+      chainId: Number(this.market.chain.id),
     };
   }
 

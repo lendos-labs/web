@@ -16,12 +16,7 @@ export const BorrowModal = () => {
 
   return (
     <BasicModal open={type === ModalType.Borrow} setOpen={close}>
-      <ModalWrapper
-        action='borrow'
-        title='Borrow'
-        underlyingAsset={args.underlyingAsset ?? ''}
-        keepWrappedSymbol={!borrowUnWrapped}
-      >
+      <ModalWrapper action='borrow' title='Borrow' underlyingAsset={args.underlyingAsset ?? ''}>
         {params => (
           <UserAuthenticated>
             {user => (

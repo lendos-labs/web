@@ -40,7 +40,7 @@ const getAllowanceAmount = async (token: Address, user: Address, spender: Addres
   return Number(formatUnits(allowance, decimals));
 };
 
-const getAllowance = async (
+export const getAllowance = async (
   token: Address,
   user: Address,
   market: EvmMarketDataType,
