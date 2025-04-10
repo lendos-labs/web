@@ -30,19 +30,15 @@ import { calculateMaxWithdrawAmount } from './utils.ts';
 export const WithdrawModalContent = ({
   poolReserve,
   userReserve,
-  unwrap: withdrawUnWrapped,
-  setUnwrap: setWithdrawUnWrapped,
   symbol,
   isWrongNetwork,
   user,
 }: ModalWrapperProps & {
-  unwrap: boolean;
-  setUnwrap: (unwrap: boolean) => void;
   user: ExtendedFormattedUser;
 }) => {
-  const { gasLimit, mainTxState: withdrawTxState, txError } = useModalContext();
+  const { gasLimit, mainTxState: withdrawTxState, txError, args, setUnWrapped } = useModalContext();
   const { currentMarketData } = useStateContext();
-  const currentChainId = currentMarketData.chain.id;
+  const withdrawUnWrapped = Boolean(args.unWrapped);
 
   const [_amount, setAmount] = useState('');
   const [withdrawMax, setWithdrawMax] = useState('');
@@ -148,21 +144,12 @@ export const WithdrawModalContent = ({
       {poolReserve.isWrappedBaseAsset && (
         <DetailsUnwrapSwitch
           unwrapped={withdrawUnWrapped}
-          setUnWrapped={setWithdrawUnWrapped}
-          disabled={currentChainId === 245022934 || currentChainId === 245022926}
+          setUnWrapped={setUnWrapped}
           label={
             <Typography>
               <>
-                Unwrap {poolReserve.symbol} (
-                <span
-                  onClick={() =>
-                    (currentChainId === 245022934 || currentChainId === 245022926) &&
-                    setWithdrawUnWrapped(!withdrawUnWrapped)
-                  }
-                >
-                  to
-                </span>{' '}
-                withdraw {currentMarketData.chain.nativeCurrency.symbol})
+                Unwrap {poolReserve.symbol} ( to withdraw{' '}
+                {currentMarketData.chain.nativeCurrency.symbol})
               </>
             </Typography>
           }

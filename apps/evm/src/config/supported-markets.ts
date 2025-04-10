@@ -1,5 +1,5 @@
+import { neonDevnet, neonMainnet, sepolia } from '@reown/appkit/networks';
 import { Address } from 'viem';
-import { neonDevnet, neonMainnet, sepolia } from 'viem/chains';
 
 import { CustomPoints } from '@lendos/types/chain';
 import { Markets } from '@lendos/types/market';

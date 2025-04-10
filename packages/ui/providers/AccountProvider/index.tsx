@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
+import { AppKitNetwork } from '@reown/appkit/networks';
+
 export interface AccountContextType {
   account: string | null;
   chainId: number;
@@ -8,7 +10,7 @@ export interface AccountContextType {
   switchNetworkError: Error | undefined;
   setSwitchNetworkError: Dispatch<SetStateAction<Error | undefined>>;
   addToken: (address: string) => Promise<void>;
-  switchNetwork: (chainId: number) => void;
+  switchNetwork: (network: AppKitNetwork) => void;
   connect: () => void;
   disconnect: () => void;
 }

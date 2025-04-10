@@ -17,7 +17,7 @@ interface TxActionsWrapperProps {
   isWrongNetwork: boolean;
   preparingTransactions: boolean;
   requiresAmount?: boolean;
-  requiresApproval: boolean;
+  requiresApproval?: boolean;
   symbol?: string;
   blocked?: boolean;
   errorParams?: {
@@ -35,7 +35,6 @@ export const TxActionsWrapper = ({
   handleApproval,
   handleAction,
   isWrongNetwork,
-
   preparingTransactions,
   requiresAmount,
   requiresApproval,
