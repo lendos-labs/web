@@ -33,6 +33,7 @@ export interface ModalArgsType {
   currentRateMode?: InterestRate;
   chainId?: number;
   isFrozen?: boolean;
+  unWrapped?: boolean;
 }
 
 export interface TxStateType {
@@ -50,6 +51,7 @@ export interface ModalContextType<T extends ModalArgsType> {
   openRateSwitch: (underlyingAsset: string, currentRateMode: InterestRate) => void;
   openCollateralChange: (underlyingAsset: string) => void;
   openDebtSwitch: (underlyingAsset: string, currentRateMode: InterestRate) => void;
+  setUnWrapped: (unWrapped: boolean) => void;
   close: () => void;
   type?: ModalType;
   args: T;
@@ -119,6 +121,9 @@ export const ModalContextProvider = ({ children }: { children: ReactNode }) => {
           openDebtSwitch: (underlyingAsset, currentRateMode) => {
             setType(ModalType.DebtSwitch);
             setArgs({ underlyingAsset, currentRateMode });
+          },
+          setUnWrapped: unWrapped => {
+            setArgs(ps => ({ ...ps, unWrapped }));
           },
           close: () => {
             setType(undefined);

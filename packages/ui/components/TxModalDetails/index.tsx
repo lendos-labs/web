@@ -328,7 +328,7 @@ export const DetailsHFLine = ({
 
 export interface DetailsUnwrapSwitchProps {
   unwrapped: boolean;
-  disabled: boolean;
+  disabled?: boolean;
   setUnWrapped: (value: boolean) => void;
   label: ReactNode;
 }

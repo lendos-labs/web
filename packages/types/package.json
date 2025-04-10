@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@aave/contract-helpers": "1.25.0",
+    "@reown/appkit": "^1.7.1",
     "viem": "2.20.1"
   }
 }

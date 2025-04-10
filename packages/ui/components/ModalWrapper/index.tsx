@@ -28,13 +28,10 @@ export const ModalWrapper = ({
   hideTitleSymbol,
   underlyingAsset,
   children,
-
   title,
-  keepWrappedSymbol,
 }: {
   underlyingAsset: string;
   title: string;
-  keepWrappedSymbol?: boolean;
   hideTitleSymbol?: boolean;
   children: (props: ModalWrapperProps) => React.ReactNode;
   action?: string;
@@ -44,7 +41,8 @@ export const ModalWrapper = ({
   const { chainId } = useAccountContext();
 
   const { accountSummary, reserves, lpReserves } = useReservesContext();
-  const { txError, mainTxState } = useModalContext();
+  const { txError, mainTxState, args } = useModalContext();
+  const keepWrappedSymbol = !args.unWrapped;
 
   const isWrongNetwork = Number(currentMarketData.chain.id) !== chainId;
 

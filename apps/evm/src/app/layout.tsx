@@ -43,13 +43,14 @@ async function RootLayout({
   const showZeroLps = cookieStore.get(CookieKey.SHOW_ZERO_LPS)?.value;
 
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <Box
         component='body'
         className={`${aldrich.variable} ${montserrat.variable} font-sans`}
         display='flex'
         flexDirection='column'
         minHeight={'100dvh'}
+        suppressHydrationWarning
       >
         <AppRouterCacheProvider>
           <Providers

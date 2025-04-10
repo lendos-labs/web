@@ -51,6 +51,8 @@ export const wagmiAdapter = new WagmiAdapter({
   },
 });
 
+console.log({ neonDevnet });
+
 export const wagmiConfigCore = wagmiAdapter.wagmiConfig;
 
 // Create Solana adapter

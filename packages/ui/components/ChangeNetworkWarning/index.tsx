@@ -12,6 +12,8 @@ export const ChangeNetworkWarning = ({ networkName }: ChangeNetworkWarningProps)
   const { currentMarketData } = useStateContext();
   const { switchNetwork, switchNetworkError } = useAccountContext();
 
+  console.log({ currentMarketData, currentId: currentMarketData.chain.id });
+
   return (
     <Warning severity='error'>
       {switchNetworkError ? (
@@ -25,7 +27,7 @@ export const ChangeNetworkWarning = ({ networkName }: ChangeNetworkWarningProps)
           <Button
             variant='text'
             sx={{ verticalAlign: 'top', color: 'text.dark' }}
-            onClick={() => switchNetwork(currentMarketData.chain.id)}
+            onClick={() => switchNetwork(currentMarketData.chain)}
             disableRipple
           >
             <Typography variant='subtitle'>Switch Network</Typography>
