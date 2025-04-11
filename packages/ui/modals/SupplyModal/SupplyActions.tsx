@@ -1,3 +1,5 @@
+import { Address } from 'viem';
+
 import { TxAction } from '@lendos/types/error';
 
 import { getErrorTextFromError } from '@lendos/constants/errorMapping';
@@ -53,7 +55,7 @@ export const SupplyActions = ({
     try {
       setMainTxState({ ...mainTxState, loading: true });
 
-      const supplyTxHash = await supplyAction(poolAddress, amountToSupply, decimals);
+      const supplyTxHash = await supplyAction(poolAddress as Address, amountToSupply, decimals);
 
       setMainTxState({
         txHash: supplyTxHash,

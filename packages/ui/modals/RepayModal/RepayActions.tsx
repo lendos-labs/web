@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { BoxProps } from '@mui/material';
 import { Address } from 'viem';
 
@@ -12,43 +10,45 @@ import { useModalContext } from '../../providers/ModalProvider';
 import { useTransactionContext } from '../../providers/TransactionProvider';
 import { TxActionsWrapper } from '../TxActionsWrapper';
 
-export interface BorrowActionsProps extends BoxProps {
+export interface RepayActionProps extends BoxProps {
+  amountToRepay: string;
   poolReserve: FormattedReservesAndIncentives;
-  amountToBorrow: string;
-  poolAddress: string;
-  interestRateMode: InterestRate;
   isWrongNetwork: boolean;
+  customGasPrice?: string;
+  poolAddress: string;
   symbol: string;
-  blocked: boolean;
+  debtType: InterestRate;
+  blocked?: boolean;
 }
 
-export const BorrowActions = ({
+export const RepayActions = ({
+  amountToRepay,
   poolReserve,
-  symbol,
-  amountToBorrow,
   poolAddress,
-  interestRateMode,
   isWrongNetwork,
+  symbol,
   blocked,
-}: BorrowActionsProps) => {
-  const { borrow } = useTransactionContext();
-  const { action: borrowAction } = borrow;
-  const { approvalTxState, mainTxState, loadingTxns, setMainTxState, setTxError, setGasLimit } =
-    useModalContext();
+  debtType,
+  ...props
+}: RepayActionProps) => {
+  const { repay } = useTransactionContext();
+  const { action: repayAction } = repay;
+
+  const { mainTxState, loadingTxns, setMainTxState, setTxError } = useModalContext();
 
   const action = async () => {
     try {
       setMainTxState({ ...mainTxState, loading: true });
 
-      const borrowTxHash = await borrowAction(
+      const hash = await repayAction(
         poolAddress as Address,
-        amountToBorrow,
-        interestRateMode,
+        amountToRepay,
+        debtType,
         poolReserve.decimals,
       );
 
       setMainTxState({
-        txHash: borrowTxHash,
+        txHash: hash,
         loading: false,
         success: true,
       });
@@ -62,27 +62,18 @@ export const BorrowActions = ({
     }
   };
 
-  useEffect(() => {
-    // change gas limit to 6000000
-    //
-    // let borrowGasLimit = 0;
-    // borrowGasLimit = Number(gasLimitRecommendations[ProtocolAction.borrow].recommended);
-    // if (requiresApproval && !approvalTxState.success) {
-    //   borrowGasLimit += Number(APPROVE_DELEGATION_GAS_LIMIT);
-    // }
-    setGasLimit('6000000');
-  }, [approvalTxState, setGasLimit]);
-
   return (
     <TxActionsWrapper
       blocked={blocked}
-      requiresAmount={true}
-      amount={amountToBorrow}
-      isWrongNetwork={isWrongNetwork}
-      handleAction={action}
-      actionText={<>Borrow {symbol}</>}
-      actionInProgressText={<>Borrowing {symbol}</>}
       preparingTransactions={loadingTxns}
+      symbol={poolReserve.symbol}
+      requiresAmount
+      amount={amountToRepay}
+      isWrongNetwork={isWrongNetwork}
+      {...props}
+      handleAction={action}
+      actionText={<>Repay {symbol}</>}
+      actionInProgressText={<>Repaying {symbol}</>}
     />
   );
 };

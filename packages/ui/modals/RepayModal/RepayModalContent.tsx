@@ -26,6 +26,7 @@ import { Warning } from '../../components/Warning';
 import { useModalContext } from '../../providers/ModalProvider';
 import { useReservesContext } from '../../providers/ReservesProvider';
 import { useStateContext } from '../../providers/StateProvider';
+import { RepayActions } from './RepayActions';
 
 interface RepayAsset extends Asset {
   balance: string;
@@ -34,10 +35,10 @@ interface RepayAsset extends Asset {
 export const RepayModalContent = ({
   poolReserve,
   userReserve,
-  // symbol: modalSymbol,
+  symbol: modalSymbol,
   tokenBalance,
   nativeBalance,
-  // isWrongNetwork,
+  isWrongNetwork,
   debtType,
   user,
 }: ModalWrapperProps & { debtType: InterestRate; user: ExtendedFormattedUser }) => {
@@ -54,7 +55,7 @@ export const RepayModalContent = ({
   });
   const [assets, setAssets] = useState<RepayAsset[]>([tokenToRepayWith]);
 
-  // const [repayMax, setRepayMax] = useState('');
+  const [repayMax, setRepayMax] = useState('');
   const [_amount, setAmount] = useState('');
   const amountRef = useRef<string>();
 
@@ -71,23 +72,23 @@ export const RepayModalContent = ({
     .multipliedBy(baseCurrencyData.marketReferenceCurrencyDecimals)
     .shiftedBy(-USD_DECIMALS);
 
-  // const safeAmountToRepayAll = valueToBigNumber(debt)
-  //   .multipliedBy('1.0025')
-  //   .decimalPlaces(poolReserve.decimals, BigNumber.ROUND_UP);
+  const safeAmountToRepayAll = valueToBigNumber(debt)
+    .multipliedBy('1.0025')
+    .decimalPlaces(poolReserve.decimals, BigNumber.ROUND_UP);
 
   // calculate max amount abailable to repay
   let maxAmountToRepay: BigNumber;
-  // let balance: string;
+  let balance: string;
   if (repayWithATokens) {
     maxAmountToRepay = BigNumber.min(underlyingBalance, debt);
-    // balance = underlyingBalance;
+    balance = underlyingBalance;
   } else {
     const normalizedWalletBalance = valueToBigNumber(tokenToRepayWith.balance).minus(
       userReserve.reserve.symbol.toUpperCase() === currentMarketData.chain.nativeCurrency.symbol
         ? minRemainingBaseTokenBalance
         : '0',
     );
-    // balance = normalizedWalletBalance.toString(10);
+    balance = normalizedWalletBalance.toString(10);
     maxAmountToRepay = BigNumber.min(normalizedWalletBalance, debt);
   }
 
@@ -102,21 +103,21 @@ export const RepayModalContent = ({
       if (tokenToRepayWith.address === API_ETH_MOCK_ADDRESS.toLowerCase()) {
         // for native token and synthetix (only mainnet) we can't send -1 as
         // contract does not accept max unit256
-        // setRepayMax(safeAmountToRepayAll.toString(10));
+        setRepayMax(safeAmountToRepayAll.toString(10));
       } else {
         // -1 can always be used for v3 otherwise
         // for v2 we can onl use -1 when user has more balance than max debt to repay
         // this is accounted for when maxAmountToRepay.eq(debt) as maxAmountToRepay is
         // min between debt and walletbalance, so if it enters here for v2 it means
         // balance is bigger and will be able to transact with -1
-        // setRepayMax('-1');
+        setRepayMax('-1');
       }
     } else {
-      // setRepayMax(
-      //   safeAmountToRepayAll.lt(balance)
-      //     ? safeAmountToRepayAll.toString(10)
-      //     : maxAmountToRepay.toString(10),
-      // );
+      setRepayMax(
+        safeAmountToRepayAll.lt(balance)
+          ? safeAmountToRepayAll.toString(10)
+          : maxAmountToRepay.toString(10),
+      );
     }
   };
 
@@ -265,18 +266,17 @@ export const RepayModalContent = ({
 
       {txError && <GasEstimationError txError={txError} />}
 
-      {/* <RepayActions*/}
-      {/*  maxApproveNeeded={safeAmountToRepayAll.toString()}*/}
-      {/*  poolReserve={poolReserve}*/}
-      {/*  amountToRepay={isMaxSelected ? repayMax : amount}*/}
-      {/*  poolAddress={*/}
-      {/*    repayWithATokens ? poolReserve.underlyingAsset : (tokenToRepayWith.address ?? '')*/}
-      {/*  }*/}
-      {/*  isWrongNetwork={isWrongNetwork}*/}
-      {/*  symbol={modalSymbol}*/}
-      {/*  debtType={debtType}*/}
-      {/*  repayWithATokens={repayWithATokens}*/}
-      {/*/ >*/}
+      <RepayActions
+        poolReserve={poolReserve}
+        amountToRepay={isMaxSelected ? repayMax : amount}
+        poolAddress={
+          repayWithATokens ? poolReserve.underlyingAsset : (tokenToRepayWith.address ?? '')
+        }
+        isWrongNetwork={isWrongNetwork}
+        symbol={modalSymbol}
+        debtType={debtType}
+        repayWithATokens={repayWithATokens}
+      />
     </>
   );
 };
