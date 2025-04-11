@@ -143,6 +143,7 @@ export class TransactionBuilder {
         to: this.market.addresses.WETH_GATEWAY,
         account,
         chainId: Number(this.market.chain.id),
+        value: amount,
       };
     }
 
