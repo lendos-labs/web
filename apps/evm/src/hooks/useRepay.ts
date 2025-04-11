@@ -14,7 +14,7 @@ import { TransactionBuilder } from '../services/transaction-builder';
 import { EvmMarketDataType } from '../types/common';
 import { getAllowance } from './usePoolApprovedAmount.ts';
 
-export const useBorrow = () => {
+export const useRepay = () => {
   const { address, chainId: _chainId } = useAccount();
   const queryClient = useQueryClient();
   const { currentMarketData } = useStateContext();
@@ -22,7 +22,7 @@ export const useBorrow = () => {
 
   const txBuilder = new TransactionBuilder(currentMarketData as EvmMarketDataType);
 
-  const borrow = async (
+  const repay = async (
     reserve: Address,
     amount: string,
     interestRateMode: InterestRate,
@@ -38,13 +38,15 @@ export const useBorrow = () => {
       currentMarketData as EvmMarketDataType,
     );
 
-    const txData = txBuilder.prepareBorrow(
+    const txData = txBuilder.prepareRepay(
       reserve,
       parseUnits(amount, decimals),
       interestRateMode,
       address,
     );
+
     const txDataApproval = txBuilder.prepareApproval(approvedAmount);
+
     const result = await estimateFeesPerGas(wagmiConfigCore, {
       chainId,
     });
@@ -86,6 +88,6 @@ export const useBorrow = () => {
   };
 
   return {
-    action: borrow,
+    action: repay,
   };
 };

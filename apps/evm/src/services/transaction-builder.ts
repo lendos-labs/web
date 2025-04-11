@@ -123,6 +123,44 @@ export class TransactionBuilder {
     };
   }
 
+  prepareRepay(
+    reserve: Address,
+    amount: bigint,
+    interestRateMode: InterestRate,
+    account: Address,
+  ): EstimateGasParameters {
+    const numberInterestRateMode = BigInt(interestRateMode === InterestRate.Variable ? 2 : 1);
+
+    if (reserve.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase()) {
+      const txData = encodeFunctionData({
+        abi: wethGatewayAbi,
+        functionName: 'repayETH',
+        args: [this.market.addresses.LENDING_POOL, amount, numberInterestRateMode, account],
+      });
+
+      return {
+        data: txData,
+        to: this.market.addresses.WETH_GATEWAY,
+        account,
+        chainId: Number(this.market.chain.id),
+        value: amount,
+      };
+    }
+
+    const txData = encodeFunctionData({
+      abi: lendingPoolAbi,
+      functionName: 'repay',
+      args: [reserve, amount, numberInterestRateMode, account],
+    });
+
+    return {
+      data: txData,
+      to: this.market.addresses.LENDING_POOL,
+      account,
+      chainId: Number(this.market.chain.id),
+    };
+  }
+
   prepareApproval({ spender, token, user }: EvmApproveData): EstimateGasParameters {
     const txData = encodeFunctionData({
       abi: erc20Abi,

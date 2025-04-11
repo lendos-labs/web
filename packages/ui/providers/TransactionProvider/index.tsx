@@ -1,20 +1,30 @@
 import { createContext, useContext } from 'react';
 
+import { Address } from 'viem';
+
 import { ApproveData } from '@lendos/types/erc20';
 import { InterestRate } from '@lendos/types/reserves';
 
 export interface TransactionContextType {
   supply: {
-    action: (reserve: string, amount: string, decimals: number) => Promise<string>;
+    action: (reserve: Address, amount: string, decimals: number) => Promise<string>;
     approvedAmount: ApproveData | undefined;
     approval: () => Promise<void>;
   };
   withdraw: {
-    action: (reserve: string, amount: string, decimals: number) => Promise<string>;
+    action: (reserve: Address, amount: string, decimals: number) => Promise<string>;
   };
   borrow: {
     action: (
-      reserve: string,
+      reserve: Address,
+      amount: string,
+      interestRateMode: InterestRate,
+      decimals: number,
+    ) => Promise<string>;
+  };
+  repay: {
+    action: (
+      reserve: Address,
       amount: string,
       interestRateMode: InterestRate,
       decimals: number,
