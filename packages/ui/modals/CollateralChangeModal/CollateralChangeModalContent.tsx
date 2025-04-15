@@ -98,7 +98,7 @@ export const CollateralChangeModalContent = ({
           </>
         );
       case undefined: {
-        throw new Error('Not implemented yet: undefined case');
+        return null;
       }
       default:
         return null;
