@@ -7,6 +7,7 @@ import { Reserves } from '@lendos/types/reserves';
 import { ExtendedFormattedUser } from '@lendos/types/user';
 
 import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
+import { zeroLTVBlockingWithdraw } from '@lendos/constants/modalsUtils';
 import { calculateHFAfterWithdraw } from '@lendos/constants/utils/hfUtils';
 
 import { AssetInput } from '../../components/AssetInput';
@@ -22,7 +23,6 @@ import { TxSuccessView } from '../../components/TxSuccessView';
 import { Warning } from '../../components/Warning';
 import { useModalContext } from '../../providers/ModalProvider';
 import { useStateContext } from '../../providers/StateProvider';
-import { zeroLTVBlockingWithdraw } from '../utils.ts';
 import { WithdrawActions } from './WithdrawActions.tsx';
 import { useWithdrawError } from './WithdrawError.tsx';
 import { calculateMaxWithdrawAmount } from './utils.ts';
@@ -108,6 +108,16 @@ export const WithdrawModalContent = ({
     );
   }
 
+  const iconSymbol = (() => {
+    if (withdrawUnWrapped && poolReserve.isWrappedBaseAsset) {
+      return currentMarketData.chain.nativeCurrency.symbol;
+    } else if (poolReserve.type === Reserves.ASSET) {
+      return poolReserve.iconSymbol;
+    } else {
+      return `${poolReserve.token0.symbol}_${poolReserve.token1.symbol}`;
+    }
+  })();
+
   return (
     <>
       <AssetInput
@@ -118,12 +128,7 @@ export const WithdrawModalContent = ({
           {
             balance: maxAmountToWithdraw.toString(10),
             symbol: showedSymbol,
-            iconSymbol:
-              withdrawUnWrapped && poolReserve.isWrappedBaseAsset
-                ? currentMarketData.chain.nativeCurrency.symbol
-                : poolReserve.type === Reserves.ASSET
-                  ? poolReserve.iconSymbol
-                  : `${poolReserve.token0.symbol}_${poolReserve.token1.symbol}`,
+            iconSymbol: iconSymbol,
           },
         ]}
         usdValue={usdValue.toString(10)}

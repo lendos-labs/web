@@ -1,4 +1,4 @@
-import { estimateFeesPerGas } from '@wagmi/core';
+import { estimateFeesPerGas, waitForTransactionReceipt } from '@wagmi/core';
 import { useSendTransaction } from 'wagmi';
 
 import { useModalContext } from '@lendos/ui/providers/ModalProvider';
@@ -23,6 +23,7 @@ export const useApprovalTx = ({
   const { sendTransactionAsync } = useSendTransaction();
   const { approvalTxState, setApprovalTxState, setTxError } = useModalContext();
   const txBuilder = new TransactionBuilder(currentMarketData as EvmMarketDataType);
+  const chainId = currentMarketData.chain.id as number;
 
   const approval = async () => {
     if (approvedAmount) {
@@ -31,14 +32,17 @@ export const useApprovalTx = ({
         setApprovalTxState({ ...approvalTxState, loading: true });
         const gas = await txBuilder.estimateGas(txData);
         const result = await estimateFeesPerGas(wagmiConfigCore, {
-          chainId: currentMarketData.chain.id,
+          chainId,
         });
         const txHash = await sendTransactionAsync({
           ...txData,
           gas,
           maxFeePerGas: result.maxFeePerGas,
           maxPriorityFeePerGas: result.maxPriorityFeePerGas,
-          chainId: currentMarketData.chain.id,
+          chainId,
+        });
+        await waitForTransactionReceipt(wagmiConfigCore, {
+          hash: txHash,
         });
         setApprovalTxState({
           txHash,

@@ -1,85 +1,28 @@
-import { useEffect } from 'react';
-
-import { useQueryClient } from '@tanstack/react-query';
-import { estimateFeesPerGas, sendTransaction, waitForTransactionReceipt } from '@wagmi/core';
 import { Address, parseUnits } from 'viem';
 import { useAccount } from 'wagmi';
 
-import { useModalContext } from '@lendos/ui/providers/ModalProvider';
 import { useStateContext } from '@lendos/ui/providers/StateProvider';
 
-import { queryKeysFactory } from '@lendos/constants/queries';
-
-import { wagmiConfigCore } from '../config/connectors';
 import { TransactionBuilder } from '../services/transaction-builder';
 import { EvmMarketDataType } from '../types/common';
-import { useApprovalTx } from './useApprovalTx';
-import { usePoolApprovedAmount } from './usePoolApprovedAmount';
+import { useTransaction } from './useTransaction.ts';
 
 export const useSupply = () => {
   const { address } = useAccount();
-  const { args, setLoadingTxns } = useModalContext();
-  const queryClient = useQueryClient();
   const { currentMarketData } = useStateContext();
-  const chainId = currentMarketData.chain.id as number;
+  const { action } = useTransaction();
 
   const txBuilder = new TransactionBuilder(currentMarketData as EvmMarketDataType);
 
-  const {
-    data: approvedAmount,
-    refetch: fetchApprovedAmount,
-    isRefetching: fetchingApprovedAmount,
-    isFetchedAfterMount,
-  } = usePoolApprovedAmount(args.underlyingAsset as Address);
-
-  useEffect(() => {
-    setLoadingTxns(fetchingApprovedAmount);
-  }, [fetchingApprovedAmount, setLoadingTxns]);
-
-  const { approval } = useApprovalTx({
-    approvedAmount,
-    onApprovalTxConfirmed: async () => {
-      await fetchApprovedAmount();
-    },
-  });
-
-  useEffect(() => {
-    if (!isFetchedAfterMount) {
-      void fetchApprovedAmount();
+  const supply = async (reserve: Address, amount: string, decimals: number) => {
+    if (!address) {
+      return '';
     }
-  }, [fetchApprovedAmount, isFetchedAfterMount]);
-
-  const supply = async (reserve: string, amount: string, decimals: number) => {
-    const txData = txBuilder.prepareSupply(
-      reserve as Address,
-      parseUnits(amount, decimals),
-      address ?? '0x',
-    );
-    const gas = await txBuilder.estimateGas(txData);
-    const result = await estimateFeesPerGas(wagmiConfigCore, {
-      chainId,
-    });
-
-    const hash = await sendTransaction(wagmiConfigCore, {
-      ...txData,
-      gas,
-      maxFeePerGas: result.maxFeePerGas,
-      maxPriorityFeePerGas: result.maxPriorityFeePerGas,
-      chainId,
-    });
-   
-    await waitForTransactionReceipt(wagmiConfigCore, {
-      hash,
-    });
-
-    await queryClient.invalidateQueries({ queryKey: queryKeysFactory.pool });
-
-    return hash as string;
+    const txData = txBuilder.prepareSupply(reserve, parseUnits(amount, decimals), address);
+    return await action(txData, amount);
   };
 
   return {
     action: supply,
-    approvedAmount: approvedAmount,
-    approval,
   };
 };

@@ -161,6 +161,25 @@ export class TransactionBuilder {
     };
   }
 
+  prepareSetUsageAsCollateral(
+    reserve: Address,
+    usageAsCollateral: boolean,
+    account: Address,
+  ): EstimateGasParameters {
+    const txData = encodeFunctionData({
+      abi: lendingPoolAbi,
+      functionName: 'setUserUseReserveAsCollateral',
+      args: [reserve, usageAsCollateral],
+    });
+
+    return {
+      data: txData,
+      to: this.market.addresses.LENDING_POOL,
+      account,
+      chainId: Number(this.market.chain.id),
+    };
+  }
+
   prepareApproval({ spender, token, user }: EvmApproveData): EstimateGasParameters {
     const txData = encodeFunctionData({
       abi: erc20Abi,

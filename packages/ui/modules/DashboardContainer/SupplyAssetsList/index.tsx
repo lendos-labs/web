@@ -11,14 +11,14 @@ import { FormattedReservesAndIncentives, Reserves } from '@lendos/types/reserves
 import { API_ETH_MOCK_ADDRESS } from '@lendos/constants/addresses';
 import { fetchIconSymbolAndName } from '@lendos/constants/fetchIconSymbolAndName';
 
-import { ListLoader } from '../../../components/ListLoader/index.tsx';
-import { WalletEmptyInfo } from '../../../components/WalletEmptyInfo/index.tsx';
-import { Warning } from '../../../components/Warning/index.tsx';
-import { useBalanceContext } from '../../../providers/BalanceProvider/index.tsx';
-import { useModalContext } from '../../../providers/ModalProvider/index.tsx';
-import { useReservesContext } from '../../../providers/ReservesProvider/index.tsx';
-import { useStateContext } from '../../../providers/StateProvider/index.tsx';
-import { DashboardListTopPanel } from '../DashboardListTopPanel.tsx';
+import { ListLoader } from '../../../components/ListLoader';
+import { WalletEmptyInfo } from '../../../components/WalletEmptyInfo';
+import { Warning } from '../../../components/Warning';
+import { useBalanceContext } from '../../../providers/BalanceProvider';
+import { useModalContext } from '../../../providers/ModalProvider';
+import { useReservesContext } from '../../../providers/ReservesProvider';
+import { useStateContext } from '../../../providers/StateProvider';
+import { DashboardListTopPanel } from '../DashboardListTopPanel';
 import { getSupplyAssetsCells } from '../TableData';
 import { supplyAssetsDataByType } from './constants';
 
@@ -59,8 +59,8 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
               underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
             }),
             underlyingAsset: API_ETH_MOCK_ADDRESS.toLowerCase(),
-            walletBalance: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount,
-            walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amountUSD,
+            walletBalance: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amount ?? '0',
+            walletBalanceUSD: walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()]?.amountUSD ?? '0',
             id: reserve.id + 'base',
           },
           {
@@ -78,7 +78,6 @@ export const SupplyAssetsList = ({ type }: SupplyAssetsListProps) => {
       };
     })
     .flat();
-
   const data = useMemo(() => {
     return reserveWithBalance
       .filter(reserves => {

@@ -2,14 +2,11 @@ import { createContext, useContext } from 'react';
 
 import { Address } from 'viem';
 
-import { ApproveData } from '@lendos/types/erc20';
 import { InterestRate } from '@lendos/types/reserves';
 
 export interface TransactionContextType {
   supply: {
     action: (reserve: Address, amount: string, decimals: number) => Promise<string>;
-    approvedAmount: ApproveData | undefined;
-    approval: () => Promise<void>;
   };
   withdraw: {
     action: (reserve: Address, amount: string, decimals: number) => Promise<string>;
@@ -29,6 +26,9 @@ export interface TransactionContextType {
       interestRateMode: InterestRate,
       decimals: number,
     ) => Promise<string>;
+  };
+  setUsageAsCollateral: {
+    action: (reserve: Address, usageAsCollateral: boolean) => Promise<string>;
   };
 }
 

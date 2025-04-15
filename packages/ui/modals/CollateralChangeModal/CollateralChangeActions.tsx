@@ -1,6 +1,7 @@
 import { Address } from 'viem';
 
 import { TxAction } from '@lendos/types/error';
+import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 
 import { getErrorTextFromError } from '@lendos/constants/errorMapping';
 
@@ -8,38 +9,36 @@ import { useModalContext } from '../../providers/ModalProvider';
 import { useTransactionContext } from '../../providers/TransactionProvider';
 import { TxActionsWrapper } from '../TxActionsWrapper';
 
-export interface SupplyActionProps {
-  amountToSupply: string;
+export interface CollateralChangeActionsProps {
+  poolReserve: FormattedReservesAndIncentives;
   isWrongNetwork: boolean;
-  customGasPrice?: string;
-  poolAddress: string;
-  symbol: string;
+  usageAsCollateral: boolean;
   blocked: boolean;
-  decimals: number;
+  symbol: string;
 }
 
-export const SupplyActions = ({
-  amountToSupply,
-  poolAddress,
+export const CollateralChangeActions = ({
+  poolReserve,
   isWrongNetwork,
-  symbol,
+  usageAsCollateral,
   blocked,
-  decimals,
-}: SupplyActionProps) => {
-  const { supply } = useTransactionContext();
-
-  const { action: supplyAction } = supply;
-
+  symbol,
+}: CollateralChangeActionsProps) => {
+  const { setUsageAsCollateral } = useTransactionContext();
+  const { action: setUsageAsCollateralAction } = setUsageAsCollateral;
   const { mainTxState, loadingTxns, setMainTxState, setTxError } = useModalContext();
 
   const action = async () => {
     try {
       setMainTxState({ ...mainTxState, loading: true });
 
-      const supplyTxHash = await supplyAction(poolAddress as Address, amountToSupply, decimals);
+      const setUsageAsCollateralTxHash = await setUsageAsCollateralAction(
+        poolReserve.underlyingAsset as Address,
+        usageAsCollateral,
+      );
 
       setMainTxState({
-        txHash: supplyTxHash,
+        txHash: setUsageAsCollateralTxHash,
         loading: false,
         success: true,
       });
@@ -56,13 +55,12 @@ export const SupplyActions = ({
   return (
     <TxActionsWrapper
       blocked={blocked}
-      isWrongNetwork={isWrongNetwork}
-      requiresAmount
-      amount={amountToSupply}
-      symbol={symbol}
       preparingTransactions={loadingTxns}
-      actionText={`Supply ${symbol}`}
-      actionInProgressText={`Supplying ${symbol}`}
+      isWrongNetwork={isWrongNetwork}
+      actionText={
+        usageAsCollateral ? <>Enable {symbol} as collateral</> : <>Disable {symbol} as collateral</>
+      }
+      actionInProgressText={<>Pending...</>}
       handleAction={action}
     />
   );

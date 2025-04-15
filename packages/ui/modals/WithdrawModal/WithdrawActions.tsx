@@ -1,3 +1,5 @@
+import { Address } from 'viem';
+
 import { TxAction } from '@lendos/types/error';
 import { FormattedReservesAndIncentives } from '@lendos/types/reserves';
 
@@ -26,14 +28,20 @@ export const WithdrawActions = ({
 }: WithdrawActionsProps) => {
   const { withdraw } = useTransactionContext();
   const { action: withdrawAction } = withdraw;
-  const { mainTxState, loadingTxns, setMainTxState, setTxError } = useModalContext();
+  const {
+    mainTxState,
+    loadingTxns,
+
+    setMainTxState,
+    setTxError,
+  } = useModalContext();
 
   const action = async () => {
     try {
       setMainTxState({ ...mainTxState, loading: true });
 
       const supplyTxHash = await withdrawAction(
-        poolAddress,
+        poolAddress as Address,
         amountToWithdraw,
         poolReserve.decimals,
       );
@@ -53,25 +61,6 @@ export const WithdrawActions = ({
     }
   };
 
-  // const { action, loadingTxns, mainTxState, approvalTxState, approval, requiresApproval } =
-  //   useTransactionHandler({
-  //     tryPermit: false,
-  //     handleGetTxns: async () =>
-  //       withdraw({
-  //         reserve: poolAddress,
-  //         amount: amountToWithdraw,
-  //         aTokenAddress: poolReserve.aTokenAddress,
-  //       }),
-  //     skip: !amountToWithdraw || parseFloat(amountToWithdraw) === 0 || blocked,
-  //     deps: [amountToWithdraw, poolAddress],
-  //     eventTxInfo: {
-  //       amount: amountToWithdraw,
-  //       assetName: poolReserve.name,
-  //       asset: poolReserve.underlyingAsset,
-  //     },
-  //     protocolAction: ProtocolAction.withdraw,
-  //   });
-
   return (
     <TxActionsWrapper
       blocked={blocked}
@@ -79,6 +68,7 @@ export const WithdrawActions = ({
       amount={amountToWithdraw}
       isWrongNetwork={isWrongNetwork}
       requiresAmount
+      symbol={symbol}
       actionInProgressText={`Withdrawing ${symbol}`}
       actionText={`Withdraw ${symbol}`}
       handleAction={action}
