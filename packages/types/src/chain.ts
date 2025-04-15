@@ -2,6 +2,7 @@ import { AppKitNetwork } from '@reown/appkit/networks';
 
 export enum CustomPoints {
   neon = 'neon',
+  hemi = 'hemi',
 }
 
 export interface ExplorerLinkBuilder {

@@ -48,10 +48,10 @@ export const wagmiAdapter = new WagmiAdapter({
     [neonMainnet.id]: fallback([http(`https://neon-proxy-mainnet.solana.p2p.org`)]),
     [neonDevnet.id]: fallback([http('https://devnet.neonevm.org/', { timeout: 0 })]),
     [sepolia.id]: fallback([http(`https://1rpc.io/sepolia`)]),
+    [hemiSepolia.id]: http(),
+    [hemi.id]: http(),
   },
 });
-
-console.log({ neonDevnet });
 
 export const wagmiConfigCore = wagmiAdapter.wagmiConfig;
 

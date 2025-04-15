@@ -244,7 +244,7 @@ export const RepayModalContent = ({
           value={debt}
           valueUSD={debtUSD.toString()}
           symbol={
-            poolReserve.iconSymbol === currentMarketData.chain.wrappedAsset.symbol
+            poolReserve.iconSymbol === currentMarketData.chain.nativeCurrency.symbol
               ? currentMarketData.chain.nativeCurrency.symbol
               : poolReserve.iconSymbol
           }
@@ -275,7 +275,6 @@ export const RepayModalContent = ({
         isWrongNetwork={isWrongNetwork}
         symbol={modalSymbol}
         debtType={debtType}
-        repayWithATokens={repayWithATokens}
       />
     </>
   );

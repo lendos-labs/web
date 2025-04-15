@@ -1,5 +1,3 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { estimateFeesPerGas, sendTransaction, waitForTransactionReceipt } from '@wagmi/core';
 import { Address, parseUnits } from 'viem';
 import { useAccount } from 'wagmi';
 
@@ -7,18 +5,14 @@ import { useStateContext } from '@lendos/ui/providers/StateProvider';
 
 import { InterestRate } from '@lendos/types/reserves';
 
-import { queryKeysFactory } from '@lendos/constants/queries';
-
-import { wagmiConfigCore } from '../config/connectors';
 import { TransactionBuilder } from '../services/transaction-builder';
 import { EvmMarketDataType } from '../types/common';
-import { getAllowance } from './usePoolApprovedAmount.ts';
+import { useTransaction } from './useTransaction.ts';
 
 export const useRepay = () => {
-  const { address, chainId: _chainId } = useAccount();
-  const queryClient = useQueryClient();
+  const { address } = useAccount();
   const { currentMarketData } = useStateContext();
-  const chainId = _chainId ?? 0;
+  const { action } = useTransaction();
 
   const txBuilder = new TransactionBuilder(currentMarketData as EvmMarketDataType);
 
@@ -32,59 +26,13 @@ export const useRepay = () => {
       return '' as string;
     }
 
-    const approvedAmount = await getAllowance(
-      reserve,
-      address,
-      currentMarketData as EvmMarketDataType,
-    );
-
     const txData = txBuilder.prepareRepay(
       reserve,
       parseUnits(amount, decimals),
       interestRateMode,
       address,
     );
-
-    const txDataApproval = txBuilder.prepareApproval(approvedAmount);
-
-    const result = await estimateFeesPerGas(wagmiConfigCore, {
-      chainId,
-    });
-
-    const gasApproval = await txBuilder.estimateGas({
-      ...txDataApproval,
-      chainId,
-    });
-
-    const hashApproval = await sendTransaction(wagmiConfigCore, {
-      ...txDataApproval,
-      gas: gasApproval,
-      maxFeePerGas: result.maxFeePerGas,
-      maxPriorityFeePerGas: result.maxPriorityFeePerGas,
-      chainId,
-    });
-
-    await waitForTransactionReceipt(wagmiConfigCore, {
-      hash: hashApproval,
-    });
-
-    const gas = await txBuilder.estimateGas(txData);
-
-    const hash = await sendTransaction(wagmiConfigCore, {
-      ...txData,
-      gas,
-      maxFeePerGas: result.maxFeePerGas,
-      maxPriorityFeePerGas: result.maxPriorityFeePerGas,
-      chainId,
-    });
-
-    await waitForTransactionReceipt(wagmiConfigCore, {
-      hash,
-    });
-
-    await queryClient.invalidateQueries({ queryKey: queryKeysFactory.pool });
-
-    return hash as string;
+    return await action(txData, amount);
   };
 
   return {

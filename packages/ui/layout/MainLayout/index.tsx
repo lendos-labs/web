@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Box } from '@mui/material';
 
 import { BorrowModal } from '../../modals/BorrowModal';
+import { CollateralChangeModal } from '../../modals/CollateralChangeModal';
 import { RepayModal } from '../../modals/RepayModal';
 import { SupplyModal } from '../../modals/SupplyModal';
 import { WithdrawModal } from '../../modals/WithdrawModal';
@@ -31,6 +32,7 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
       <RepayModal />
       <BorrowModal />
       <WithdrawModal />
+      <CollateralChangeModal />
     </>
   );
 };
