@@ -32,7 +32,7 @@ export const useBorrow = () => {
       interestRateMode,
       address,
     );
-    return await action(txData, amount);
+    return await action(txData, reserve);
   };
 
   return {

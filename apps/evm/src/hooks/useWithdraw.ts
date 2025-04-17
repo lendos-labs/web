@@ -20,7 +20,7 @@ export const useWithdraw = () => {
     }
 
     const txData = txBuilder.prepareWithdraw(reserve, amount, address, decimals);
-    return await action(txData, amount);
+    return await action(txData, reserve);
   };
 
   return {

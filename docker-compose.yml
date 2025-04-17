@@ -1,6 +1,18 @@
 version: '3'
 
 services:
+  dev-front-lendos:
+    container_name: dev-front-lendos
+    image: registry.int.zpoken.io/lendos/front:dev
+    restart: always
+    build:
+      context: .
+      dockerfile: ./apps/evm/Dockerfile
+      args:
+        NODE: development
+    ports:
+      - 9011:3000
+
   web:
     container_name: web
     build:
@@ -11,11 +23,4 @@ services:
     restart: always
     ports:
       - 9000:3000
-    networks:
-      - app_network
 
-# Define a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
-networks:
-  app_network:
-    external: true

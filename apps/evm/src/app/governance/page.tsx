@@ -1,3 +1,5 @@
+'use client';
+
 import GovernanceContainer from '@lendos/ui/modules/GovernanceContainer';
 
 const Governance = () => {

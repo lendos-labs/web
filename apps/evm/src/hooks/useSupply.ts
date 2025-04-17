@@ -19,7 +19,7 @@ export const useSupply = () => {
       return '';
     }
     const txData = txBuilder.prepareSupply(reserve, parseUnits(amount, decimals), address);
-    return await action(txData, amount);
+    return await action(txData, reserve);
   };
 
   return {

@@ -1,5 +1,5 @@
 # Builder
-FROM node:18-alpine AS builder
+FROM --platform=linux/x86_64 node:20-alpine AS base
 RUN apk add --no-cache libc6-compat
 RUN apk update
 
@@ -7,11 +7,11 @@ WORKDIR /app
 RUN yarn global add turbo
 
 COPY . .
-RUN turbo prune --scope=fuel --docker
+RUN turbo prune --scope=evm --docker
 
 
 # Installer
-FROM node:18-alpine AS installer
+FROM --platform=linux/x86_64 node:20-alpine AS  installer
 RUN apk add --no-cache libc6-compat
 RUN apk add --no-cache python3 make g++
 RUN apk update
@@ -31,10 +31,10 @@ COPY turbo.json turbo.json
 ARG NODE
 ENV NODE=${NODE}
 
-COPY ./apps/fuel/.env.${NODE} ./apps/fuel/.env.production
+COPY ./apps/evm/.env.${NODE} ./apps/evm/.env.production
 ENV NODE_ENV=production
 
-RUN turbo build --filter=fuel...
+RUN turbo build --filter=evm...
 
 # Runner
 FROM node:18-alpine AS runner
@@ -44,13 +44,13 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
-COPY --from=installer /app/apps/fuel/next.config.mjs .
-COPY --from=installer /app/apps/fuel/package.json .
+COPY --from=installer /app/apps/evm/next.config.mjs .
+COPY --from=installer /app/apps/evm/package.json .
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=installer --chown=nextjs:nodejs /app/apps/fuel/.next/standalone ./
-COPY --from=installer --chown=nextjs:nodejs /app/apps/fuel/.next/static ./apps/fuel/.next/static
-COPY --from=installer --chown=nextjs:nodejs /app/apps/fuel/public ./apps/fuel/public
+COPY --from=installer --chown=nextjs:nodejs /app/apps/evm/.next/standalone ./
+COPY --from=installer --chown=nextjs:nodejs /app/apps/evm/.next/static ./apps/evm/.next/static
+COPY --from=installer --chown=nextjs:nodejs /app/apps/evm/public ./apps/evm/public
 
-CMD node apps/fuel/server.js
+CMD node apps/evm/server.js

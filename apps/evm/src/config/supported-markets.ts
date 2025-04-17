@@ -84,13 +84,12 @@ const testnetMarketsData: Markets<Address> = {
     chain: {
       ...sepolia,
       baseAssetSymbol: 'ETH',
-
       wrappedAsset: { name: 'WETH', symbol: 'WETH', decimals: 18 },
       explorerLinkBuilder: linkBuilder({
         baseUrl: sepolia.blockExplorers.default.url,
         addressPrefix: 'account',
       }),
-      networkLogoPath: '/icons/networks/eth.svg',
+      networkLogoPath: '/icons/networks/sepolia.svg',
     },
     enabledFeatures: {
       switch: false,

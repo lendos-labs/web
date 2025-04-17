@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { useAppKit, useAppKitAccount, useAppKitNetwork, useDisconnect } from '@reown/appkit/react';
 import { readContracts, watchAsset } from '@wagmi/core';
@@ -7,13 +7,32 @@ import { Address, erc20Abi } from 'viem';
 import { AccountContext } from '@lendos/ui/providers/AccountProvider';
 
 import { wagmiAdapter } from './config/connectors.ts';
+import { useAuthStore } from './stores/auth.ts';
 
 export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const [switchNetworkError, setSwitchNetworkError] = useState<Error>();
+  const store = useAuthStore();
   const { open } = useAppKit();
   const { disconnect } = useDisconnect();
   const { address, isConnected } = useAppKitAccount();
   const { switchNetwork, chainId } = useAppKitNetwork();
+  const { login, user, tokens, logout } = store;
+
+  useEffect(() => {
+    if (!address) {
+      return;
+    }
+
+    void (async () => {
+      try {
+        await login(address);
+      } catch (error) {
+        if (error instanceof Error) {
+          setSwitchNetworkError(error);
+        }
+      }
+    })();
+  }, [address, login, user.wallet]);
 
   return (
     <AccountContext.Provider
@@ -25,7 +44,10 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
           loading: false,
           switchNetworkError,
           setSwitchNetworkError,
-          disconnect: () => disconnect(),
+          disconnect: async () => {
+            await disconnect();
+            logout();
+          },
           connect: () => open(),
           addToken: async (address: string) => {
             const res = await readContracts(wagmiAdapter.wagmiConfig, {
@@ -53,13 +75,20 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
             });
           },
           switchNetwork: network => switchNetwork(network),
+          user,
+          tokens,
+          login,
+          logout,
         }),
         [
           address,
-          isConnected,
           chainId,
+          isConnected,
           switchNetworkError,
-          setSwitchNetworkError,
+          user,
+          tokens,
+          login,
+          logout,
           disconnect,
           open,
           switchNetwork,

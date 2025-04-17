@@ -2,6 +2,8 @@ import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
 import { AppKitNetwork } from '@reown/appkit/networks';
 
+import { AuthTokens, User } from '@lendos/types/auth';
+
 export interface AccountContextType {
   account: string | null;
   chainId: number;
@@ -13,6 +15,9 @@ export interface AccountContextType {
   switchNetwork: (network: AppKitNetwork) => void;
   connect: () => void;
   disconnect: () => void;
+  user: User;
+  tokens: AuthTokens;
+  login: (wallet: string) => Promise<void>;
 }
 
 export const AccountContext = createContext<AccountContextType>({} as AccountContextType);

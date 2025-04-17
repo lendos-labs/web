@@ -12,8 +12,6 @@ export const ChangeNetworkWarning = ({ networkName }: ChangeNetworkWarningProps)
   const { currentMarketData } = useStateContext();
   const { switchNetwork, switchNetworkError } = useAccountContext();
 
-  console.log({ currentMarketData, currentId: currentMarketData.chain.id });
-
   return (
     <Warning severity='error'>
       {switchNetworkError ? (
