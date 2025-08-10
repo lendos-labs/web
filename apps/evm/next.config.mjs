@@ -1,10 +1,8 @@
-// import path from 'path';
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@repo/ui'],
-  output: 'standalone',
+  // output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
   },

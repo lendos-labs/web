@@ -1,5 +1,5 @@
 # Builder
-FROM --platform=linux/x86_64 node:20-alpine AS base
+FROM node:20-alpine AS builder
 RUN apk add --no-cache libc6-compat
 RUN apk update
 
@@ -11,7 +11,7 @@ RUN turbo prune --scope=evm --docker
 
 
 # Installer
-FROM --platform=linux/x86_64 node:20-alpine AS  installer
+FROM node:20-alpine AS  installer
 RUN apk add --no-cache libc6-compat
 RUN apk add --no-cache python3 make g++
 RUN apk update
